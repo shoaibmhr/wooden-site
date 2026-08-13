@@ -1,0 +1,124 @@
+import { useState } from "react";
+import {
+  Menu,
+  X,
+  User,
+  Search,
+  Heart,
+  ShoppingBag,
+  Armchair,
+} from "lucide-react";
+import Container from "../common/Container";
+
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Products", href: "/products" },
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
+      <Container>
+        <div className="flex h-16 items-center justify-between gap-3 md:h-[4.5rem] sm:gap-4">
+          {/* Hamburger - mobile & tablet only */}
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="-ml-2 order-1 flex items-center justify-center p-2 text-neutral-800 lg:hidden"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" strokeWidth={1.75} />
+            ) : (
+              <Menu className="h-6 w-6" strokeWidth={1.75} />
+            )}
+          </button>
+
+          {/* Logo - centered on mobile & tablet, left-aligned + first on desktop */}
+          <a
+            href="/"
+            className="order-2 flex flex-1 items-center justify-center gap-2 md:order-3 lg:order-1 lg:flex-none lg:justify-start"
+          >
+            <Armchair className="h-6 w-6 text-amber-800" strokeWidth={1.5} />
+            <span className="text-base font-bold tracking-wide text-amber-900 sm:text-lg">
+              Woodshala
+            </span>
+          </a>
+
+          {/* Desktop nav - visible from lg only */}
+          <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
+            <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 xl:gap-x-7">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="inline-block whitespace-nowrap border-b-2 border-transparent pb-1 text-sm font-medium text-neutral-800 transition-colors hover:border-amber-800 hover:text-amber-900"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Account - hidden on mobile, tablet + desktop only */}
+          <button
+            aria-label="Account"
+            className="order-5 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-3"
+          >
+            <User className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+
+          {/* Search - hidden on mobile, tablet + desktop only */}
+          <button
+            aria-label="Search"
+            className="order-6 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-4"
+          >
+            <Search className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+
+          {/* Wishlist - left group on tablet, right group on mobile & desktop */}
+          <button
+            aria-label="Wishlist"
+            className="order-4 flex text-neutral-700 transition-colors hover:text-amber-900 md:order-2 lg:order-5"
+          >
+            <Heart className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+
+          {/* Cart - always last on the right */}
+          <button
+            aria-label="Cart"
+            className="order-7 text-neutral-700 transition-colors hover:text-amber-900"
+          >
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+        </div>
+
+        {/* Mobile/tablet dropdown menu */}
+        {isMenuOpen && (
+          <nav className="border-t border-neutral-200 pb-4 lg:hidden">
+            <ul className="flex flex-col gap-1 pt-3">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block rounded-md px-3 py-2.5 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50 hover:text-amber-900"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </Container>
+    </header>
+  );
+}

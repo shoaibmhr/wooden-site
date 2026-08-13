@@ -1,9 +1,10 @@
-function App() {
+import { BrowserRouter } from "react-router-dom";
+import WebsiteRoutes from "./website/routes/WebsiteRoutes";
+
+export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Tailwind CSS Working!</h1>
-    </div>
+    <BrowserRouter>
+      <WebsiteRoutes />
+    </BrowserRouter>
   );
 }
-
-export default App;
