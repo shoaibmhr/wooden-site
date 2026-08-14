@@ -8,6 +8,7 @@ import PromoBannerCarousel from "../components/home/PromoBannerCarousel";
 import BlogPosts from "../components/home/BlogPosts";
 import WhyChooseUs from "../components/home/WhyChooseUs";
 import WarrantyCraftSection from "../components/home/WarrantyCraftSection";
+import RoomInspiration from "../components/home/RoomInspiration";
 export default function Home() {
   return (
     <div>
@@ -16,6 +17,7 @@ export default function Home() {
       <StoreIntroBanner />
       <QuoteProcessSection />
       <CategoryShowcase />
+      <RoomInspiration/>
       <StoryShowcase />
       <TrendingCategories />
       <PromoBannerCarousel />
