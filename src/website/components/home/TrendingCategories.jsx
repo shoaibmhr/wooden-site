@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
 
-// Some images are generic placeholders where an exact product photo wasn't
-// available — swap these `image` URLs with your real product photography.
+
 const categories = [
   {
     title: "Study Table",

@@ -27,7 +27,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
       <Container>
         <div className="flex h-16 items-center justify-between gap-3 md:h-[4.5rem] sm:gap-4">
-          {/* Hamburger - mobile & tablet only */}
+         
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="-ml-2 order-1 flex items-center justify-center p-2 text-neutral-800 lg:hidden"
@@ -41,7 +41,7 @@ export default function Navbar() {
             )}
           </button>
 
-          {/* Logo - centered on mobile & tablet, left-aligned + first on desktop */}
+         
           <Link
             to="/"
             className="order-2 flex flex-1 items-center justify-center gap-2 md:order-3 lg:order-1 lg:flex-none lg:justify-start"
@@ -52,7 +52,7 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop nav - visible from lg only */}
+         
           <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
             <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 xl:gap-x-7">
               {navLinks.map((link) => (
@@ -68,7 +68,7 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          {/* Account - hidden on mobile, tablet + desktop only */}
+         
           <button
             aria-label="Account"
             className="order-5 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-3"
@@ -76,7 +76,7 @@ export default function Navbar() {
             <User className="h-5 w-5" strokeWidth={1.5} />
           </button>
 
-          {/* Search - hidden on mobile, tablet + desktop only */}
+         
           <button
             aria-label="Search"
             className="order-6 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-4"
@@ -84,7 +84,7 @@ export default function Navbar() {
             <Search className="h-5 w-5" strokeWidth={1.5} />
           </button>
 
-          {/* Wishlist - left group on tablet, right group on mobile & desktop */}
+          
           <button
             aria-label="Wishlist"
             className="order-4 flex text-neutral-700 transition-colors hover:text-amber-900 md:order-2 lg:order-5"
@@ -92,7 +92,7 @@ export default function Navbar() {
             <Heart className="h-5 w-5" strokeWidth={1.5} />
           </button>
 
-          {/* Cart - always last on the right */}
+          
           <button
             aria-label="Cart"
             className="order-7 text-neutral-700 transition-colors hover:text-amber-900"
@@ -101,7 +101,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile/tablet dropdown menu */}
+        
         {isMenuOpen && (
           <nav className="border-t border-neutral-200 pb-4 lg:hidden">
             <ul className="flex flex-col gap-1 pt-3">

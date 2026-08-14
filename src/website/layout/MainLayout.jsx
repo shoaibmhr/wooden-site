@@ -9,7 +9,6 @@ export default function MainLayout() {
       <main>
         <Outlet />
       </main>
-      {/* Footer yahan future mein aayega */}
       <Footer />
       <FloatingSocialMenu/>
     </div>

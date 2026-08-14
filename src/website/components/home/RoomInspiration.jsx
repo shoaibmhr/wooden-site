@@ -23,9 +23,7 @@ export default function RoomInspiration() {
     <section className="w-full overflow-hidden">
       <Container className="!max-w-none !p-0">
         <div className="grid w-full lg:grid-cols-[5fr_7fr]">
-          {/* =================================================
-              LEFT CONTENT
-          ================================================== */}
+         
           <div
             className="
               flex
@@ -149,9 +147,7 @@ export default function RoomInspiration() {
             </div>
           </div>
 
-          {/* =================================================
-              RIGHT IMAGE / HOTSPOTS
-          ================================================== */}
+          
           <div
             className="
     relative
@@ -177,12 +173,10 @@ export default function RoomInspiration() {
               "
             />
 
-            {/* Image Overlay */}
+          
             <div className="absolute inset-0 bg-black/0" />
 
-            {/* =================================================
-                HOTSPOTS
-            ================================================== */}
+          
             {hotspots.map((hotspot) => (
               <button
                 key={hotspot.id}
@@ -230,7 +224,7 @@ export default function RoomInspiration() {
               >
                 <span className="relative z-10 -mt-px">+</span>
 
-                {/* Ripple 1 */}
+               
                 <span
                   className="
                     pointer-events-none
@@ -245,7 +239,7 @@ export default function RoomInspiration() {
                   "
                 />
 
-                {/* Ripple 2 */}
+               
                 <span
                   className="
                     pointer-events-none

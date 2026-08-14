@@ -2,19 +2,19 @@ export default function StoreIntroBanner() {
   return (
     <section className="w-full bg-white">
       <div className="mx-auto max-w-5xl text-center px-4 py-10 sm:px-6 sm:py-14 md:py-16 lg:py-18">
-        {/* Heading */}
+       
         <h2 className="font-serif text-stone-900 tracking-tight leading-tight text-xl sm:text-2xl md:text-3xl">
           Woodshala <span className="text-stone-400 font-normal">–</span>{" "}
           Affordable Solid Wood Store
         </h2>
 
-        {/* Subtext */}
+        
         <p className="mt-2 sm:mt-3 text-stone-500 font-serif text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
           Choose from 3000+ Products with Polish customisation at no additional
           cost
         </p>
 
-        {/* CTA Button */}
+        
         <div className="mt-6 sm:mt-8">
           <a
             href="/shop"

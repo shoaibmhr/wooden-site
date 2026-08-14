@@ -12,7 +12,6 @@ import RoomInspiration from "../components/home/RoomInspiration";
 export default function Home() {
   return (
     <div>
-      {/* Home page sections yahan aayenge - Hero, Featured Products, etc. */}
       <HeroCarousel />
       <StoreIntroBanner />
       <QuoteProcessSection />

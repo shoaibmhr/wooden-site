@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Play, X } from "lucide-react";
 import Container from "../common/Container";
 
-// Replace `video` with your real video file URL when ready
+
 const stories = [
   {
     title: "Wood Furniture at a Reasonable Price",

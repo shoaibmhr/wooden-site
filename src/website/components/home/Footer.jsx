@@ -206,8 +206,7 @@ const paymentMethods = [
   "VISA",
 ];
 
-// Underline-on-hover pattern matches the Navbar's nav links, so footer
-// links feel like part of the same system rather than a separate component.
+
 const linkClass =
   "inline-block border-b border-transparent pb-0.5 text-sm text-stone-400 transition-colors duration-200 hover:border-amber-500 hover:text-amber-400";
 

@@ -51,7 +51,7 @@ export default function HeroCarousel() {
         ))}
       </Swiper>
 
-      {/* Custom circular nav arrows */}
+      
       <button
         ref={prevRef}
         aria-label="Previous slide"

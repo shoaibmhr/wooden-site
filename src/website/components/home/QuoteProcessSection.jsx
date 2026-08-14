@@ -59,8 +59,7 @@ export default function QuoteProcessSection() {
             </div>
           </div>
 
-          {/* Right: process image — negative margins cancel Container's px-4/px-6/px-8
-              exactly, so the image bleeds flush to its column edge at every breakpoint */}
+         
           <div className="relative w-full  min-h-[240px] sm:min-h-[300px] md:min-h-[360px] lg:min-h-0 lg:h-auto">
             <img
               src={processStepsImg}
