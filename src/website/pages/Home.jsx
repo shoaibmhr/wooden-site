@@ -9,20 +9,22 @@ import BlogPosts from "../components/home/BlogPosts";
 import WhyChooseUs from "../components/home/WhyChooseUs";
 import WarrantyCraftSection from "../components/home/WarrantyCraftSection";
 import RoomInspiration from "../components/home/RoomInspiration";
+import FeaturedProducts from "../components/home/FeaturedProducts";
 export default function Home() {
   return (
     <div>
       <HeroCarousel />
       <StoreIntroBanner />
+      <FeaturedProducts />
       <QuoteProcessSection />
       <CategoryShowcase />
-      <RoomInspiration/>
+      <RoomInspiration />
       <StoryShowcase />
       <TrendingCategories />
       <PromoBannerCarousel />
       <BlogPosts />
       <WhyChooseUs />
-      <WarrantyCraftSection/>
+      <WarrantyCraftSection />
     </div>
   );
 }

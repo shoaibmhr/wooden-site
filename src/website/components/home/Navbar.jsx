@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -10,6 +11,8 @@ import {
   Armchair,
 } from "lucide-react";
 import Container from "../common/Container";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,14 +23,24 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
+function IconBadge({ count }) {
+  if (!count) return null;
+  return (
+    <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#5c1f1f] text-[10px] font-semibold text-white">
+      {count > 9 ? "9+" : count}
+    </span>
+  );
+}
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartCount } = useCart();
+  const { wishlistCount } = useWishlist();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white">
       <Container>
         <div className="flex h-16 items-center justify-between gap-3 md:h-[4.5rem] sm:gap-4">
-         
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="-ml-2 order-1 flex items-center justify-center p-2 text-neutral-800 lg:hidden"
@@ -41,7 +54,6 @@ export default function Navbar() {
             )}
           </button>
 
-         
           <Link
             to="/"
             className="order-2 flex flex-1 items-center justify-center gap-2 md:order-3 lg:order-1 lg:flex-none lg:justify-start"
@@ -52,7 +64,6 @@ export default function Navbar() {
             </span>
           </Link>
 
-         
           <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
             <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 xl:gap-x-7">
               {navLinks.map((link) => (
@@ -68,7 +79,6 @@ export default function Navbar() {
             </ul>
           </nav>
 
-         
           <button
             aria-label="Account"
             className="order-5 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-3"
@@ -76,7 +86,6 @@ export default function Navbar() {
             <User className="h-5 w-5" strokeWidth={1.5} />
           </button>
 
-         
           <button
             aria-label="Search"
             className="order-6 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-4"
@@ -84,24 +93,25 @@ export default function Navbar() {
             <Search className="h-5 w-5" strokeWidth={1.5} />
           </button>
 
-          
-          <button
+          <Link
+            to="/wishlist"
             aria-label="Wishlist"
-            className="order-4 flex text-neutral-700 transition-colors hover:text-amber-900 md:order-2 lg:order-5"
+            className="relative order-4 flex text-neutral-700 transition-colors hover:text-amber-900 md:order-2 lg:order-5"
           >
             <Heart className="h-5 w-5" strokeWidth={1.5} />
-          </button>
+            <IconBadge count={wishlistCount} />
+          </Link>
 
-          
-          <button
+          <Link
+            to="/cart"
             aria-label="Cart"
-            className="order-7 text-neutral-700 transition-colors hover:text-amber-900"
+            className="relative order-7 text-neutral-700 transition-colors hover:text-amber-900"
           >
             <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
-          </button>
+            <IconBadge count={cartCount} />
+          </Link>
         </div>
 
-        
         {isMenuOpen && (
           <nav className="border-t border-neutral-200 pb-4 lg:hidden">
             <ul className="flex flex-col gap-1 pt-3">

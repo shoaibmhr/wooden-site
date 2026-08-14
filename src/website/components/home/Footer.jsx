@@ -239,7 +239,7 @@ export default function Footer() {
             <a href="/" className="flex items-center gap-2">
               <Armchair className="h-6 w-6 text-amber-500" strokeWidth={1.5} />
               <span className="text-lg font-bold tracking-wide text-white">
-                Woodshala
+                WoodenSite
               </span>
             </a>
 
@@ -256,7 +256,7 @@ export default function Footer() {
               <p>
                 Email:{" "}
                 <a href="mailto:info@woodshala.com" className={linkClass}>
-                  info@woodshala.com
+                  info@woodensite.com
                 </a>
               </p>
               <p>
@@ -291,7 +291,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
+          
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-8 lg:col-span-8">
             <FooterLinkList title="Support" links={supportLinks} />
             <FooterLinkList title="Useful Links" links={usefulLinks} />
@@ -299,7 +299,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+     
         <div className="flex flex-col-reverse items-center gap-4 border-t border-white/10 py-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div className="text-xs leading-relaxed text-stone-500">
             <p>© 2026 Woodshala. All rights reserved.</p>
