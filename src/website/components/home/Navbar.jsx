@@ -48,7 +48,7 @@ export default function Navbar() {
           >
             <Armchair className="h-6 w-6 text-amber-800" strokeWidth={1.5} />
             <span className="text-base font-bold tracking-wide text-amber-900 sm:text-lg">
-              Woodshala
+              WoodenSite
             </span>
           </Link>
 

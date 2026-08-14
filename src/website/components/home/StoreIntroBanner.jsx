@@ -4,7 +4,7 @@ export default function StoreIntroBanner() {
       <div className="mx-auto max-w-5xl text-center px-4 py-10 sm:px-6 sm:py-14 md:py-16 lg:py-18">
        
         <h2 className="font-serif text-stone-900 tracking-tight leading-tight text-xl sm:text-2xl md:text-3xl">
-          Woodshala <span className="text-stone-400 font-normal">–</span>{" "}
+          WoodenSite<span className="text-stone-400 font-normal">–</span>{" "}
           Affordable Solid Wood Store
         </h2>
 
