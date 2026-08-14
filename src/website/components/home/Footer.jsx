@@ -1,11 +1,6 @@
 import { Armchair } from "lucide-react";
 import Container from "../common/Container";
 
-// lucide-react no longer ships brand/logo icons (Facebook, Instagram,
-// YouTube, LinkedIn, X, etc. were removed — trademarked logos, not
-// generic icons). All social icons are simple inline SVGs in the same
-// 24x24 / stroke-based style, so they still match lucide's look everywhere
-// else in the app.
 
 function FacebookIcon(props) {
   return (
