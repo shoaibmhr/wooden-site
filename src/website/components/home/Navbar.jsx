@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Menu,
   X,
@@ -41,27 +42,27 @@ export default function Navbar() {
           </button>
 
           {/* Logo - centered on mobile & tablet, left-aligned + first on desktop */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="order-2 flex flex-1 items-center justify-center gap-2 md:order-3 lg:order-1 lg:flex-none lg:justify-start"
           >
             <Armchair className="h-6 w-6 text-amber-800" strokeWidth={1.5} />
             <span className="text-base font-bold tracking-wide text-amber-900 sm:text-lg">
               Woodshala
             </span>
-          </a>
+          </Link>
 
           {/* Desktop nav - visible from lg only */}
           <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
             <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 xl:gap-x-7">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="inline-block whitespace-nowrap border-b-2 border-transparent pb-1 text-sm font-medium text-neutral-800 transition-colors hover:border-amber-800 hover:text-amber-900"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -106,13 +107,13 @@ export default function Navbar() {
             <ul className="flex flex-col gap-1 pt-3">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     onClick={() => setIsMenuOpen(false)}
                     className="block rounded-md px-3 py-2.5 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50 hover:text-amber-900"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

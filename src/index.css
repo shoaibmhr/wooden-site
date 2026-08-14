@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@keyframes social-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-social-pop {
+  animation: social-pop 0.25s ease-out both;
+}
