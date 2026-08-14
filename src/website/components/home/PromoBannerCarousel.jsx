@@ -53,8 +53,8 @@ export default function PromoBannerCarousel() {
               />
               <div className="absolute inset-0 bg-black/45" />
 
-              <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center sm:items-start sm:px-10 sm:text-left md:px-16 lg:px-24">
-                <h2 className="max-w-2xl font-serif text-2xl font-medium leading-snug text-white sm:text-3xl md:text-4xl">
+              <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center  sm:px-10 s md:px-16 lg:px-24">
+                <h2 className="max-w-2xl font-serif text-xl font-medium leading-snug text-white sm:text-2xl md:text-3xl">
                   {slide.heading}
                 </h2>
                 <Link
