@@ -30,10 +30,10 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="w-full #faf1e0 py-10 sm:py-12 md:py-16">
+    <section className="w-full bg-[#faf1e0] py-10 sm:py-12 md:py-16">
       <Container>
         <div className="mb-8 text-center sm:mb-10 md:mb-12">
-          <h2 className="text-xl font-bold tracking-wide text-amber-900 sm:text-2xl md:text-3xl">
+          <h2 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl md:text-4xl">
             The Hassle-Free Way to Buy Furniture Online
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-neutral-600 sm:text-base">
@@ -50,7 +50,7 @@ export default function WhyChooseUs() {
                 key={feature.title}
                 className="flex flex-col items-center text-center"
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-amber-900 sm:h-16 sm:w-16">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-amber-900 shadow-sm sm:h-16 sm:w-16">
                   <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.75} />
                 </div>
                 <h3 className="mt-4 text-base font-semibold text-neutral-900 sm:text-lg">

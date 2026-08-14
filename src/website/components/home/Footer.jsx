@@ -1,7 +1,6 @@
 import { Armchair } from "lucide-react";
 import Container from "../common/Container";
 
-
 function FacebookIcon(props) {
   return (
     <svg
@@ -207,15 +206,15 @@ const paymentMethods = [
   "VISA",
 ];
 
-// Same underline-on-hover pattern as the Navbar's nav links, so footer
+// Underline-on-hover pattern matches the Navbar's nav links, so footer
 // links feel like part of the same system rather than a separate component.
 const linkClass =
-  "inline-block border-b border-transparent pb-0.5 text-sm text-stone-500 transition-colors duration-200 hover:border-[#5C2A2A] hover:text-[#5C2A2A]";
+  "inline-block border-b border-transparent pb-0.5 text-sm text-stone-400 transition-colors duration-200 hover:border-amber-500 hover:text-amber-400";
 
 function FooterLinkList({ title, links }) {
   return (
-    <div>
-      <h3 className="font-serif text-stone-900 text-sm sm:text-base tracking-wide uppercase">
+    <div className="text-center sm:text-left">
+      <h3 className="font-serif text-sm uppercase tracking-wide text-white sm:text-base">
         {title}
       </h3>
       <ul className="mt-4 space-y-3">
@@ -233,50 +232,50 @@ function FooterLinkList({ title, links }) {
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-white border-t border-neutral-200">
+    <footer className="w-full bg-[#241713] border-t border-white/10">
       <Container>
-        <div className="py-14 sm:py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-12 py-12 sm:py-16 md:py-20 lg:grid-cols-12">
           {/* Brand column */}
-          <div className="lg:col-span-4">
+          <div className="flex flex-col items-center text-center lg:col-span-4 lg:items-start lg:text-left">
             <a href="/" className="flex items-center gap-2">
-              <Armchair className="h-6 w-6 text-amber-800" strokeWidth={1.5} />
-              <span className="text-lg font-bold tracking-wide text-amber-900">
+              <Armchair className="h-6 w-6 text-amber-500" strokeWidth={1.5} />
+              <span className="text-lg font-bold tracking-wide text-white">
                 Woodshala
               </span>
             </a>
 
-            <p className="mt-4 text-sm text-stone-500 leading-relaxed max-w-xs">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-stone-400">
               Affordable, handcrafted solid wood furniture with polish
               customisation — built by our own manufacturing unit.
             </p>
 
-            <div className="mt-6 space-y-2.5 text-sm text-stone-500">
-              <h3 className="font-serif text-stone-900 text-sm sm:text-base tracking-wide uppercase mb-1">
+            <div className="mt-6 space-y-2.5 text-sm text-stone-400">
+              <h3 className="mb-1 font-serif text-sm uppercase tracking-wide text-white sm:text-base">
                 Contact us
               </h3>
-              <p className="text-xs text-stone-400">9:30 AM to 5:30 PM</p>
+              <p className="text-xs text-stone-500">9:30 AM to 5:30 PM</p>
               <p>
-                Email :{" "}
+                Email:{" "}
                 <a href="mailto:info@woodshala.com" className={linkClass}>
                   info@woodshala.com
                 </a>
               </p>
               <p>
-                Whatsapp :{" "}
+                WhatsApp:{" "}
                 <a href="https://wa.me/919509658944" className={linkClass}>
                   +91-9509658944
                 </a>
               </p>
               <p>
-                OR Visit{" "}
+                OR visit{" "}
                 <a href="/contact" className={linkClass}>
                   Contact us
                 </a>{" "}
-                Page
+                page
               </p>
             </div>
 
-            <div className="mt-6 flex items-center gap-5">
+            <div className="mt-6 flex items-center justify-center gap-5 lg:justify-start">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -284,7 +283,7 @@ export default function Footer() {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="text-stone-500 transition-all duration-200 hover:text-[#5C2A2A] hover:-translate-y-0.5"
+                    className="text-stone-400 transition-all duration-200 hover:-translate-y-0.5 hover:text-amber-400"
                   >
                     <Icon className="h-5 w-5" strokeWidth={1.5} />
                   </a>
@@ -294,7 +293,7 @@ export default function Footer() {
           </div>
 
           {/* Link columns */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-10">
+          <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-8 lg:col-span-8">
             <FooterLinkList title="Support" links={supportLinks} />
             <FooterLinkList title="Useful Links" links={usefulLinks} />
             <FooterLinkList title="Policy" links={policyLinks} />
@@ -302,19 +301,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-neutral-200 text-center sm:text-left py-6 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-xs text-stone-400 leading-relaxed">
-            <p>© 2026 - Woodshala - All Rights Reserved</p>
+        <div className="flex flex-col-reverse items-center gap-4 border-t border-white/10 py-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+          <div className="text-xs leading-relaxed text-stone-500">
+            <p>© 2026 Woodshala. All rights reserved.</p>
             <p>
-              Parshwa Art and Craft Pvt. Ltd. • Subject to Jodhpur Jurisdiction
+              Parshwa Art and Craft Pvt. Ltd. • Subject to Jodhpur jurisdiction
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
             {paymentMethods.map((method) => (
               <span
                 key={method}
-                className="flex items-center  justify-center rounded border border-stone-200 bg-stone-50 px-2.5 py-1.5 text-[10px] font-semibold tracking-wide text-stone-500"
+                className="flex items-center justify-center rounded border border-white/10 bg-white/5 px-2.5 py-1.5 text-[10px] font-semibold tracking-wide text-stone-400"
               >
                 {method}
               </span>
