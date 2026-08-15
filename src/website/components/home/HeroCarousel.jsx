@@ -2,23 +2,23 @@ import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import heroimage1  from "../../../assets/image/heroimage1.jpg";
+import heroimage2 from "../../../assets/image/heroimage2.jpg";
+import heroimage3 from "../../../assets/image/heroimage3.jpg";
 import "swiper/css";
 import "swiper/css/navigation";
 
 const slides = [
   {
-    image:
-      "https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=1600&q=80",
+    image:heroimage1,
     alt: "Cozy wooden living room with brown sectional sofa",
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1764076327046-fe35f955cba1?auto=format&fit=crop&w=1600&q=80",
+    image:heroimage2,
     alt: "Dining room with rustic wooden table and chairs",
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1600&q=80",
+    image:heroimage3,
     alt: "Wooden interior furniture setup",
   },
 ];

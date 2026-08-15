@@ -9,7 +9,7 @@ function formatPrice(value) {
 }
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const { addToCart, isInCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { showToast } = useToast();
 
@@ -17,8 +17,12 @@ export default function ProductCard({ product }) {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : null;
   const inWishlist = isInWishlist(product.id);
-
+  const inCart = isInCart(product.id);
   const handleAddToCart = () => {
+    if (inCart) {
+      showToast(`${product.name} is already in your cart`);
+      return;
+    }
     addToCart(product);
     showToast(`${product.name} added to cart`);
   };

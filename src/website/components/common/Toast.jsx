@@ -23,9 +23,10 @@ export function ToastProvider({ children }) {
     <ToastContext.Provider value={{ showToast }}>
       {children}
 
+      {/* Bottom-left, slides in from the left */}
       <div
-        className={`pointer-events-none fixed inset-x-0 bottom-6 z-[200] flex justify-center transition-all duration-300 sm:bottom-8 ${
-          toast ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+        className={`pointer-events-none fixed bottom-6 left-4 z-[200] flex justify-start transition-all duration-300 sm:left-6 ${
+          toast ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
         }`}
       >
         {toast && (
@@ -39,7 +40,6 @@ export function ToastProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) throw new Error("useToast must be used within a ToastProvider");

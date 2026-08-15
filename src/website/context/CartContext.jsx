@@ -35,6 +35,7 @@ export function CartProvider({ children }) {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+  const isInCart = (id) => cartItems.some((item) => item.id === id);
 
   return (
     <CartContext.Provider
@@ -45,6 +46,7 @@ export function CartProvider({ children }) {
         updateQuantity,
         cartCount,
         cartTotal,
+        isInCart,
       }}
     >
       {children}

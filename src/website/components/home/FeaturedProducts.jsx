@@ -7,7 +7,7 @@ export default function FeaturedProducts() {
   const featured = products.slice(0, 6);
 
   return (
-    <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+    <section className="w-full bg-[#faf1e0]  py-10 sm:py-12 md:py-16">
       <Container>
         <div className="mb-8 text-center sm:mb-10 md:mb-12">
           <h2 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl md:text-4xl">

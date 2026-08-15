@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import FilterPanel from "../components/products/FilterPanel";
@@ -18,7 +18,7 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -59,9 +59,19 @@ export default function Products() {
   }, [selectedCategories, priceRange, searchQuery, sortBy]);
 
   // Reset to page 1 whenever filters/sort/search change
-  useEffect(() => {
+  const filtersKey = JSON.stringify({
+    selectedCategories,
+    priceRange,
+    searchQuery,
+    sortBy,
+  });
+  const [prevFiltersKey, setPrevFiltersKey] = useState(filtersKey);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  if (filtersKey !== prevFiltersKey) {
+    setPrevFiltersKey(filtersKey);
     setCurrentPage(1);
-  }, [selectedCategories, priceRange, searchQuery, sortBy]);
+  }
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
   const paginatedProducts = filteredProducts.slice(
