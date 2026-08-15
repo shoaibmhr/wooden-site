@@ -6,6 +6,8 @@ export default function MobileFilterDrawer({
   onClose,
   selectedCategories,
   onToggleCategory,
+  priceRange,
+  onPriceChange,
   onClear,
   resultCount,
 }) {
@@ -30,6 +32,8 @@ export default function MobileFilterDrawer({
         <FilterPanel
           selectedCategories={selectedCategories}
           onToggleCategory={onToggleCategory}
+          priceRange={priceRange}
+          onPriceChange={onPriceChange}
           onClear={onClear}
         />
 
