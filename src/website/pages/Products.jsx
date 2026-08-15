@@ -1,5 +1,6 @@
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Container from "../components/common/Container";
+import PageHero from "../components/common/PageHero";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import FilterPanel from "../components/products/FilterPanel";
 import MobileFilterDrawer from "../components/products/MobileFilterDrawer";
@@ -80,64 +81,72 @@ export default function Products() {
   );
 
   return (
-    <section className="w-full bg-white py-8 sm:py-10 md:py-12">
-      <Container>
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }]} />
+    <div>
+      <PageHero
+        image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"
+        title="Our Products"
+        subtitle="Handcrafted solid wood furniture, built to last"
+      />
 
-        <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl">
-              All Products
-            </h1>
-            <p className="mt-2 text-sm text-neutral-600 sm:text-base">
-              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"} found
-            </p>
+      <section className="w-full bg-white py-8 sm:py-10 md:py-12">
+        <Container>
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }]} />
+
+          <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl">
+                All Products
+              </h1>
+              <p className="mt-2 text-sm text-neutral-600 sm:text-base">
+                {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"} found
+              </p>
+            </div>
+
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
           </div>
 
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
-        </div>
+          <div className="flex flex-col gap-8 lg:flex-row">
+            {/* Sidebar — desktop only */}
+            <aside className="hidden w-56 shrink-0 lg:block">
+              <FilterPanel
+                selectedCategories={selectedCategories}
+                onToggleCategory={toggleCategory}
+                priceRange={priceRange}
+                onPriceChange={setPriceRange}
+                onClear={clearAllFilters}
+              />
+            </aside>
 
-        <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Sidebar — desktop only */}
-          <aside className="hidden w-56 shrink-0 lg:block">
-            <FilterPanel
-              selectedCategories={selectedCategories}
-              onToggleCategory={toggleCategory}
-              priceRange={priceRange}
-              onPriceChange={setPriceRange}
-              onClear={clearAllFilters}
-            />
-          </aside>
+            <div className="flex-1">
+              <ProductToolbar
+                onOpenFilters={() => setIsFilterOpen(true)}
+                activeFilterCount={
+                  selectedCategories.length + (priceRange.min || priceRange.max ? 1 : 0)
+                }
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+              />
 
-          <div className="flex-1">
-            <ProductToolbar
-              onOpenFilters={() => setIsFilterOpen(true)}
-              activeFilterCount={
-                selectedCategories.length + (priceRange.min || priceRange.max ? 1 : 0)
-              }
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-            />
+              <FilterChips
+                selectedCategories={selectedCategories}
+                onRemoveCategory={toggleCategory}
+                priceRange={priceRange}
+                onClearPrice={() => setPriceRange({ min: "", max: "" })}
+                searchQuery={searchQuery}
+                onClearSearch={() => setSearchQuery("")}
+              />
 
-            <FilterChips
-              selectedCategories={selectedCategories}
-              onRemoveCategory={toggleCategory}
-              priceRange={priceRange}
-              onClearPrice={() => setPriceRange({ min: "", max: "" })}
-              searchQuery={searchQuery}
-              onClearSearch={() => setSearchQuery("")}
-            />
+              <ProductResultsGrid products={paginatedProducts} onClearFilters={clearAllFilters} />
 
-            <ProductResultsGrid products={paginatedProducts} onClearFilters={clearAllFilters} />
-
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </section>
 
       <MobileFilterDrawer
         isOpen={isFilterOpen}
@@ -149,6 +158,6 @@ export default function Products() {
         onClear={clearAllFilters}
         resultCount={filteredProducts.length}
       />
-    </section>
+    </div>
   );
 }

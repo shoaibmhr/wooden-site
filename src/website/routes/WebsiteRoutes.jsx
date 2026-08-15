@@ -6,6 +6,8 @@ import ProductDetail from "../pages/ProductDetail";
 import Cart from "../pages/Cart";
 import Wishlist from "../pages/Wishlist";
 import Services from "../pages/Services";
+import Contact from "../pages/Contact";
+import Gallery from "../pages/Gallery";
 
 export default function WebsiteRoutes() {
   return (
@@ -17,6 +19,8 @@ export default function WebsiteRoutes() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Route>
     </Routes>
   );
