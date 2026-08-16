@@ -19,8 +19,8 @@ const navLinks = [
   { label: "Products", href: "/products" },
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "FAQs", href: "/faqs" },
 ];
 
 function IconBadge({ count }) {
@@ -65,7 +65,7 @@ export default function Navbar() {
           </Link>
 
           <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
-            <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 xl:gap-x-7">
+            <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1 xl:gap-x-9">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <Link

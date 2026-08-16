@@ -85,12 +85,20 @@ export default function Products() {
       <PageHero
         image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"
         title="Our Products"
-        subtitle="Handcrafted solid wood furniture, built to last"
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/product" },
+        ]}
       />
 
       <section className="w-full bg-white py-8 sm:py-10 md:py-12">
         <Container>
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }]} />
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Products", href: "/products" },
+            ]}
+          />
 
           <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -98,7 +106,8 @@ export default function Products() {
                 All Products
               </h1>
               <p className="mt-2 text-sm text-neutral-600 sm:text-base">
-                {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"} found
+                {filteredProducts.length}{" "}
+                {filteredProducts.length === 1 ? "product" : "products"} found
               </p>
             </div>
 
@@ -121,7 +130,8 @@ export default function Products() {
               <ProductToolbar
                 onOpenFilters={() => setIsFilterOpen(true)}
                 activeFilterCount={
-                  selectedCategories.length + (priceRange.min || priceRange.max ? 1 : 0)
+                  selectedCategories.length +
+                  (priceRange.min || priceRange.max ? 1 : 0)
                 }
                 sortBy={sortBy}
                 onSortChange={setSortBy}
@@ -136,7 +146,10 @@ export default function Products() {
                 onClearSearch={() => setSearchQuery("")}
               />
 
-              <ProductResultsGrid products={paginatedProducts} onClearFilters={clearAllFilters} />
+              <ProductResultsGrid
+                products={paginatedProducts}
+                onClearFilters={clearAllFilters}
+              />
 
               <Pagination
                 currentPage={currentPage}

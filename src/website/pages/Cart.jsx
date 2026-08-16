@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import Container from "../components/common/Container";
-import Breadcrumbs from "../components/common/Breadcrumbs";
 import { useCart } from "../context/CartContext";
+import PageHero from "../components/common/PageHero";
 
 // Replace with your actual WhatsApp business number (with country code, no + or spaces)
 const WHATSAPP_NUMBER = "919509658944";
@@ -36,166 +36,165 @@ export default function Cart() {
 
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappMessage()}`;
 
-  if (cartItems.length === 0) {
-    return (
-      <section className="w-full bg-white py-16 sm:py-20">
-        <Container>
-          <div className="flex flex-col items-center text-center">
-            <ShoppingBag
-              className="h-14 w-14 text-neutral-300"
-              strokeWidth={1.25}
-            />
-            <h1 className="mt-4 text-xl font-bold text-neutral-900 sm:text-2xl">
-              Your cart is empty
-            </h1>
-            <p className="mt-2 text-sm text-neutral-600 sm:text-base">
-              Looks like you haven't added anything yet.
-            </p>
-            <Link
-              to="/products"
-              className="mt-6 inline-flex items-center bg-[#5c1f1f] px-8 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#732929] sm:px-10 sm:text-sm"
-            >
-              Browse Products
-            </Link>
-          </div>
-        </Container>
-      </section>
-    );
-  }
-
   return (
-    <section className="w-full bg-white py-8 sm:py-10 md:py-12">
-      <Container>
-        <Breadcrumbs
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Cart", href: "/cart" },
-          ]}
-        />
+    <div>
+      <PageHero
+        image="https://images.unsplash.com/photo-1591434132137-37d04c53197e?auto=format&fit=crop&w=1600&q=80"
+        title="Your Cart"
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Cart", href: "/cart" },
+        ]}
+      />
 
-        <h1 className="mb-6 text-2xl font-bold tracking-wide text-amber-900 sm:mb-8 sm:text-3xl">
-          Your Cart
-        </h1>
-
-        <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Cart items list */}
-          <div className="flex-1 divide-y divide-neutral-200 border-y border-neutral-200">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex gap-4 py-5">
-                <Link
-                  to={item.href}
-                  className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-neutral-50 sm:h-24 sm:w-24"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="h-full w-full object-cover"
-                  />
-                </Link>
-
-                <div className="flex flex-1 flex-col justify-between">
-                  <div className="flex items-start justify-between gap-2">
-                    <Link to={item.href}>
-                      <h3 className="line-clamp-2 text-sm font-semibold text-neutral-900 hover:text-amber-900 sm:text-base">
-                        {item.name}
-                      </h3>
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => removeFromCart(item.id)}
-                      aria-label="Remove item"
-                      className="shrink-0 text-neutral-400 transition-colors hover:text-[#5c1f1f]"
-                    >
-                      <Trash2 className="h-4 w-4" strokeWidth={1.75} />
-                    </button>
-                  </div>
-
-                  <div className="mt-2 flex items-center justify-between">
-                    <div className="flex items-center border border-neutral-300">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
-                        }
-                        aria-label="Decrease quantity"
-                        className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-50"
-                      >
-                        <Minus className="h-3.5 w-3.5" strokeWidth={1.75} />
-                      </button>
-                      <span className="flex h-8 w-9 items-center justify-center text-sm font-medium text-neutral-900">
-                        {item.quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
-                        aria-label="Increase quantity"
-                        className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-50"
-                      >
-                        <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
-                      </button>
-                    </div>
-
-                    <span className="text-sm font-bold text-neutral-900 sm:text-base">
-                      {formatPrice(item.price * item.quantity)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Order summary */}
-          <aside className="w-full shrink-0 lg:w-80">
-            <div className="border border-neutral-200 p-5 sm:p-6">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-amber-800">
-                Order Summary
+      {cartItems.length === 0 ? (
+        <section className="w-full bg-white py-16 sm:py-20">
+          <Container>
+            <div className="flex flex-col items-center text-center">
+              <ShoppingBag
+                className="h-14 w-14 text-neutral-300"
+                strokeWidth={1.25}
+              />
+              <h2 className="mt-4 text-xl font-bold text-neutral-900 sm:text-2xl">
+                Your cart is empty
               </h2>
-
-              <div className="mt-4 flex items-center justify-between text-sm text-neutral-600">
-                <span>
-                  Subtotal (
-                  {cartItems.reduce((sum, item) => sum + item.quantity, 0)}{" "}
-                  items)
-                </span>
-                <span className="font-medium text-neutral-900">
-                  {formatPrice(cartTotal)}
-                </span>
-              </div>
-
-              <div className="mt-4 border-t border-neutral-200 pt-4 flex items-center justify-between">
-                <span className="text-base font-bold text-neutral-900">
-                  Total
-                </span>
-                <span className="text-lg font-bold text-neutral-900">
-                  {formatPrice(cartTotal)}
-                </span>
-              </div>
-
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 flex w-full items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
-              >
-                <WhatsappIcon className="h-5 w-5" />
-                Checkout on WhatsApp
-              </a>
-              <p className="mt-2 text-xs text-neutral-500">
-                Your order summary will be pre-filled — just review and send.
+              <p className="mt-2 text-sm text-neutral-600 sm:text-base">
+                Looks like you haven't added anything yet.
               </p>
-
               <Link
                 to="/products"
-                className="mt-4 block text-center text-sm font-medium text-neutral-600 underline transition-colors hover:text-amber-900"
+                className="mt-6 inline-flex items-center bg-[#5c1f1f] px-8 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#732929] sm:px-10 sm:text-sm"
               >
-                Continue Shopping
+                Browse Products
               </Link>
             </div>
-          </aside>
-        </div>
-      </Container>
-    </section>
+          </Container>
+        </section>
+      ) : (
+        <section className="w-full bg-white py-8 sm:py-10 md:py-12">
+          <Container>
+            <div className="flex flex-col gap-8 lg:flex-row">
+              {/* Cart items list */}
+              <div className="flex-1 divide-y divide-neutral-200 border-y border-neutral-200">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex gap-4 py-5">
+                    <Link
+                      to={item.href}
+                      className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-neutral-50 sm:h-24 sm:w-24"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </Link>
+
+                    <div className="flex flex-1 flex-col justify-between">
+                      <div className="flex items-start justify-between gap-2">
+                        <Link to={item.href}>
+                          <h3 className="line-clamp-2 text-sm font-semibold text-neutral-900 hover:text-amber-900 sm:text-base">
+                            {item.name}
+                          </h3>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => removeFromCart(item.id)}
+                          aria-label="Remove item"
+                          className="shrink-0 text-neutral-400 transition-colors hover:text-[#5c1f1f]"
+                        >
+                          <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                        </button>
+                      </div>
+
+                      <div className="mt-2 flex items-center justify-between">
+                        <div className="flex items-center border border-neutral-300">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity - 1)
+                            }
+                            aria-label="Decrease quantity"
+                            className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-50"
+                          >
+                            <Minus className="h-3.5 w-3.5" strokeWidth={1.75} />
+                          </button>
+                          <span className="flex h-8 w-9 items-center justify-center text-sm font-medium text-neutral-900">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
+                            aria-label="Increase quantity"
+                            className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-50"
+                          >
+                            <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
+                          </button>
+                        </div>
+
+                        <span className="text-sm font-bold text-neutral-900 sm:text-base">
+                          {formatPrice(item.price * item.quantity)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Order summary */}
+              <aside className="w-full shrink-0 lg:w-80">
+                <div className="border border-neutral-200 p-5 sm:p-6">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-amber-800">
+                    Order Summary
+                  </h2>
+
+                  <div className="mt-4 flex items-center justify-between text-sm text-neutral-600">
+                    <span>
+                      Subtotal (
+                      {cartItems.reduce((sum, item) => sum + item.quantity, 0)}{" "}
+                      items)
+                    </span>
+                    <span className="font-medium text-neutral-900">
+                      {formatPrice(cartTotal)}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 border-t border-neutral-200 pt-4 flex items-center justify-between">
+                    <span className="text-base font-bold text-neutral-900">
+                      Total
+                    </span>
+                    <span className="text-lg font-bold text-neutral-900">
+                      {formatPrice(cartTotal)}
+                    </span>
+                  </div>
+
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-6 flex w-full items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
+                  >
+                    <WhatsappIcon className="h-5 w-5" />
+                    Checkout on WhatsApp
+                  </a>
+                  <p className="mt-2 text-xs text-neutral-500">
+                    Your order summary will be pre-filled — just review and
+                    send.
+                  </p>
+
+                  <Link
+                    to="/products"
+                    className="mt-4 block text-center text-sm font-medium text-neutral-600 underline transition-colors hover:text-amber-900"
+                  >
+                    Continue Shopping
+                  </Link>
+                </div>
+              </aside>
+            </div>
+          </Container>
+        </section>
+      )}
+    </div>
   );
 }

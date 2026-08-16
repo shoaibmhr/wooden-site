@@ -10,7 +10,10 @@ export default function Contact() {
       <PageHero
         image="https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=1600&q=80"
         title="Contact Us"
-        subtitle="We'd love to hear from you — reach out with any questions"
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Contact", href: "/contact" },
+        ]}
       />
 
       <section className="w-full bg-white py-10 sm:py-12 md:py-16">

@@ -8,6 +8,7 @@ import Wishlist from "../pages/Wishlist";
 import Services from "../pages/Services";
 import Contact from "../pages/Contact";
 import Gallery from "../pages/Gallery";
+import Faq from "../pages/Faq";
 
 export default function WebsiteRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function WebsiteRoutes() {
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery" element={<Gallery />} />
+         <Route path="/faqs" element={<Faq />} />
       </Route>
     </Routes>
   );
