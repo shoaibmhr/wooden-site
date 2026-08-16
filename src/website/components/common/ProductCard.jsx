@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Star, Heart, ShoppingCart } from "lucide-react";
-import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
+import { useCart, useWishlist } from "../../../store/hooks";
 import { useToast } from "./Toast";
 
 function formatPrice(value) {

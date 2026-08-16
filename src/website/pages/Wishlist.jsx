@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { Trash2, ShoppingCart, Heart } from "lucide-react";
 import Container from "../components/common/Container";
-import { useWishlist } from "../context/WishlistContext";
-import { useCart } from "../context/CartContext";
+import { useCart, useWishlist } from "../../store/hooks";
 import { useToast } from "../components/common/Toast";
 import PageHero from "../components/common/PageHero";
 

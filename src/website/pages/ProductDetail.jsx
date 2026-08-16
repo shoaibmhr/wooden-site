@@ -4,8 +4,7 @@ import { Star, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import { products } from "../data/products.data";
-import { useCart } from "../context/CartContext";
-import { useWishlist } from "../context/WishlistContext";
+import { useCart, useWishlist } from "../../store/hooks";
 import { useToast } from "../components/common/Toast";
 
 // Replace with your actual WhatsApp business number (with country code, no + or spaces)

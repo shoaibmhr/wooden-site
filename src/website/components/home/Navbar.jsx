@@ -11,8 +11,7 @@ import {
   Armchair,
 } from "lucide-react";
 import Container from "../common/Container";
-import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
+import { useCart, useWishlist } from "../../../store/hooks";
 
 const navLinks = [
   { label: "Home", href: "/" },

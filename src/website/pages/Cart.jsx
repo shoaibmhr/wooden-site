@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import Container from "../components/common/Container";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../store/hooks";
 import PageHero from "../components/common/PageHero";
 
 // Replace with your actual WhatsApp business number (with country code, no + or spaces)
