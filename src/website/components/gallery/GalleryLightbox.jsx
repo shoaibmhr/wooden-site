@@ -1,39 +1,80 @@
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function GalleryLightbox({ image, onClose }) {
-  if (!image) return null;
+const WHATSAPP_NUMBER = "919509658944";
+
+export default function GalleryLightbox({ items, activeIndex, onClose, onNavigate }) {
+  if (activeIndex === null) return null;
+
+  const item = items[activeIndex];
+  const whatsappMessage = encodeURIComponent(
+    `Hi, I saw "${item.caption}" in your gallery and I'm interested in something similar.`
+  );
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+
+  const goPrev = () => onNavigate((activeIndex - 1 + items.length) % items.length);
+  const goNext = () => onNavigate((activeIndex + 1) % items.length);
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8">
-      <div className="absolute inset-0 bg-black/80" onClick={onClose} />
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4 sm:p-8"
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6 sm:top-6"
+      >
+        <X className="h-5 w-5" strokeWidth={2} />
+      </button>
 
-      <div className="relative w-full max-w-3xl">
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute -top-10 right-0 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors duration-200 hover:bg-white/20 sm:-top-12"
-        >
-          <X className="h-5 w-5" strokeWidth={1.75} />
-        </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          goPrev();
+        }}
+        aria-label="Previous image"
+        className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-6"
+      >
+        <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+      </button>
 
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          goNext();
+        }}
+        aria-label="Next image"
+        className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6"
+      >
+        <ChevronRight className="h-5 w-5" strokeWidth={2} />
+      </button>
+
+      <div
+        className="flex max-h-full w-full max-w-3xl flex-col items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
         <img
-          src={image.src}
-          alt={image.alt}
-          className="max-h-[75vh] w-full rounded-lg object-contain"
+          src={item.image}
+          alt={item.caption}
+          className="max-h-[65vh] w-auto rounded-lg object-contain sm:max-h-[70vh]"
         />
 
-        <div className="mt-4 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
-          <p className="text-sm text-stone-300">{image.alt}</p>
+        <div className="mt-4 w-full text-center">
+          <span className="text-xs font-semibold uppercase tracking-widest text-amber-400">
+            {item.category}
+          </span>
+          <p className="mt-1 text-sm text-neutral-200 sm:text-base">{item.caption}</p>
+
           <a
-            href={`https://wa.me/919509658944?text=${encodeURIComponent(
-              `Hi, I'm interested in something like this: ${image.alt}`,
-            )}`}
+            href={whatsappHref}
             target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-[#25D366] px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition-colors duration-200 hover:bg-[#1ea952] sm:text-sm"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center bg-[#25D366] px-6 py-2.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
           >
-            Interested? Chat with us
+            Interested? Chat with Us
           </a>
         </div>
       </div>

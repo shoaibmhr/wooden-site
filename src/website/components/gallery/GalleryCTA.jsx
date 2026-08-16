@@ -1,24 +1,38 @@
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
 
+const WHATSAPP_NUMBER = "919509658944";
+const whatsappMessage = encodeURIComponent(
+  "Hi, I'd like to discuss a custom furniture project.",
+);
+const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+
 export default function GalleryCTA() {
   return (
-    <section className="w-full bg-[#faf1e0]">
+    <section className="w-full bg-[#241713] py-12 sm:py-16">
       <Container>
-        <div className="py-12 sm:py-16 text-center">
-          <h2 className="font-serif text-stone-900 tracking-tight leading-snug text-xl sm:text-2xl md:text-3xl">
+        <div className="mx-auto max-w-xl text-center">
+          <h2 className="text-xl font-bold text-white sm:text-2xl md:text-3xl">
             Like what you see?
           </h2>
-          <p className="mt-3 text-sm text-stone-600 sm:text-base max-w-xl mx-auto">
-            Every piece here started as a customer's idea. Share yours and let's
-            build something just as good.
+          <p className="mt-3 text-sm text-stone-400 sm:text-base">
+            Let's build something just as special for your space.
           </p>
-          <div className="mt-6">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center bg-[#5C2A2A] hover:bg-[#4A2121] text-white px-8 py-3 text-xs sm:text-sm font-medium uppercase tracking-[0.15em] transition-all duration-300 ease-out hover:tracking-[0.2em]"
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-[#25D366] px-8 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
             >
-              Share Your Requirement
+              Chat on WhatsApp
+            </a>
+            <Link
+              to="/products"
+              className="flex items-center justify-center border border-white/30 px-8 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10"
+            >
+              Browse Products
             </Link>
           </div>
         </div>

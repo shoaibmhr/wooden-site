@@ -1,52 +1,62 @@
 import { useMemo, useState } from "react";
 import Container from "../components/common/Container";
-import GalleryFilters from "../components/gallery/GalleryFilters";
-import GalleryGrid from "../components/gallery/GalleryGrid";
+import PageHero from "../components/common/PageHero";
+import GalleryFilter from "../components/gallery/GalleryFilters";
+import GalleryMasonryGrid from "../components/gallery/GalleryMasonryGrid";
 import GalleryLightbox from "../components/gallery/GalleryLightbox";
 import GalleryCTA from "../components/gallery/GalleryCTA";
-import { galleryImages, galleryCategories } from "../data/gallery.data";
+import { categories, galleryItems } from "../data/gallery.data";
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [activeImage, setActiveImage] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const filteredImages = useMemo(() => {
-    if (activeCategory === "All") return galleryImages;
-    return galleryImages.filter((img) => img.category === activeCategory);
+  const filteredItems = useMemo(() => {
+    if (activeCategory === "All") return galleryItems;
+    return galleryItems.filter((item) => item.category === activeCategory);
   }, [activeCategory]);
 
+  const handleSelectItem = (item) => {
+    const index = filteredItems.findIndex((i) => i.id === item.id);
+    setActiveIndex(index);
+  };
+
   return (
-    <>
-      <section className="w-full bg-white">
+    <div>
+      <PageHero
+        image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"
+        title="Gallery"
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Gallery", href: "/gallery" },
+        ]}
+      />
+
+      <section className="w-full bg-white py-10 sm:py-12 md:py-16">
         <Container>
-          <div className="py-10 sm:py-12 md:py-16">
-            <div className="text-center max-w-2xl mx-auto">
-              <h1 className="font-serif text-stone-900 tracking-tight leading-snug text-xl sm:text-2xl md:text-3xl">
-                Our Work
-              </h1>
-              <p className="mt-3 text-sm text-stone-500 sm:text-base">
-                A look at real pieces we've built for real homes.
-              </p>
-            </div>
+          <GalleryFilter
+            categories={categories}
+            activeCategory={activeCategory}
+            onSelectCategory={(category) => {
+              setActiveCategory(category);
+              setActiveIndex(null);
+            }}
+          />
 
-            <div className="mt-8 sm:mt-10">
-              <GalleryFilters
-                categories={galleryCategories}
-                activeCategory={activeCategory}
-                onSelect={setActiveCategory}
-              />
-            </div>
-
-            <div className="mt-8 sm:mt-10">
-              <GalleryGrid images={filteredImages} onImageClick={setActiveImage} />
-            </div>
+          <div className="mt-8 sm:mt-10">
+            <GalleryMasonryGrid items={filteredItems} onSelectItem={handleSelectItem} />
           </div>
         </Container>
       </section>
 
-      <GalleryCTA />
+      <GalleryLightbox
+        items={filteredItems}
+        activeIndex={activeIndex}
+        onClose={() => setActiveIndex(null)}
+        onNavigate={setActiveIndex}
+      />
 
-      <GalleryLightbox image={activeImage} onClose={() => setActiveImage(null)} />
-    </>
+      <GalleryCTA />
+    </div>
   );
 }

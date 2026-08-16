@@ -1,55 +1,83 @@
-// Swap these `src` URLs with your own real project photos once ready.
-// Categories should match your actual furniture categories (Bedroom,
-// Dining, Living Room, etc.) — placeholders below use what's available.
-
-export const galleryCategories = [
+export const categories = [
   "All",
-  "Workshop",
-  "Craftsmanship",
-  "Delivery",
+  "Bedroom",
+  "Living Room",
+  "Dining",
+  "Office",
+  "Entryway",
+  "Decor",
+  "Outdoor",
 ];
 
-export const galleryImages = [
+export const galleryItems = [
   {
-    id: "g1",
-    src: "https://images.unsplash.com/photo-1646119955125-7ef8819c813a?w=900&q=80&auto=format&fit=crop",
-    alt: "Precision measuring during furniture making",
-    category: "Craftsmanship",
+    id: 1,
+    image:
+      "https://images.unsplash.com/photo-1591434132137-37d04c53197e?auto=format&fit=crop&w=900&q=80",
+    category: "Bedroom",
+    caption: "Custom carved four-poster bed, delivered in Jodhpur",
   },
   {
-    id: "g2",
-    src: "https://images.unsplash.com/photo-1520372561567-bac27b0e5fa1?w=900&q=80&auto=format&fit=crop",
-    alt: "Hand-finishing a wooden piece",
-    category: "Craftsmanship",
+    id: 2,
+    image:
+      "https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=900&q=80",
+    category: "Living Room",
+    caption: "Handcrafted wooden sofa set installation",
   },
   {
-    id: "g3",
-    src: "https://images.unsplash.com/photo-1779031242515-205111711b23?w=900&q=80&auto=format&fit=crop",
-    alt: "Craftsman working in the workshop",
-    category: "Workshop",
+    id: 3,
+    image:
+      "https://images.unsplash.com/photo-1764076327046-fe35f955cba1?auto=format&fit=crop&w=900&q=80",
+    category: "Dining",
+    caption: "6-seater solid wood dining set, family home",
   },
   {
-    id: "g4",
-    src: "https://images.unsplash.com/photo-1769972557854-7eae6f95585b?w=900&q=80&auto=format&fit=crop",
-    alt: "Careful furniture delivery handling",
-    category: "Delivery",
+    id: 4,
+    image:
+      "https://images.unsplash.com/photo-1580479929210-07eae66cf997?auto=format&fit=crop&w=900&q=80",
+    category: "Living Room",
+    caption: "Carved wooden stool — detail shot",
   },
   {
-    id: "g5",
-    src: "https://images.unsplash.com/photo-1758523671071-4e3c43d055e6?w=900&q=80&auto=format&fit=crop",
-    alt: "Team delivering a package with care",
-    category: "Delivery",
+    id: 5,
+    image:
+      "https://images.unsplash.com/photo-1551909402-f3411b5c4248?auto=format&fit=crop&w=900&q=80",
+    category: "Office",
+    caption: "Solid wood study table setup",
   },
   {
-    id: "g6",
-    src: "https://images.unsplash.com/photo-1758523670991-ee93bc48d81d?w=900&q=80&auto=format&fit=crop",
-    alt: "Boxes carried into a home",
-    category: "Delivery",
+    id: 6,
+    image:
+      "https://images.unsplash.com/photo-1700221505678-6787ba6dd996?auto=format&fit=crop&w=900&q=80",
+    category: "Living Room",
+    caption: "Wooden TV console unit installation",
   },
   {
-    id: "g7",
-    src: "https://images.unsplash.com/photo-1758523670969-dd1b1254062d?w=900&q=80&auto=format&fit=crop",
-    alt: "Furniture delivery, handled with care",
-    category: "Delivery",
+    id: 7,
+    image:
+      "https://images.unsplash.com/photo-1757419095875-d50e9d48b574?auto=format&fit=crop&w=900&q=80",
+    category: "Entryway",
+    caption: "Carved wooden bench for an entryway",
+  },
+  {
+    id: 8,
+    image:
+      "https://images.unsplash.com/photo-1497219055242-93359eeed651?auto=format&fit=crop&w=900&q=80",
+    category: "Decor",
+    caption: "Hand-carved wall decor — work in progress",
+  },
+  {
+    id: 9,
+    image:
+      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=80",
+    category: "Outdoor",
+    caption: "Traditional wooden jhula swing, installed",
+  },
+  {
+    id: 10,
+    image:
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80",
+    category: "Living Room",
+    caption: "Complete living space, handcrafted furniture",
   },
 ];

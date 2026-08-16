@@ -1,21 +1,21 @@
-export default function GalleryFilters({
+export default function GalleryFilter({
   categories,
   activeCategory,
-  onSelect,
+  onSelectCategory,
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
       {categories.map((category) => {
         const isActive = category === activeCategory;
         return (
           <button
             key={category}
             type="button"
-            onClick={() => onSelect(category)}
-            className={`rounded-full border px-4 py-2 text-xs font-medium uppercase tracking-wide transition-colors duration-200 sm:text-sm ${
+            onClick={() => onSelectCategory(category)}
+            className={`px-4 py-2 text-xs font-semibold uppercase tracking-wide transition-colors duration-300 sm:px-5 sm:py-2.5 sm:text-sm ${
               isActive
-                ? "border-[#5C2A2A] bg-[#5C2A2A] text-white"
-                : "border-stone-300 text-stone-600 hover:border-[#5C2A2A] hover:text-[#5C2A2A]"
+                ? "bg-[#5c1f1f] text-white"
+                : "border border-neutral-300 text-neutral-700 hover:border-[#5c1f1f] hover:text-[#5c1f1f]"
             }`}
           >
             {category}
