@@ -9,6 +9,7 @@ import Services from "../pages/Services";
 import Contact from "../pages/Contact";
 import Gallery from "../pages/Gallery";
 import Faq from "../pages/Faq";
+import NotFound from "../pages/NotFound";
 
 export default function WebsiteRoutes() {
   return (
@@ -23,6 +24,7 @@ export default function WebsiteRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/gallery" element={<Gallery />} />
          <Route path="/faqs" element={<Faq />} />
+          <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
