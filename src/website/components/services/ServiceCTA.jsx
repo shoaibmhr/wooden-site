@@ -3,7 +3,7 @@ import Container from "../common/Container";
 
 const WHATSAPP_NUMBER = "919509658944";
 const whatsappMessage = encodeURIComponent(
-  "Hi, I have a question about your furniture services.",
+  "Hi, I'd like to customize a piece of furniture for my space.",
 );
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
@@ -13,10 +13,10 @@ export default function ServiceCTA() {
       <Container>
         <div className="mx-auto max-w-xl text-center">
           <h2 className="text-xl font-bold text-white sm:text-2xl md:text-3xl">
-            Still not sure which option is right for you?
+            Want something made just for you?
           </h2>
           <p className="mt-3 text-sm text-stone-400 sm:text-base">
-            Message us on WhatsApp — we're happy to help you decide.
+            Get in touch and let's build it together.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
@@ -26,13 +26,13 @@ export default function ServiceCTA() {
               rel="noopener noreferrer"
               className="flex items-center justify-center bg-[#25D366] px-8 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
             >
-              Chat on WhatsApp
+              Customize
             </a>
             <Link
-              to="/products"
+              to="/contact"
               className="flex items-center justify-center border border-white/30 px-8 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10"
             >
-              Browse Products
+              Contact Us
             </Link>
           </div>
         </div>
