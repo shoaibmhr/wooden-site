@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Container from "../common/Container";
 import { useCart, useWishlist } from "../../../store/hooks";
+import SearchOverlay from "../common/SearchOverlay";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -33,6 +34,7 @@ function IconBadge({ count }) {
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
 
@@ -87,6 +89,7 @@ export default function Navbar() {
 
           <button
             aria-label="Search"
+            onClick={() => setIsSearchOpen(true)}
             className="order-6 hidden text-neutral-700 transition-colors hover:text-amber-900 md:block lg:order-4"
           >
             <Search className="h-5 w-5" strokeWidth={1.5} />
@@ -126,9 +129,29 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
+            <div className="mt-2 flex items-center gap-6 border-t border-neutral-100 px-3 pt-3">
+              <button className="flex items-center gap-2 text-sm font-medium text-neutral-700">
+                <User className="h-4 w-4" strokeWidth={1.5} />
+                Account
+              </button>
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setIsSearchOpen(true);
+                }}
+                className="flex items-center gap-2 text-sm font-medium text-neutral-700"
+              >
+                <Search className="h-4 w-4" strokeWidth={1.5} />
+                Search
+              </button>
+            </div>
           </nav>
         )}
       </Container>
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </header>
   );
 }

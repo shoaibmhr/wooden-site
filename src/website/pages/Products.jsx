@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Container from "../components/common/Container";
 import PageHero from "../components/common/PageHero";
 import Breadcrumbs from "../components/common/Breadcrumbs";
@@ -14,16 +15,18 @@ import { products } from "../data/products.data";
 const ITEMS_PER_PAGE = 6;
 
 export default function Products() {
+  const location = useLocation(); 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
-  const [searchQuery, setSearchQuery] = useState("");
+   const [searchQuery, setSearchQuery] = useState(location.state?.searchQuery || ""); 
   const [sortBy, setSortBy] = useState("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
     );
   };
 
@@ -47,7 +50,7 @@ export default function Products() {
     }
     if (searchQuery.trim() !== "") {
       result = result.filter((p) =>
-        p.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
+        p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()),
       );
     }
 
@@ -74,10 +77,13 @@ export default function Products() {
     setCurrentPage(1);
   }
 
-  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProducts.length / ITEMS_PER_PAGE),
+  );
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   return (
