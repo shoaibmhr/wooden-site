@@ -4,44 +4,44 @@ import Container from "../common/Container";
 const categories = [
   {
     title: "View Bed",
-    href: "/products/bed",
+    href: "/category/bed",
     image:
-      "https://images.unsplash.com/photo-1591434132137-37d04c53197e?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
     alt: "Carved wooden four-poster bed",
   },
   {
     title: "View Dining Set",
-    href: "/products/dining-set",
+    href: "/category/dining-set",
     image:
-      "https://images.unsplash.com/photo-1764076327046-fe35f955cba1?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=80",
     alt: "Wooden dining table and chairs set",
   },
   {
     title: "View Swing",
-    href: "/products/swing",
+    href: "/category/swing",
     image:
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
     alt: "Wooden swing furniture",
   },
   {
     title: "View Sofa",
-    href: "/products/sofa",
+    href: "/category/sofa",
     image:
-      "https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80",
     alt: "Wooden frame sectional sofa",
   },
   {
     title: "View Stool",
-    href: "/products/stool",
+    href: "/category/stool",
     image:
-      "https://images.unsplash.com/photo-1580479929210-07eae66cf997?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
     alt: "Wooden stool",
   },
   {
     title: "View Temple",
-    href: "/products/temple",
+    href: "/category/temple",
     image:
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     alt: "Wooden carved temple / mandir",
   },
 ];
@@ -73,27 +73,27 @@ export default function CategoryShowcase() {
               <Link
                 to={category.href}
                 className="
-    mt-4
-    flex
-    w-full
-    items-center
-    justify-center
-    bg-[#5c1f1f]
-    px-6
-    py-3
-    text-center
-    text-xs
-    font-semibold
-    uppercase
-    tracking-widest
-    text-white
-    transition-all
-    duration-300
-    hover:bg-[#732929]
-    sm:py-3.5
-    sm:text-sm
-    lg:w-fit
-  "
+                  mt-4
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  bg-[#5c1f1f]
+                  px-6
+                  py-3
+                  text-center
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-widest
+                  text-white
+                  transition-all
+                  duration-300
+                  hover:bg-[#732929]
+                  sm:py-3.5
+                  sm:text-sm
+                  lg:w-fit
+                "
               >
                 {category.title}
               </Link>
