@@ -1,58 +1,35 @@
-import { Menu, Bell, User } from "lucide-react";
+import { Menu, Bell, ShieldCheck } from "lucide-react";
 
-export default function Header({ onToggleSidebar, }) {
+export default function Header({ setIsOpen }) {
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-neutral-200 bg-white/95 px-4 backdrop-blur-md sm:px-6 lg:px-8">
-      {/* Left side: Hamburger on mobile + Title */}
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-stone-800 bg-[#262220]/90 px-4 backdrop-blur-md sm:px-6">
       <div className="flex items-center gap-3">
         <button
-          type="button"
-          onClick={onToggleSidebar}
-          aria-label="Toggle menu"
-          className="rounded-lg p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 lg:hidden"
+          onClick={() => setIsOpen(true)}
+          className="rounded-lg p-2 text-stone-400 hover:bg-stone-800 lg:hidden"
         >
           <Menu className="h-5 w-5" />
         </button>
-
-        <div className="hidden sm:block">
-          <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
-            Store Management
-          </span>
-          <p className="text-xs text-neutral-500">
-            Ashtech Wooden Handcrafted Furniture
-          </p>
-        </div>
+        <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-widest text-amber-500">
+          Dashboard Controls
+        </span>
       </div>
 
-      {/* Right side: Notifications & Admin Profile */}
-      <div className="flex items-center gap-3 sm:gap-4">
-        {/* Notification Bell */}
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="relative rounded-lg p-2 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 transition-colors"
-        >
+      <div className="flex items-center gap-4">
+        <button className="relative rounded-lg p-2 text-stone-400 hover:bg-stone-800 hover:text-stone-200">
           <Bell className="h-5 w-5" />
-          <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5c1f1f]"></span>
-          </span>
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-amber-500" />
         </button>
 
-        <div className="h-6 w-px bg-neutral-200 hidden sm:block" />
-
-        {/* Admin User Info */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#5c1f1f] text-white font-semibold text-sm shadow-sm">
-            <User className="h-4 w-4" />
+        <div className="flex items-center gap-2 border-l border-stone-800 pl-4">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#5c1f1f] text-amber-300 text-xs font-bold border border-amber-900/40">
+            A
           </div>
-          <div className="hidden md:block text-left">
-            <span className="block text-xs font-bold text-neutral-900 leading-tight">
-              Admin
-            </span>
-            <span className="block text-[11px] text-neutral-500 leading-tight">
-              admin@ashtech.com
-            </span>
+          <div className="hidden text-left sm:block">
+            <p className="text-xs font-semibold text-stone-200">Admin User</p>
+            <p className="text-[10px] text-stone-500 flex items-center gap-1">
+              <ShieldCheck className="h-3 w-3 text-amber-500" /> Authorized
+            </p>
           </div>
         </div>
       </div>

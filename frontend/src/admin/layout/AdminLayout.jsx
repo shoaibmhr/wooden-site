@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header/Header";
 
 export default function AdminLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,21 +13,14 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      {/* Sidebar */}
+    <div className="flex h-screen overflow-hidden bg-[#1c1917] text-stone-100">
       <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        onLogout={handleLogout}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+        handleLogout={handleLogout}
       />
-
-      {/* Main Content Area */}
-      <div className="flex min-h-screen flex-col lg:pl-64">
-        <Header
-          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-          onLogout={handleLogout}
-        />
-
+      <div className="flex flex-1 flex-col overflow-y-auto">
+        <Header setIsOpen={setSidebarOpen} />
         <main className="flex-1 p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>

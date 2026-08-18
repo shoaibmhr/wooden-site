@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Lock, Mail, ArrowRight, ShieldCheck } from "lucide-react";
-import { adminLogin } from "../../../services/api";
+import { adminLogin } from "../../services/api";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ export default function AdminLogin() {
     e.preventDefault();
     setIsLoading(true);
     setErrorMsg("");
-
     try {
       await adminLogin(email, password);
       navigate("/admin");
@@ -28,7 +27,6 @@ export default function AdminLogin() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#1c1917] px-4 py-12">
       <div className="w-full max-w-md">
-        {/* Brand Header */}
         <div className="text-center mb-8">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#5c1f1f] text-amber-300 font-bold text-2xl shadow-xl border border-amber-900/40">
             AW
@@ -41,7 +39,6 @@ export default function AdminLogin() {
           </p>
         </div>
 
-        {/* Login Card */}
         <div className="rounded-2xl border border-stone-800 bg-[#262220] p-6 shadow-2xl sm:p-8">
           <div className="flex items-center gap-2 pb-4 border-b border-stone-800">
             <ShieldCheck className="h-5 w-5 text-amber-500" />

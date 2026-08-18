@@ -146,3 +146,37 @@ export async function adminLogin(email, password) {
   }
   return data;
 }
+// 1. Get All Products
+export async function fetchProducts() {
+  const res = await fetch(`${API_BASE_URL}/products`);
+  if (!res.ok) throw new Error("Failed to fetch products");
+  return await res.json();
+}
+
+// 2. Create Product
+export async function createProduct(productData) {
+  const token = localStorage.getItem("admin_token");
+  const res = await fetch(`${API_BASE_URL}/products`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(productData),
+  });
+  if (!res.ok) throw new Error("Failed to create product");
+  return await res.json();
+}
+
+// 3. Delete Product
+export async function deleteProduct(productId) {
+  const token = localStorage.getItem("admin_token");
+  const res = await fetch(`${API_BASE_URL}/products/${productId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error("Failed to delete product");
+  return await res.json();
+}
