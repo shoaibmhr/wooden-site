@@ -1,6 +1,10 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
+
+
+InquiryStatus = Literal["new", "read", "resolved", "archived"]
 
 
 class ContactInquiryCreate(BaseModel):
@@ -10,9 +14,13 @@ class ContactInquiryCreate(BaseModel):
     message: str = Field(min_length=10, max_length=5000)
 
 
+class ContactInquiryStatusUpdate(BaseModel):
+    status: InquiryStatus
+
+
 class ContactInquiryRead(ContactInquiryCreate):
     id: int
-    status: str
+    status: InquiryStatus
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

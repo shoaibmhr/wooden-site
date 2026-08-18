@@ -169,14 +169,22 @@ export default function Cart() {
                     </span>
                   </div>
 
+                  <Link
+                    to="/checkout"
+                    className="mt-6 flex w-full items-center justify-center gap-2.5 bg-[#5c1f1f] px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#732929]"
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    Proceed to Checkout
+                  </Link>
+
                   <a
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 flex w-full items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952]"
+                    className="mt-3 flex w-full items-center justify-center gap-2.5 border border-[#25D366] px-6 py-3 text-sm font-semibold text-[#1ea952] transition-colors duration-300 hover:bg-green-50"
                   >
                     <WhatsappIcon className="h-5 w-5" />
-                    Checkout on WhatsApp
+                    Order on WhatsApp Instead
                   </a>
                   <p className="mt-2 text-xs text-neutral-500">
                     Your order summary will be pre-filled — just review and

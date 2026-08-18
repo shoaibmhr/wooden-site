@@ -104,7 +104,7 @@ export default function AdminProducts() {
                     {item.name}
                   </td>
                   <td className="px-4 py-3 text-stone-400">
-                    {item.category || "N/A"}
+                    {item.category?.name || "N/A"}
                   </td>
                   <td className="px-4 py-3 font-semibold text-amber-500">
                     PKR {item.price}

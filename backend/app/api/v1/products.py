@@ -5,9 +5,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
+from app.api.deps import require_admin
 from app.db.session import get_db
 from app.models.category import Category
 from app.models.product import Product, ProductImage
+from app.models.user import User
 from app.schemas.product import ProductCreate, ProductRead, ProductUpdate
 
 
@@ -32,6 +34,7 @@ def product_query():
 def create_product(
     product_in: ProductCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
 ):
     category = db.get(Category, product_in.category_id)
 
@@ -138,6 +141,7 @@ def update_product(
     product_id: int,
     product_in: ProductUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
 ):
     product = db.scalar(
         product_query().where(Product.id == product_id)
@@ -202,6 +206,7 @@ def update_product(
 def deactivate_product(
     product_id: int,
     db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
 ):
     product = db.get(Product, product_id)
 

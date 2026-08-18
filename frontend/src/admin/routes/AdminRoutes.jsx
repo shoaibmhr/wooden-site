@@ -4,6 +4,9 @@ import AdminLogin from "../pages/AdminLogin";
 import AdminLayout from "../layout/AdminLayout";
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminProducts from "../pages/AdminProducts";
+import AdminOrders from "../pages/AdminOrders";
+import AdminUsers from "../pages/AdminUsers";
+import AdminInquiries from "../pages/AdminInquiries";
 
 export default function AdminRoutes() {
   return (
@@ -13,6 +16,9 @@ export default function AdminRoutes() {
         <Route element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="messages" element={<AdminInquiries />} />
         </Route>
       </Route>
     </Routes>

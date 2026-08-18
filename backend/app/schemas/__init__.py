@@ -7,6 +7,16 @@ from app.schemas.category import (
 from app.schemas.contact_inquiry import (
     ContactInquiryCreate,
     ContactInquiryRead,
+    ContactInquiryStatusUpdate,
+)
+from app.schemas.dashboard import DashboardStatsRead
+from app.schemas.order import (
+    OrderCreate,
+    OrderItemCreate,
+    OrderItemRead,
+    OrderRead,
+    OrderStatusUpdate,
+    PaymentStatusUpdate,
 )
 from app.schemas.product import (
     ProductCreate,
@@ -15,7 +25,11 @@ from app.schemas.product import (
     ProductRead,
     ProductUpdate,
 )
-from app.schemas.user import UserRead
+from app.schemas.user import (
+    CustomerRegister,
+    UserRead,
+    UserStatusUpdate,
+)
 
 __all__ = [
     "AdminBootstrapCreate",
@@ -24,6 +38,14 @@ __all__ = [
     "CategoryUpdate",
     "ContactInquiryCreate",
     "ContactInquiryRead",
+    "ContactInquiryStatusUpdate",
+    "DashboardStatsRead",
+    "OrderCreate",
+    "OrderItemCreate",
+    "OrderItemRead",
+    "OrderRead",
+    "OrderStatusUpdate",
+    "PaymentStatusUpdate",
     "ProductCreate",
     "ProductImageCreate",
     "ProductImageRead",
@@ -31,4 +53,6 @@ __all__ = [
     "ProductUpdate",
     "Token",
     "UserRead",
+    "CustomerRegister",
+    "UserStatusUpdate",
 ]

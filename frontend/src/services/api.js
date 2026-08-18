@@ -1,9 +1,6 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/v1";
 
-/**
- * Backend Product object ko Frontend format ke mutabiq adapt / format karta hai.
- */
 export function formatProduct(item) {
   if (!item) return null;
 
@@ -30,14 +27,14 @@ export function formatProduct(item) {
   };
 }
 
-/**
- * 1. Categories Fetch Karna (GET /api/v1/categories/)
- */
 export async function getCategories() {
   try {
     const res = await fetch(`${API_BASE_URL}/categories/`);
-    if (!res.ok)
+
+    if (!res.ok) {
       throw new Error(`Failed to fetch categories: ${res.statusText}`);
+    }
+
     return await res.json();
   } catch (error) {
     console.error("getCategories error:", error);
@@ -45,25 +42,40 @@ export async function getCategories() {
   }
 }
 
-/**
- * 2. Products List Fetch Karna with Filters (GET /api/v1/products/)
- */
 export async function getProducts(filters = {}) {
   try {
     const params = new URLSearchParams();
 
-    if (filters.category_slug)
+    if (filters.category_slug) {
       params.append("category_slug", filters.category_slug);
-    if (filters.search) params.append("search", filters.search);
-    if (filters.min_price) params.append("min_price", filters.min_price);
-    if (filters.max_price) params.append("max_price", filters.max_price);
-    if (filters.sort_by) params.append("sort_by", filters.sort_by);
+    }
+
+    if (filters.search) {
+      params.append("search", filters.search);
+    }
+
+    if (filters.min_price) {
+      params.append("min_price", filters.min_price);
+    }
+
+    if (filters.max_price) {
+      params.append("max_price", filters.max_price);
+    }
+
+    if (filters.sort_by) {
+      params.append("sort_by", filters.sort_by);
+    }
 
     const queryString = params.toString() ? `?${params.toString()}` : "";
+
     const res = await fetch(`${API_BASE_URL}/products/${queryString}`);
 
-    if (!res.ok) throw new Error(`Failed to fetch products: ${res.statusText}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch products: ${res.statusText}`);
+    }
+
     const data = await res.json();
+
     return data.map(formatProduct);
   } catch (error) {
     console.error("getProducts error:", error);
@@ -71,17 +83,20 @@ export async function getProducts(filters = {}) {
   }
 }
 
-/**
- * 3. Single Product Fetch Karna by Slug (GET /api/v1/products/slug/{slug})
- */
 export async function getProductBySlug(slug) {
   try {
     const res = await fetch(`${API_BASE_URL}/products/slug/${slug}`);
+
     if (!res.ok) {
-      if (res.status === 404) return null;
+      if (res.status === 404) {
+        return null;
+      }
+
       throw new Error(`Failed to fetch product: ${res.statusText}`);
     }
+
     const data = await res.json();
+
     return formatProduct(data);
   } catch (error) {
     console.error("getProductBySlug error:", error);
@@ -89,41 +104,32 @@ export async function getProductBySlug(slug) {
   }
 }
 
-/**
- * 4. Contact Message Submit Karna (POST /api/v1/contact-inquiries/)
- */
 export async function sendContactInquiry(formData) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/contact-inquiries/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone || null,
-        message: formData.message,
-      }),
-    });
+  const res = await fetch(`${API_BASE_URL}/contact-inquiries/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone || null,
+      message: formData.message,
+    }),
+  });
 
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.detail || "Failed to submit contact inquiry");
-    }
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
 
-    return await res.json();
-  } catch (error) {
-    console.error("sendContactInquiry error:", error);
-    throw error;
+    throw new Error(errorData.detail || "Failed to submit contact inquiry");
   }
+
+  return await res.json();
 }
 
-/**
- * 5. Admin Login (POST /api/v1/auth/login)
- */
 export async function adminLogin(email, password) {
   const formData = new URLSearchParams();
+
   formData.append("username", email.trim().toLowerCase());
   formData.append("password", password);
 
@@ -136,27 +142,52 @@ export async function adminLogin(email, password) {
   });
 
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || "Invalid email or password");
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Invalid email or password");
   }
 
   const data = await res.json();
+
   if (data.access_token) {
     localStorage.setItem("admin_token", data.access_token);
   }
+
   return data;
 }
-// 1. Get All Products
+
 export async function fetchProducts() {
-  const res = await fetch(`${API_BASE_URL}/products`);
-  if (!res.ok) throw new Error("Failed to fetch products");
+  const res = await fetch(`${API_BASE_URL}/products/`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
   return await res.json();
 }
 
-// 2. Create Product
+export async function fetchAdminCategories() {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/categories/admin/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to fetch categories");
+  }
+
+  return await res.json();
+}
+
 export async function createProduct(productData) {
   const token = localStorage.getItem("admin_token");
-  const res = await fetch(`${API_BASE_URL}/products`, {
+
+  const res = await fetch(`${API_BASE_URL}/products/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -164,19 +195,208 @@ export async function createProduct(productData) {
     },
     body: JSON.stringify(productData),
   });
-  if (!res.ok) throw new Error("Failed to create product");
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to create product");
+  }
+
   return await res.json();
 }
 
-// 3. Delete Product
 export async function deleteProduct(productId) {
   const token = localStorage.getItem("admin_token");
+
   const res = await fetch(`${API_BASE_URL}/products/${productId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  if (!res.ok) throw new Error("Failed to delete product");
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to delete product");
+  }
+
+  return true;
+}
+
+export async function fetchDashboardStats() {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/dashboard/stats`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to fetch dashboard statistics");
+  }
+
+  return await res.json();
+}
+
+export async function fetchOrders() {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/orders/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to fetch orders");
+  }
+
+  return await res.json();
+}
+
+export async function updateOrderStatus(orderId, status) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to update order status");
+  }
+
+  return await res.json();
+}
+
+export async function updatePaymentStatus(orderId, payment_status) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/orders/${orderId}/payment-status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ payment_status }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to update payment status");
+  }
+
+  return await res.json();
+}
+
+export async function fetchUsers() {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/users/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to fetch users");
+  }
+
+  return await res.json();
+}
+
+export async function updateUserStatus(userId, is_active) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/users/${userId}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ is_active }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to update user status");
+  }
+
+  return await res.json();
+}
+
+export async function fetchContactInquiries() {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/contact-inquiries/`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to fetch contact messages");
+  }
+
+  return await res.json();
+}
+
+export async function updateContactInquiryStatus(inquiryId, status) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(
+    `${API_BASE_URL}/contact-inquiries/${inquiryId}/status`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status }),
+    },
+  );
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to update message status");
+  }
+
+  return await res.json();
+}
+
+export async function createOrder(orderData) {
+  const res = await fetch(`${API_BASE_URL}/orders/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+
+    throw new Error(errorData.detail || "Failed to place your order");
+  }
+
   return await res.json();
 }

@@ -12,7 +12,7 @@ from app.core.security import (
 from app.db.session import get_db
 from app.models.user import User, UserRole
 from app.schemas.auth import AdminBootstrapCreate, Token
-from app.schemas.user import UserRead
+from app.schemas.user import CustomerRegister, UserRead
 
 
 router = APIRouter(
@@ -66,6 +66,41 @@ def bootstrap_first_admin(
     return admin
 
 
+@router.post(
+    "/register",
+    response_model=UserRead,
+    status_code=status.HTTP_201_CREATED,
+)
+def register_customer(
+    customer_in: CustomerRegister,
+    db: Session = Depends(get_db),
+):
+    normalized_email = customer_in.email.lower()
+
+    existing_user = db.scalar(
+        select(User).where(User.email == normalized_email)
+    )
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="A user with this email already exists.",
+        )
+
+    customer = User(
+        full_name=customer_in.full_name,
+        email=normalized_email,
+        hashed_password=hash_password(customer_in.password),
+        role=UserRole.CUSTOMER,
+    )
+
+    db.add(customer)
+    db.commit()
+    db.refresh(customer)
+
+    return customer
+
+
 @router.post("/login", response_model=Token)
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -93,6 +128,12 @@ def login(
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This account is inactive.",
+        )
+
+    if user.role != UserRole.ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access is required.",
         )
 
     access_token = create_access_token(
