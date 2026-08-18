@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Container from "../components/common/Container";
 import PageHero from "../components/common/PageHero";
@@ -10,17 +10,33 @@ import ProductResultsGrid from "../components/products/ProductResultsGrid";
 import FilterChips from "../components/products/FilterChips";
 import SearchBar from "../components/products/SearchBar";
 import Pagination from "../components/products/Pagination";
-import { products } from "../data/products.data";
+import { getProducts } from "../../services/api";
+import { products as fallbackProducts } from "../data/products.data";
 
 const ITEMS_PER_PAGE = 6;
 
 export default function Products() {
-  const location = useLocation(); 
+  const location = useLocation();
+  const [productList, setProductList] = useState(() => fallbackProducts);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
-   const [searchQuery, setSearchQuery] = useState(location.state?.searchQuery || ""); 
+  const [searchQuery, setSearchQuery] = useState(
+    location.state?.searchQuery || "",
+  );
   const [sortBy, setSortBy] = useState("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    getProducts().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setProductList(data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -37,7 +53,7 @@ export default function Products() {
   };
 
   const filteredProducts = useMemo(() => {
-    let result = products;
+    let result = productList;
 
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
@@ -60,7 +76,7 @@ export default function Products() {
     if (sortBy === "rating") result.sort((a, b) => b.rating - a.rating);
 
     return result;
-  }, [selectedCategories, priceRange, searchQuery, sortBy]);
+  }, [productList, selectedCategories, priceRange, searchQuery, sortBy]);
 
   // Reset to page 1 whenever filters/sort/search change
   const filtersKey = JSON.stringify({

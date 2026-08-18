@@ -1,20 +1,29 @@
 import { useState } from "react";
 import { useToast } from "../common/Toast";
+import { sendContactInquiry } from "../../../services/api";
 
 export default function ContactForm() {
   const { showToast } = useToast();
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   const handleChange = (field) => (e) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: replace with real API call once backend is ready
-    // e.g. await fetch("/api/contact", { method: "POST", body: JSON.stringify(formData) })
-    showToast("Message sent — we'll get back to you soon!");
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    try {
+      await sendContactInquiry(formData);
+      showToast("Message sent — we'll get back to you soon!");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch {
+      showToast("Failed to send message. Please try again.");
+    }
   };
 
   return (

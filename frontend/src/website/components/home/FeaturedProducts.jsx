@@ -1,13 +1,27 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
 import ProductCard from "../common/ProductCard";
-import { products } from "../../data/products.data";
+import { getProducts } from "../../../services/api";
+import { products as fallbackProducts } from "../../data/products.data";
 
 export default function FeaturedProducts() {
-  const featured = products.slice(0, 6);
+  const [featured, setFeatured] = useState(() => fallbackProducts.slice(0, 6));
+
+  useEffect(() => {
+    let isMounted = true;
+    getProducts().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setFeatured(data.slice(0, 6));
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
-    <section className="w-full bg-[#faf1e0]  py-10 sm:py-12 md:py-16">
+    <section className="w-full bg-[#faf1e0] py-10 sm:py-12 md:py-16">
       <Container>
         <div className="mb-8 text-center sm:mb-10 md:mb-12">
           <h2 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl md:text-4xl">

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Star, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
-import { products } from "../data/products.data";
+import { getProductBySlug } from "../../services/api";
+import { products as fallbackProducts } from "../data/products.data";
 import { useCart, useWishlist } from "../../store/hooks";
 import { useToast } from "../components/common/Toast";
 
@@ -24,7 +25,9 @@ function formatPrice(value) {
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const product = products.find((p) => p.id === id);
+  const [product, setProduct] = useState(
+    () => fallbackProducts.find((p) => p.id === id || p.slug === id) || null,
+  );
 
   const [activeImage, setActiveImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -33,18 +36,37 @@ export default function ProductDetail() {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { showToast } = useToast();
 
+  useEffect(() => {
+    let isMounted = true;
+    if (id) {
+      getProductBySlug(id).then((data) => {
+        if (isMounted && data) {
+          setProduct(data);
+        }
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
   if (!product) {
     return <Navigate to="/products" replace />;
   }
 
   const discountPercent = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      )
     : null;
   const inWishlist = isInWishlist(product.id);
-  const gallery = product.images && product.images.length > 0 ? product.images : [product.image];
+  const gallery =
+    product.images && product.images.length > 0
+      ? product.images
+      : [product.image];
 
   const whatsappMessage = encodeURIComponent(
-    `Hi, I'm interested in "${product.name}" (${formatPrice(product.price)}) — ${window.location.href}\n\nCould you share more details and customisation options?`
+    `Hi, I'm interested in "${product.name}" (${formatPrice(product.price)}) — ${window.location.href}\n\nCould you share more details and customisation options?`,
   );
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
@@ -56,7 +78,9 @@ export default function ProductDetail() {
   const handleToggleWishlist = () => {
     toggleWishlist(product);
     showToast(
-      inWishlist ? `${product.name} removed from wishlist` : `${product.name} added to wishlist`
+      inWishlist
+        ? `${product.name} removed from wishlist`
+        : `${product.name} added to wishlist`,
     );
   };
 
@@ -76,7 +100,7 @@ export default function ProductDetail() {
           <div>
             <div className="aspect-square w-full overflow-hidden rounded-xl bg-neutral-50">
               <img
-                src={gallery[activeImage]}
+                src={gallery[activeImage] || product.image}
                 alt={product.name}
                 className="h-full w-full object-cover"
               />
@@ -89,10 +113,16 @@ export default function ProductDetail() {
                     type="button"
                     onClick={() => setActiveImage(index)}
                     className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
-                      activeImage === index ? "border-[#5c1f1f]" : "border-transparent"
+                      activeImage === index
+                        ? "border-[#5c1f1f]"
+                        : "border-transparent"
                     }`}
                   >
-                    <img src={img} alt="" className="h-full w-full object-cover" />
+                    <img
+                      src={img}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -109,9 +139,17 @@ export default function ProductDetail() {
             </h1>
 
             <div className="mt-3 flex items-center gap-1.5">
-              <Star className="h-4 w-4 text-amber-500" fill="currentColor" strokeWidth={0} />
-              <span className="text-sm font-medium text-neutral-700">{product.rating}</span>
-              <span className="text-sm text-neutral-400">({product.reviews} reviews)</span>
+              <Star
+                className="h-4 w-4 text-amber-500"
+                fill="currentColor"
+                strokeWidth={0}
+              />
+              <span className="text-sm font-medium text-neutral-700">
+                {product.rating}
+              </span>
+              <span className="text-sm text-neutral-400">
+                ({product.reviews} reviews)
+              </span>
             </div>
 
             <div className="mt-4 flex flex-wrap items-baseline gap-x-3">
@@ -145,7 +183,8 @@ export default function ProductDetail() {
               Chat on WhatsApp for Custom Size
             </a>
             <p className="mt-2 text-xs text-neutral-500">
-              Need a different length or width? Message us on WhatsApp with your measurements for a custom quote.
+              Need a different length or width? Message us on WhatsApp with your
+              measurements for a custom quote.
             </p>
 
             <div className="mt-6 border-t border-neutral-200 pt-6">
@@ -185,14 +224,20 @@ export default function ProductDetail() {
                 <button
                   type="button"
                   onClick={handleToggleWishlist}
-                  aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                  aria-label={
+                    inWishlist ? "Remove from wishlist" : "Add to wishlist"
+                  }
                   className={`flex h-11 w-11 shrink-0 items-center justify-center border transition-colors duration-200 ${
                     inWishlist
                       ? "border-[#5c1f1f] bg-[#5c1f1f] text-white"
                       : "border-neutral-300 text-neutral-700 hover:border-[#5c1f1f] hover:text-[#5c1f1f]"
                   }`}
                 >
-                  <Heart className="h-5 w-5" strokeWidth={1.75} fill={inWishlist ? "currentColor" : "none"} />
+                  <Heart
+                    className="h-5 w-5"
+                    strokeWidth={1.75}
+                    fill={inWishlist ? "currentColor" : "none"}
+                  />
                 </button>
               </div>
 

@@ -1,15 +1,29 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ArrowRight } from "lucide-react";
-import { products } from "../../data/products.data";
+import { getProducts } from "../../../services/api";
+import { products as fallbackProducts } from "../../data/products.data";
 
 function formatPrice(value) {
   return `₹${value.toLocaleString("en-IN")}`;
 }
 
 export default function SearchOverlay({ isOpen, onClose }) {
+  const [productList, setProductList] = useState(() => fallbackProducts);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let isMounted = true;
+    getProducts().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setProductList(data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleClose = () => {
     setQuery("");
@@ -41,8 +55,10 @@ export default function SearchOverlay({ isOpen, onClose }) {
   const results = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) return [];
-    return products.filter((p) => p.name.toLowerCase().includes(trimmed)).slice(0, 6);
-  }, [query]);
+    return productList
+      .filter((p) => p.name.toLowerCase().includes(trimmed))
+      .slice(0, 6);
+  }, [productList, query]);
 
   const handleSelectProduct = (product) => {
     handleClose();
@@ -65,7 +81,10 @@ export default function SearchOverlay({ isOpen, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 border-b border-neutral-200 px-4 py-4 sm:px-6">
-          <Search className="h-5 w-5 shrink-0 text-neutral-400" strokeWidth={1.75} />
+          <Search
+            className="h-5 w-5 shrink-0 text-neutral-400"
+            strokeWidth={1.75}
+          />
           <input
             type="text"
             autoFocus

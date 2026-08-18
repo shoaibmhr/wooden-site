@@ -1,10 +1,15 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import PageHero from "../components/common/PageHero";
 import CategoryProductCard from "../components/products/CategoryProductCard";
-import { products, categoryMeta, sortOptions } from "../data/products.data";
+import { getProducts } from "../../services/api";
+import {
+  products as fallbackProducts,
+  categoryMeta,
+  sortOptions,
+} from "../data/products.data";
 import { MessageCircle, SlidersHorizontal, Sparkles } from "lucide-react";
 
 // WhatsApp number
@@ -21,15 +26,35 @@ const allCategoriesList = [
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
+  const [productList, setProductList] = useState(() => fallbackProducts);
   const [sortBy, setSortBy] = useState("featured");
   const [searchQuery, setSearchQuery] = useState("");
 
   const currentMeta = categoryMeta[categorySlug];
 
+  useEffect(() => {
+    let isMounted = true;
+    if (categorySlug) {
+      getProducts({ category_slug: categorySlug }).then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setProductList(data);
+        }
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [categorySlug]);
+
   // 1. All hooks must run BEFORE any early return
   const categoryProducts = useMemo(() => {
     if (!categorySlug) return [];
-    let result = products.filter((p) => p.categorySlug === categorySlug);
+    let result = productList.filter(
+      (p) =>
+        p.categorySlug === categorySlug ||
+        p.categorySlug === "" ||
+        p.category?.toLowerCase() === categorySlug,
+    );
 
     if (searchQuery.trim() !== "") {
       result = result.filter((p) =>
@@ -43,7 +68,7 @@ export default function CategoryPage() {
     if (sortBy === "rating") result.sort((a, b) => b.rating - a.rating);
 
     return result;
-  }, [categorySlug, sortBy, searchQuery]);
+  }, [productList, categorySlug, sortBy, searchQuery]);
 
   const customWhatsAppMsg = useMemo(() => {
     if (!currentMeta) return "";
