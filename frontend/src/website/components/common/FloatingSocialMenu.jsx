@@ -11,7 +11,7 @@ import {
 const socialLinks = [
   {
     name: "WhatsApp",
-    href: "https://wa.me/923001234567",
+    href: "https://wa.me/923027069093?text=Salam%20Ashtech%20Wooden!%20I%20have%20an%20inquiry%20regarding%20custom%20wooden%20furniture.",
     icon: FaWhatsapp,
     color: "bg-[#25D366] hover:bg-[#20bd5a] shadow-[#25D366]/30",
   },

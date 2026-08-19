@@ -73,7 +73,7 @@ export default function FilterPanel({
             <input
               type="number"
               min="0"
-              placeholder="₹0"
+              placeholder="Min PKR"
               value={priceRange.min}
               onChange={(e) =>
                 onPriceChange({ ...priceRange, min: e.target.value })
@@ -87,7 +87,7 @@ export default function FilterPanel({
             <input
               type="number"
               min="0"
-              placeholder="₹1,00,000"
+              placeholder="Max PKR"
               value={priceRange.max}
               onChange={(e) =>
                 onPriceChange({ ...priceRange, max: e.target.value })

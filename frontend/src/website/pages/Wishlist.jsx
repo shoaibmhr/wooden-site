@@ -6,7 +6,7 @@ import { useToast } from "../components/common/Toast";
 import PageHero from "../components/common/PageHero";
 
 function formatPrice(value) {
-  return `₹${value.toLocaleString("en-IN")}`;
+  return `PKR ${Number(value).toLocaleString("en-PK")}`;
 }
 
 export default function Wishlist() {

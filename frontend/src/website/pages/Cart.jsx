@@ -4,8 +4,8 @@ import Container from "../components/common/Container";
 import { useCart } from "../../store/hooks";
 import PageHero from "../components/common/PageHero";
 
-// Replace with your actual WhatsApp business number (with country code, no + or spaces)
-const WHATSAPP_NUMBER = "919509658944";
+// WhatsApp Business Number for Ashtech Wooden
+const WHATSAPP_NUMBER = "923027069093";
 
 function WhatsappIcon(props) {
   return (
@@ -16,22 +16,40 @@ function WhatsappIcon(props) {
 }
 
 function formatPrice(value) {
-  return `₹${value.toLocaleString("en-IN")}`;
+  return `PKR ${Number(value).toLocaleString("en-PK")}`;
 }
 
 export default function Cart() {
   const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
 
+  const getFullImageUrl = (img) => {
+    if (!img) return "";
+    if (img.startsWith("http://") || img.startsWith("https://")) return img;
+    return `${window.location.origin}${img.startsWith("/") ? "" : "/"}${img}`;
+  };
+
   const buildWhatsappMessage = () => {
-    const lines = cartItems.map(
-      (item, index) =>
-        `${index + 1}. ${item.name} — Qty: ${item.quantity} — ${formatPrice(item.price * item.quantity)}`,
-    );
-    const message =
-      `Hi, I'd like to place an order for the following items:\n\n` +
-      lines.join("\n") +
-      `\n\nTotal: ${formatPrice(cartTotal)}\n\nPlease confirm availability and delivery details.`;
-    return encodeURIComponent(message);
+    let msg = `🪵 *NEW CART ORDER INQUIRY - ASHTECH WOODEN* 🪵\n`;
+    msg += `-----------------------------------------------\n`;
+    msg += `Salam Ashtech Wooden! I would like to place an order for the following items:\n\n`;
+
+    cartItems.forEach((item, index) => {
+      const fullImg = getFullImageUrl(item.image);
+      const productHref = `${window.location.origin}${item.href || `/products/${item.slug || item.id}`}`;
+      msg += `${index + 1}. *${item.name}*\n`;
+      msg += `   • Qty: ${item.quantity}\n`;
+      msg += `   • Price: ${formatPrice(item.price * item.quantity)}\n`;
+      if (fullImg) msg += `   • 🖼️ Image: ${fullImg}\n`;
+      msg += `   • 🔗 Link: ${productHref}\n\n`;
+    });
+
+    msg += `-----------------------------------------------\n`;
+    msg += `💰 *Total Amount:* ${formatPrice(cartTotal)}\n\n`;
+    msg += `📏 *Custom Dimensions / Note:*\n`;
+    msg += `[ Please mention if you require custom length, width, or specific polish for any item ]\n\n`;
+    msg += `Kindly confirm product availability, customisation options, and delivery timeline.`;
+
+    return encodeURIComponent(msg);
   };
 
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappMessage()}`;
@@ -181,14 +199,13 @@ export default function Cart() {
                     href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 flex w-full items-center justify-center gap-2.5 border border-[#25D366] px-6 py-3 text-sm font-semibold text-[#1ea952] transition-colors duration-300 hover:bg-green-50"
+                    className="mt-3 flex w-full items-center justify-center gap-2.5 rounded border border-[#25D366] bg-green-50/50 px-6 py-3 text-sm font-bold text-[#1a9a4b] shadow-sm transition-colors duration-300 hover:bg-[#25D366] hover:text-white"
                   >
                     <WhatsappIcon className="h-5 w-5" />
-                    Order on WhatsApp Instead
+                    Order on WhatsApp
                   </a>
                   <p className="mt-2 text-xs text-neutral-500">
-                    Your order summary will be pre-filled — just review and
-                    send.
+                    All cart items & images will be pre-filled in your WhatsApp message.
                   </p>
 
                   <Link
@@ -206,3 +223,4 @@ export default function Cart() {
     </div>
   );
 }
+

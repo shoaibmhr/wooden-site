@@ -12,8 +12,8 @@ import {
 } from "../data/products.data";
 import { MessageCircle, SlidersHorizontal, Sparkles } from "lucide-react";
 
-// WhatsApp number
-const WHATSAPP_NUMBER = "919509658944";
+// WhatsApp number for Ashtech Wooden
+const WHATSAPP_NUMBER = "923027069093";
 
 const allCategoriesList = [
   { slug: "bed", name: "Beds" },

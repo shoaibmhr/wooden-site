@@ -252,17 +252,17 @@ export default function Footer() {
               <h3 className="mb-1 font-serif text-sm uppercase tracking-wide text-white sm:text-base">
                 Contact us
               </h3>
-              <p className="text-xs text-stone-500">9:30 AM to 5:30 PM</p>
+              <p className="text-xs text-stone-500">9:30 AM to 6:00 PM</p>
               <p>
                 Email:{" "}
-                <a href="mailto:info@woodshala.com" className={linkClass}>
-                  info@woodensite.com
+                <a href="mailto:info@ashtechwooden.com" className={linkClass}>
+                  info@ashtechwooden.com
                 </a>
               </p>
               <p>
                 WhatsApp:{" "}
-                <a href="https://wa.me/919509658944" className={linkClass}>
-                  +91-9509658944
+                <a href="https://wa.me/923027069093" className={linkClass}>
+                  +92-3027069093
                 </a>
               </p>
               <p>

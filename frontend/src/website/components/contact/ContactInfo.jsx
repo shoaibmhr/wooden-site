@@ -1,7 +1,7 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
-const WHATSAPP_NUMBER = "919509658944";
-const whatsappMessage = encodeURIComponent("Hi, I have a question about your furniture.");
+const WHATSAPP_NUMBER = "923027069093";
+const whatsappMessage = encodeURIComponent("Salam Ashtech Wooden! I have an inquiry about custom wooden furniture.");
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
 function WhatsappIcon(props) {
@@ -13,10 +13,10 @@ function WhatsappIcon(props) {
 }
 
 const infoItems = [
-  { icon: MapPin, label: "Address", value: "Jodhpur, Rajasthan, India" },
-  { icon: Phone, label: "Phone", value: "+91-9509658944", href: "tel:+919509658944" },
-  { icon: Mail, label: "Email", value: "info@woodshala.com", href: "mailto:info@woodshala.com" },
-  { icon: Clock, label: "Working Hours", value: "9:30 AM – 5:30 PM, Mon–Sat" },
+  { icon: MapPin, label: "Location", value: "Pakistan" },
+  { icon: Phone, label: "Phone", value: "+92-302-7069093", href: "tel:+923027069093" },
+  { icon: Mail, label: "Email", value: "info@ashtechwooden.com", href: "mailto:info@ashtechwooden.com" },
+  { icon: Clock, label: "Working Hours", value: "9:30 AM – 6:00 PM, Mon–Sat" },
 ];
 
 export default function ContactInfo() {
