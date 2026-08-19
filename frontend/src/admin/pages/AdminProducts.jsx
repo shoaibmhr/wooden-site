@@ -151,20 +151,20 @@ export default function AdminProducts() {
   }, [products, searchQuery, selectedCategory, stockFilter]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* Header Section */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-stone-800/80 pb-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-stone-200 pb-5">
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-wider text-stone-100 sm:text-2xl">
+          <h1 className="text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
             Product Management
           </h1>
-          <p className="mt-1 text-xs text-stone-400">
+          <p className="mt-1 text-xs sm:text-sm text-stone-500">
             Catalog of handcrafted wooden items with inventory tracking and pricing controls.
           </p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#5c1f1f] to-[#732929] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-lg border border-amber-500/20 transition-all hover:brightness-110 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-900 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-amber-950 active:scale-95"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           <span>Add New Product</span>
@@ -172,16 +172,16 @@ export default function AdminProducts() {
       </div>
 
       {/* Filter & Search Bar Controls */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 bg-[#1e1a18] p-4 rounded-2xl border border-stone-800/80 shadow-md">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 bg-white p-4 rounded-2xl border border-stone-200/90 shadow-xs">
         {/* Search Input */}
         <div className="relative lg:col-span-2">
-          <Search className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
+          <Search className="absolute left-3.5 top-3 h-4 w-4 text-stone-400" />
           <input
             type="text"
             placeholder="Search by product name, category, or slug..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
+            className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 pl-10 pr-3.5 text-xs text-stone-900 placeholder-stone-400 outline-none focus:bg-white focus:border-amber-800 focus:ring-2 focus:ring-amber-800/10 transition-all"
           />
         </div>
 
@@ -190,7 +190,7 @@ export default function AdminProducts() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 px-3 text-xs text-stone-200 outline-none focus:border-amber-500"
+            className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 px-3 text-xs text-stone-800 outline-none focus:bg-white focus:border-amber-800 transition-all"
           >
             <option value="all">All Categories ({categoriesList.length})</option>
             {categoriesList.map((cat) => (
@@ -206,7 +206,7 @@ export default function AdminProducts() {
           <select
             value={stockFilter}
             onChange={(e) => setStockFilter(e.target.value)}
-            className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 px-3 text-xs text-stone-200 outline-none focus:border-amber-500"
+            className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 px-3 text-xs text-stone-800 outline-none focus:bg-white focus:border-amber-800 transition-all"
           >
             <option value="all">All Stock Statuses</option>
             <option value="in_stock">In Stock Only</option>
@@ -218,9 +218,9 @@ export default function AdminProducts() {
 
       {/* Results Header Count */}
       <div className="flex items-center justify-between px-1">
-        <p className="text-xs font-semibold text-stone-400">
-          Showing <span className="text-amber-400 font-bold">{filteredProducts.length}</span> of{" "}
-          <span className="text-stone-200 font-bold">{products.length}</span> total products
+        <p className="text-xs font-semibold text-stone-500">
+          Showing <span className="text-amber-900 font-bold">{filteredProducts.length}</span> of{" "}
+          <span className="text-stone-800 font-bold">{products.length}</span> total products
         </p>
         {(searchQuery || selectedCategory !== "all" || stockFilter !== "all") && (
           <button
@@ -229,7 +229,7 @@ export default function AdminProducts() {
               setSelectedCategory("all");
               setStockFilter("all");
             }}
-            className="text-xs text-amber-500 underline hover:text-amber-400"
+            className="text-xs font-semibold text-amber-800 underline hover:text-amber-950"
           >
             Reset Filters
           </button>
@@ -238,18 +238,18 @@ export default function AdminProducts() {
 
       {/* Main Table Content */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-stone-800 bg-[#1e1a18]">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
-          <p className="mt-3 text-xs text-stone-400">Loading product inventory...</p>
+        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-stone-200 bg-white shadow-xs">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-800 border-t-transparent" />
+          <p className="mt-3 text-xs text-stone-500">Loading product inventory...</p>
         </div>
       ) : error ? (
-        <div className="rounded-2xl border border-rose-900/60 bg-rose-950/40 p-4 text-xs text-rose-300 text-center">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-xs font-semibold text-rose-700 text-center">
           {error}
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-dashed border-stone-800 bg-[#1e1a18] text-center">
-          <Package className="h-12 w-12 text-stone-600 mb-3" />
-          <h3 className="text-sm font-bold text-stone-200">No products found</h3>
+        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-dashed border-stone-300 bg-white text-center shadow-xs">
+          <Package className="h-12 w-12 text-stone-300 mb-3" />
+          <h3 className="text-sm font-bold text-stone-800">No products found</h3>
           <p className="text-xs text-stone-500 mt-1 max-w-sm">
             {products.length === 0
               ? "Your inventory is currently empty. Click 'Add New Product' above."
@@ -257,10 +257,10 @@ export default function AdminProducts() {
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-stone-800/90 bg-[#1e1a18] shadow-2xl">
+        <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-stone-200/90 bg-white shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[850px] text-left text-xs text-stone-300">
-              <thead className="border-b border-stone-800 bg-stone-900/70 uppercase text-[10px] tracking-wider text-stone-400">
+            <table className="w-full min-w-[760px] text-left text-xs text-stone-700">
+              <thead className="border-b border-stone-200 bg-stone-50/80 uppercase text-[11px] font-semibold tracking-wider text-stone-500">
                 <tr>
                   <th className="px-4 py-3.5">Product</th>
                   <th className="px-4 py-3.5">Category</th>
@@ -270,16 +270,16 @@ export default function AdminProducts() {
                   <th className="px-4 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-800/80">
+              <tbody className="divide-y divide-stone-100">
                 {filteredProducts.map((item) => (
                   <tr
                     key={item.id}
-                    className="hover:bg-[#26211f] transition-colors group"
+                    className="hover:bg-[#faf7f2] transition-colors group"
                   >
                     {/* Product Name & Image */}
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-stone-700 bg-stone-900">
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-stone-200 bg-stone-100">
                           {item.primary_image_url ? (
                             <img
                               src={item.primary_image_url}
@@ -290,17 +290,17 @@ export default function AdminProducts() {
                               }}
                             />
                           ) : (
-                            <div className="flex h-full w-full items-center justify-center text-stone-600">
+                            <div className="flex h-full w-full items-center justify-center text-stone-400">
                               <Package className="h-5 w-5" />
                             </div>
                           )}
                         </div>
 
-                        <div>
-                          <p className="font-bold text-stone-100 group-hover:text-amber-400 transition-colors">
+                        <div className="min-w-0 max-w-xs">
+                          <p className="font-bold text-stone-900 group-hover:text-amber-900 transition-colors truncate">
                             {item.name}
                           </p>
-                          <p className="text-[10px] text-stone-500 font-mono">
+                          <p className="text-[10px] text-stone-400 font-mono truncate">
                             /{item.slug}
                           </p>
                         </div>
@@ -309,13 +309,13 @@ export default function AdminProducts() {
 
                     {/* Category */}
                     <td className="px-4 py-3.5">
-                      <span className="rounded-md bg-stone-800 px-2.5 py-1 text-[11px] font-medium text-stone-300">
+                      <span className="inline-block rounded-md bg-[#faf6ee] border border-amber-900/10 px-2.5 py-1 text-[11px] font-semibold text-amber-900">
                         {item.category?.name || "Uncategorized"}
                       </span>
                     </td>
 
                     {/* Price */}
-                    <td className="px-4 py-3.5 font-bold text-amber-400">
+                    <td className="px-4 py-3.5 font-bold text-amber-900 text-sm">
                       {formatPrice(item.price)}
                     </td>
 
@@ -329,16 +329,16 @@ export default function AdminProducts() {
                           onChange={(event) =>
                             handleStockChange(item.id, event.target.value)
                           }
-                          className="w-16 rounded-lg border border-stone-700 bg-stone-900/90 px-2.5 py-1.5 text-xs text-stone-100 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
+                          className="w-16 rounded-lg border border-stone-300 bg-stone-50/80 px-2.5 py-1.5 text-xs font-semibold text-stone-900 outline-none focus:bg-white focus:border-amber-800 focus:ring-1 focus:ring-amber-800/20"
                         />
                         <button
                           onClick={() => saveStock(item)}
                           disabled={updatingId === item.id}
                           title="Save stock level"
-                          className="rounded-lg p-1.5 text-amber-400 hover:bg-amber-950/40 transition-colors disabled:opacity-50"
+                          className="rounded-lg p-1.5 text-amber-900 hover:bg-amber-100/60 transition-colors disabled:opacity-50"
                         >
                           {savedSuccessId === item.id ? (
-                            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                           ) : (
                             <Save className="h-4 w-4" />
                           )}
@@ -351,12 +351,12 @@ export default function AdminProducts() {
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
                           !item.is_active
-                            ? "bg-stone-800 text-stone-400 border border-stone-700"
+                            ? "bg-stone-100 text-stone-600 border border-stone-200"
                             : item.stock_quantity === 0
-                              ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                              ? "bg-rose-50 text-rose-700 border border-rose-200"
                               : item.stock_quantity <= item.low_stock_threshold
-                                ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                                : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                                ? "bg-amber-50 text-amber-800 border border-amber-200"
+                                : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                         }`}
                       >
                         {!item.is_active
@@ -371,20 +371,20 @@ export default function AdminProducts() {
 
                     {/* Actions */}
                     <td className="px-4 py-3.5 text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1.5">
                         <a
                           href={`/products/${item.slug}`}
                           target="_blank"
                           rel="noreferrer"
                           title="Preview in Store"
-                          className="rounded-lg p-1.5 text-stone-400 hover:bg-stone-800 hover:text-amber-400 transition-colors"
+                          className="rounded-lg p-1.5 text-stone-400 hover:bg-amber-50 hover:text-amber-900 transition-colors"
                         >
                           <ExternalLink className="h-4 w-4" />
                         </a>
                         <button
                           onClick={() => handleDelete(item.id, item.name)}
                           title="Delete Product"
-                          className="rounded-lg p-1.5 text-stone-400 hover:bg-rose-950/40 hover:text-rose-400 transition-colors"
+                          className="rounded-lg p-1.5 text-stone-400 hover:bg-rose-50 hover:text-rose-600 transition-colors"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -407,3 +407,4 @@ export default function AdminProducts() {
     </div>
   );
 }
+

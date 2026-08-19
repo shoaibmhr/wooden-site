@@ -84,14 +84,14 @@ export default function AdminUsers() {
   }, [users, searchQuery, statusFilter]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-w-0">
       {/* Header Section */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-stone-800/80 pb-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-stone-200 pb-5">
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-wider text-stone-100 sm:text-2xl">
+          <h1 className="text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
             User Accounts
           </h1>
-          <p className="mt-1 text-xs text-stone-400">
+          <p className="mt-1 text-xs sm:text-sm text-stone-500">
             Registered customer accounts, administrators, and profile permissions.
           </p>
         </div>
@@ -105,8 +105,8 @@ export default function AdminUsers() {
             onClick={() => setStatusFilter("all")}
             className={`rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
               statusFilter === "all"
-                ? "bg-[#5c1f1f] text-white shadow-md border border-amber-500/30"
-                : "bg-[#1e1a18] text-stone-400 hover:bg-[#282321] hover:text-stone-200 border border-stone-800"
+                ? "bg-amber-900 text-white shadow-xs"
+                : "bg-white text-stone-600 hover:bg-[#faf6ee] hover:text-stone-900 border border-stone-200 shadow-xs"
             }`}
           >
             All Accounts ({users.length})
@@ -116,8 +116,8 @@ export default function AdminUsers() {
             onClick={() => setStatusFilter("active")}
             className={`rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
               statusFilter === "active"
-                ? "bg-[#5c1f1f] text-white shadow-md border border-amber-500/30"
-                : "bg-[#1e1a18] text-stone-400 hover:bg-[#282321] hover:text-stone-200 border border-stone-800"
+                ? "bg-amber-900 text-white shadow-xs"
+                : "bg-white text-stone-600 hover:bg-[#faf6ee] hover:text-stone-900 border border-stone-200 shadow-xs"
             }`}
           >
             Active ({users.filter((u) => u.is_active).length})
@@ -127,8 +127,8 @@ export default function AdminUsers() {
             onClick={() => setStatusFilter("inactive")}
             className={`rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
               statusFilter === "inactive"
-                ? "bg-[#5c1f1f] text-white shadow-md border border-amber-500/30"
-                : "bg-[#1e1a18] text-stone-400 hover:bg-[#282321] hover:text-stone-200 border border-stone-800"
+                ? "bg-amber-900 text-white shadow-xs"
+                : "bg-white text-stone-600 hover:bg-[#faf6ee] hover:text-stone-900 border border-stone-200 shadow-xs"
             }`}
           >
             Inactive ({users.filter((u) => !u.is_active).length})
@@ -138,8 +138,8 @@ export default function AdminUsers() {
             onClick={() => setStatusFilter("admin")}
             className={`rounded-xl px-3.5 py-2 text-xs font-bold uppercase tracking-wider transition-all ${
               statusFilter === "admin"
-                ? "bg-[#5c1f1f] text-white shadow-md border border-amber-500/30"
-                : "bg-[#1e1a18] text-stone-400 hover:bg-[#282321] hover:text-stone-200 border border-stone-800"
+                ? "bg-amber-900 text-white shadow-xs"
+                : "bg-white text-stone-600 hover:bg-[#faf6ee] hover:text-stone-900 border border-stone-200 shadow-xs"
             }`}
           >
             Admins ({users.filter((u) => u.is_superuser || u.role === "admin").length})
@@ -147,32 +147,32 @@ export default function AdminUsers() {
         </div>
 
         {/* Search Input Bar */}
-        <div className="relative bg-[#1e1a18] p-3 rounded-2xl border border-stone-800/80 shadow-md">
-          <Search className="absolute left-6 top-5 h-4 w-4 text-stone-500" />
+        <div className="relative bg-white p-3 rounded-2xl border border-stone-200/90 shadow-xs">
+          <Search className="absolute left-6 top-5 h-4 w-4 text-stone-400" />
           <input
             type="text"
             placeholder="Search by full name, email address, or phone number..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-11 pr-4 text-xs text-stone-100 placeholder-stone-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
+            className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 pl-11 pr-4 text-xs text-stone-900 placeholder-stone-400 outline-none focus:bg-white focus:border-amber-800 focus:ring-2 focus:ring-amber-800/10 transition-all"
           />
         </div>
       </div>
 
       {/* Main Users Table */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-stone-800 bg-[#1e1a18]">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-500 border-t-transparent" />
-          <p className="mt-3 text-xs text-stone-400">Loading user accounts...</p>
+        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-stone-200 bg-white shadow-xs">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-800 border-t-transparent" />
+          <p className="mt-3 text-xs text-stone-500">Loading user accounts...</p>
         </div>
       ) : error ? (
-        <div className="rounded-2xl border border-rose-900/60 bg-rose-950/40 p-4 text-xs text-rose-300 text-center">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-xs font-semibold text-rose-700 text-center">
           {error}
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-dashed border-stone-800 bg-[#1e1a18] text-center">
-          <Users className="h-12 w-12 text-stone-600 mb-3" />
-          <h3 className="text-sm font-bold text-stone-200">No users found</h3>
+        <div className="flex flex-col items-center justify-center py-16 rounded-2xl border border-dashed border-stone-300 bg-white text-center shadow-xs">
+          <Users className="h-12 w-12 text-stone-300 mb-3" />
+          <h3 className="text-sm font-bold text-stone-800">No users found</h3>
           <p className="text-xs text-stone-500 mt-1 max-w-sm">
             {users.length === 0
               ? "Registered user accounts will be listed here."
@@ -180,10 +180,10 @@ export default function AdminUsers() {
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-stone-800/90 bg-[#1e1a18] shadow-2xl">
+        <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-stone-200/90 bg-white shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[850px] text-left text-xs text-stone-300">
-              <thead className="border-b border-stone-800 bg-stone-900/70 uppercase text-[10px] tracking-wider text-stone-400">
+            <table className="w-full min-w-[760px] text-left text-xs text-stone-700">
+              <thead className="border-b border-stone-200 bg-stone-50/80 uppercase text-[11px] font-semibold tracking-wider text-stone-500">
                 <tr>
                   <th className="px-4 py-3.5">User</th>
                   <th className="px-4 py-3.5">Role</th>
@@ -193,29 +193,29 @@ export default function AdminUsers() {
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-stone-800/80">
+              <tbody className="divide-y divide-stone-100">
                 {filteredUsers.map((user) => (
                   <tr
                     key={user.id}
-                    className="hover:bg-[#26211f] transition-colors group"
+                    className="hover:bg-[#faf7f2] transition-colors group"
                   >
                     {/* User Info */}
                     <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#5c1f1f] to-[#3a1313] text-amber-300 font-bold border border-amber-500/20">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-900 to-amber-950 text-amber-300 font-bold border border-amber-800/30 shrink-0">
                           {(user.full_name || user.email || "U")
                             .charAt(0)
                             .toUpperCase()}
                         </div>
-                        <div>
-                          <p className="font-bold text-stone-100 group-hover:text-amber-400 transition-colors">
+                        <div className="min-w-0 max-w-[180px]">
+                          <p className="font-bold text-stone-900 group-hover:text-amber-900 transition-colors truncate">
                             {user.full_name || "Unnamed User"}
                           </p>
-                          <p className="text-[11px] text-stone-400">
+                          <p className="text-[11px] text-stone-500 truncate">
                             {user.email}
                           </p>
                           {user.phone && (
-                            <p className="text-[10px] text-stone-500">
+                            <p className="text-[10px] text-stone-400 truncate">
                               {user.phone}
                             </p>
                           )}
@@ -226,11 +226,11 @@ export default function AdminUsers() {
                     {/* Role */}
                     <td className="px-4 py-3.5">
                       {user.is_superuser || user.role === "admin" ? (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-400">
-                          <Shield className="h-3 w-3" /> Admin
+                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 border border-amber-200/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-900">
+                          <Shield className="h-3 w-3 text-amber-800" /> Admin
                         </span>
                       ) : (
-                        <span className="rounded-md bg-stone-800 px-2.5 py-1 text-[10px] font-medium text-stone-400">
+                        <span className="inline-block rounded-md bg-stone-100 px-2.5 py-1 text-[10px] font-medium text-stone-600">
                           Customer
                         </span>
                       )}
@@ -241,8 +241,8 @@ export default function AdminUsers() {
                       <span
                         className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
                           user.is_active
-                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            : "bg-rose-50 text-rose-700 border border-rose-200"
                         }`}
                       >
                         {user.is_active ? "Active" : "Suspended"}
@@ -250,7 +250,7 @@ export default function AdminUsers() {
                     </td>
 
                     {/* Joined Date */}
-                    <td className="px-4 py-3.5 text-[11px] text-stone-400">
+                    <td className="px-4 py-3.5 text-[11px] text-stone-500 whitespace-nowrap">
                       {formatDate(user.created_at)}
                     </td>
 
@@ -261,8 +261,8 @@ export default function AdminUsers() {
                         disabled={updatingId === user.id}
                         className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all disabled:opacity-50 ${
                           user.is_active
-                            ? "bg-rose-950/40 text-rose-300 border border-rose-900/40 hover:bg-rose-900/60"
-                            : "bg-emerald-950/40 text-emerald-300 border border-emerald-900/40 hover:bg-emerald-900/60"
+                            ? "bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100"
+                            : "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
                         }`}
                       >
                         {user.is_active ? (
