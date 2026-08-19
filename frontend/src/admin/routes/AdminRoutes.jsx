@@ -7,6 +7,7 @@ import AdminProducts from "../pages/AdminProducts";
 import AdminOrders from "../pages/AdminOrders";
 import AdminUsers from "../pages/AdminUsers";
 import AdminInquiries from "../pages/AdminInquiries";
+import AdminSettings from "../pages/AdminSettings";
 
 export default function AdminRoutes() {
   return (
@@ -19,8 +20,10 @@ export default function AdminRoutes() {
           <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="messages" element={<AdminInquiries />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Route>
     </Routes>
   );
 }
+

@@ -7,6 +7,8 @@ import {
   DollarSign,
   FileText,
   FolderTree,
+  Sparkles,
+  Package,
 } from "lucide-react";
 import { createProduct, fetchAdminCategories } from "../../services/api";
 
@@ -74,6 +76,11 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
       return;
     }
 
+    if (!formData.category_id) {
+      setErrorMsg("Please select a category.");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMsg("");
 
@@ -109,35 +116,45 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-stone-800 bg-[#262220] p-6 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-stone-100">
-            Add New Product
-          </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md transition-opacity">
+      <div className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-3xl border border-stone-800/90 bg-[#1e1a18] p-6 shadow-2xl">
+        <div className="flex items-center justify-between border-b border-stone-800/80 pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#5c1f1f] text-amber-300">
+              <Package className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-stone-100">
+                Add New Handcrafted Product
+              </h2>
+              <p className="text-[11px] text-stone-400">
+                Publish a new item to the WoodenSite catalog
+              </p>
+            </div>
+          </div>
 
           <button
             onClick={handleClose}
-            className="rounded-lg p-1 text-stone-400 hover:bg-stone-800 hover:text-stone-200"
+            className="rounded-xl p-1.5 text-stone-400 hover:bg-stone-800 hover:text-stone-200 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {errorMsg && (
-          <div className="mt-4 rounded-lg border border-rose-900/50 bg-rose-950/40 p-3 text-xs text-rose-300">
+          <div className="mt-4 rounded-xl border border-rose-900/60 bg-rose-950/50 p-3.5 text-xs text-rose-300">
             {errorMsg}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           <div>
-            <label className="block text-xs font-medium text-stone-400">
-              Product Name *
+            <label className="block text-xs font-semibold text-stone-300">
+              Product Title *
             </label>
 
-            <div className="relative mt-1">
-              <Tag className="absolute left-3 top-3 h-4 w-4 text-stone-500" />
+            <div className="relative mt-1.5">
+              <Tag className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
               <input
                 type="text"
                 name="name"
@@ -145,25 +162,25 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                 minLength="2"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Wooden Dining Table"
-                className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
+                placeholder="e.g. Royal Solid Sheesham Dining Table"
+                className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 outline-none"
               />
             </div>
 
             {formData.name && (
-              <p className="mt-1 text-[10px] text-stone-500">
-                Slug: {createSlug(formData.name)}
+              <p className="mt-1 text-[10px] text-stone-400 font-mono">
+                Live URL Slug: <span className="text-amber-400">/{createSlug(formData.name)}</span>
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-400">
+            <label className="block text-xs font-semibold text-stone-300">
               Category *
             </label>
 
-            <div className="relative mt-1">
-              <FolderTree className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-stone-500" />
+            <div className="relative mt-1.5">
+              <FolderTree className="pointer-events-none absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
 
               <select
                 name="category_id"
@@ -171,12 +188,12 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                 value={formData.category_id}
                 onChange={handleChange}
                 disabled={categories.length === 0}
-                className="w-full appearance-none rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 focus:border-[#5c1f1f] focus:outline-none disabled:opacity-50"
+                className="w-full appearance-none rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 focus:border-amber-500 outline-none disabled:opacity-50"
               >
                 <option value="">
                   {categories.length === 0
                     ? "Loading categories..."
-                    : "Select a category"}
+                    : "Select a Category"}
                 </option>
 
                 {categories.map((category) => (
@@ -190,12 +207,12 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Price (PKR) *
+              <label className="block text-xs font-semibold text-stone-300">
+                Selling Price (PKR) *
               </label>
 
-              <div className="relative mt-1">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-stone-500" />
+              <div className="relative mt-1.5">
+                <DollarSign className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
                 <input
                   type="number"
                   name="price"
@@ -204,19 +221,19 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                   step="0.01"
                   value={formData.price}
                   onChange={handleChange}
-                  placeholder="25000"
-                  className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
+                  placeholder="e.g. 45000"
+                  className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 focus:border-amber-500 outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Original Price
+              <label className="block text-xs font-semibold text-stone-300">
+                Original / Strike Price (PKR)
               </label>
 
-              <div className="relative mt-1">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-stone-500" />
+              <div className="relative mt-1.5">
+                <DollarSign className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
                 <input
                   type="number"
                   name="original_price"
@@ -224,8 +241,8 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                   step="0.01"
                   value={formData.original_price}
                   onChange={handleChange}
-                  placeholder="Optional"
-                  className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
+                  placeholder="Optional (for discount tag)"
+                  className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 focus:border-amber-500 outline-none"
                 />
               </div>
             </div>
@@ -233,8 +250,8 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Initial Stock *
+              <label className="block text-xs font-semibold text-stone-300">
+                Initial Stock Units *
               </label>
               <input
                 type="number"
@@ -243,13 +260,13 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                 min="0"
                 value={formData.stock_quantity}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-900 px-3 py-2 text-xs text-stone-100 focus:border-[#5c1f1f] focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-stone-700/80 bg-stone-900/90 px-3.5 py-2.5 text-xs text-stone-100 focus:border-amber-500 outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Low Stock Alert
+              <label className="block text-xs font-semibold text-stone-300">
+                Low Stock Alert Limit
               </label>
               <input
                 type="number"
@@ -258,55 +275,76 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                 min="0"
                 value={formData.low_stock_threshold}
                 onChange={handleChange}
-                className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-900 px-3 py-2 text-xs text-stone-100 focus:border-[#5c1f1f] focus:outline-none"
+                className="mt-1.5 w-full rounded-xl border border-stone-700/80 bg-stone-900/90 px-3.5 py-2.5 text-xs text-stone-100 focus:border-amber-500 outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-400">
+            <label className="block text-xs font-semibold text-stone-300">
               Primary Image URL *
             </label>
 
-            <div className="relative mt-1">
-              <ImageIcon className="absolute left-3 top-3 h-4 w-4 text-stone-500" />
+            <div className="relative mt-1.5">
+              <ImageIcon className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
               <input
                 type="url"
                 name="primary_image_url"
                 required
                 value={formData.primary_image_url}
                 onChange={handleChange}
-                placeholder="https://example.com/product.jpg"
-                className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
+                placeholder="https://example.com/furniture-image.jpg"
+                className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 focus:border-amber-500 outline-none"
               />
             </div>
+
+            {formData.primary_image_url && (
+              <div className="mt-2.5 flex items-center gap-3 rounded-xl border border-stone-800 bg-stone-900/60 p-2">
+                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-stone-700 bg-stone-950">
+                  <img
+                    src={formData.primary_image_url}
+                    alt="Preview"
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
+                  />
+                </div>
+                <div className="text-[11px] text-stone-400 truncate">
+                  <span className="font-bold text-amber-400 flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" /> Live Image Preview
+                  </span>
+                  <span className="truncate block opacity-70">{formData.primary_image_url}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-400">
-              Description *
+            <label className="block text-xs font-semibold text-stone-300">
+              Description & Specifications *
             </label>
 
-            <div className="relative mt-1">
-              <FileText className="absolute left-3 top-3 h-4 w-4 text-stone-500" />
+            <div className="relative mt-1.5">
+              <FileText className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
               <textarea
                 name="description"
                 required
                 minLength="10"
-                rows="4"
+                rows="3"
                 value={formData.description}
                 onChange={handleChange}
-                placeholder="Write at least 10 characters about this product..."
-                className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
+                placeholder="Describe wood type (Sheesham, Teak, Walnut), finish, warranty, and dimensions..."
+                className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-2.5 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 focus:border-amber-500 outline-none"
               />
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 border-t border-stone-800 pt-4">
+          <div className="flex justify-end gap-2.5 border-t border-stone-800/80 pt-4">
             <button
               type="button"
               onClick={handleClose}
-              className="rounded-lg px-4 py-2 text-xs font-medium text-stone-400 hover:bg-stone-800"
+              className="rounded-xl px-5 py-2.5 text-xs font-semibold text-stone-400 hover:bg-stone-800 hover:text-stone-200 transition-colors"
             >
               Cancel
             </button>
@@ -314,10 +352,10 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
             <button
               type="submit"
               disabled={isSubmitting || categories.length === 0}
-              className="flex items-center gap-1.5 rounded-lg bg-[#5c1f1f] px-4 py-2 text-xs font-semibold text-white hover:bg-[#732929] disabled:opacity-50"
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#5c1f1f] to-[#732929] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:brightness-110 disabled:opacity-50"
             >
-              <Plus className="h-4 w-4" />
-              {isSubmitting ? "Creating..." : "Add Product"}
+              <Plus className="h-4 w-4" strokeWidth={2.5} />
+              <span>{isSubmitting ? "Creating..." : "Save & Publish Product"}</span>
             </button>
           </div>
         </form>

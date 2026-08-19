@@ -13,18 +13,20 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#1c1917] text-stone-100">
+    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 antialiased font-sans">
       <Sidebar
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
         handleLogout={handleLogout}
       />
-      <div className="flex flex-1 flex-col overflow-y-auto">
+      <div className="flex flex-1 flex-col overflow-y-auto bg-slate-50/50">
         <Header setIsOpen={setSidebarOpen} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />
         </main>
       </div>
     </div>
   );
 }
+
+

@@ -156,6 +156,8 @@ export async function adminLogin(email, password) {
   return data;
 }
 
+export const loginAdmin = adminLogin;
+
 export async function fetchProducts() {
   const token = localStorage.getItem("admin_token");
 
@@ -345,6 +347,8 @@ export async function fetchUsers() {
 
   return await res.json();
 }
+
+export const fetchAdminUsers = fetchUsers;
 
 export async function updateUserStatus(userId, is_active) {
   const token = localStorage.getItem("admin_token");

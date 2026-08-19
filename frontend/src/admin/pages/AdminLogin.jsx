@@ -1,112 +1,156 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Lock, Mail, ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  Armchair,
+  Shield,
+  Sparkles,
+  ArrowLeft,
+} from "lucide-react";
 import { adminLogin } from "../../services/api";
 
 export default function AdminLogin() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("admin@ashtech.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMsg("");
+    setError("");
+
     try {
-      await adminLogin(email, password);
+      const data = await adminLogin(email, password);
+      localStorage.setItem("admin_token", data.access_token);
       navigate("/admin");
     } catch (err) {
-      setErrorMsg(err.message || "Invalid credentials");
+      setError(err.message || "Invalid email or password");
     } finally {
       setIsLoading(false);
     }
   };
 
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#1c1917] px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#5c1f1f] text-amber-300 font-bold text-2xl shadow-xl border border-amber-900/40">
-            AW
-          </div>
-          <h1 className="mt-4 text-2xl font-bold tracking-tight text-stone-100 uppercase">
-            Ashtech Wooden
-          </h1>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-amber-500">
-            Admin Portal Access
-          </p>
+    <div className="relative flex min-h-screen items-center justify-center bg-[#12100f] px-4 py-12 text-stone-100 antialiased selection:bg-[#5c1f1f] selection:text-white">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-b from-[#5c1f1f]/30 via-amber-500/10 to-transparent blur-3xl" />
+
+      <div className="relative w-full max-w-md">
+        {/* Back to store */}
+        <div className="mb-6 flex items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-400 hover:text-amber-400 transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>Return to Storefront</span>
+          </Link>
+          <span className="text-[10px] uppercase font-bold tracking-widest text-amber-500/80 flex items-center gap-1">
+            <Shield className="h-3 w-3" /> Secure Access
+          </span>
         </div>
 
-        <div className="rounded-2xl border border-stone-800 bg-[#262220] p-6 shadow-2xl sm:p-8">
-          <div className="flex items-center gap-2 pb-4 border-b border-stone-800">
-            <ShieldCheck className="h-5 w-5 text-amber-500" />
-            <h2 className="text-sm font-semibold text-stone-200 uppercase tracking-wide">
-              Secure Sign In
-            </h2>
+        {/* Login Card */}
+        <div className="relative overflow-hidden rounded-3xl border border-stone-800/90 bg-[#1e1a18]/90 p-8 shadow-2xl backdrop-blur-xl">
+          {/* Logo & Header */}
+          <div className="text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5c1f1f] to-[#3a1313] text-amber-300 shadow-xl border border-amber-500/30">
+              <Armchair className="h-7 w-7 text-amber-400" strokeWidth={1.75} />
+            </div>
+
+            <h1 className="mt-4 text-xl font-black uppercase tracking-wider text-stone-100 sm:text-2xl">
+              WoodenSite
+            </h1>
+            <p className="mt-1 text-xs text-amber-400 font-semibold tracking-widest uppercase flex items-center justify-center gap-1.5">
+              <Sparkles className="h-3 w-3" /> Admin & Staff Portal
+            </p>
           </div>
 
-          {errorMsg && (
-            <div className="mt-4 rounded-lg border border-rose-900/50 bg-rose-950/40 p-3 text-xs text-rose-300">
-              {errorMsg}
+          {error && (
+            <div className="mt-6 rounded-xl border border-rose-900/60 bg-rose-950/40 p-3.5 text-xs text-rose-300 text-center font-medium">
+              {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            {/* Email Field */}
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Admin Email
+              <label className="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                Email Address
               </label>
               <div className="relative mt-1.5">
-                <Mail className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
+                <Mail className="pointer-events-none absolute left-3.5 top-3.5 h-4 w-4 text-stone-500" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@ashtech.com"
-                  className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2.5 pl-10 pr-3.5 text-sm text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:ring-1 focus:ring-[#5c1f1f] focus:outline-none"
+                  placeholder="admin@woodensite.com"
+                  className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-3 pl-10 pr-3.5 text-xs text-stone-100 placeholder-stone-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition-all"
                 />
               </div>
             </div>
 
+            {/* Password Field */}
             <div>
-              <label className="block text-xs font-medium text-stone-400">
-                Password
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-stone-300">
+                  Password
+                </label>
+              </div>
               <div className="relative mt-1.5">
-                <Lock className="absolute left-3.5 top-3 h-4 w-4 text-stone-500" />
+                <Lock className="pointer-events-none absolute left-3.5 top-3.5 h-4 w-4 text-stone-500" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2.5 pl-10 pr-3.5 text-sm text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:ring-1 focus:ring-[#5c1f1f] focus:outline-none"
+                  placeholder="••••••••••••"
+                  className="w-full rounded-xl border border-stone-700/80 bg-stone-900/90 py-3 pl-10 pr-10 text-xs text-stone-100 placeholder-stone-500 outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition-all"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3 p-0.5 text-stone-500 hover:text-stone-300 transition-colors"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
               </div>
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5c1f1f] py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:bg-[#732929] hover:shadow-xl disabled:opacity-50"
+              className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#5c1f1f] to-[#732929] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-xl border border-amber-500/20 transition-all hover:brightness-110 active:scale-95 disabled:opacity-50"
             >
-              {isLoading ? "Authenticating..." : "Sign In to Dashboard"}
-              <ArrowRight className="h-4 w-4" />
+              {isLoading ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <span>Verifying Credentials...</span>
+                </>
+              ) : (
+                <span>Sign In to Dashboard</span>
+              )}
             </button>
           </form>
-
-          <div className="mt-6 border-t border-stone-800 pt-4 text-center">
-            <Link
-              to="/"
-              className="text-xs text-stone-500 hover:text-amber-400 transition-colors"
-            >
-              ← Back to Customer Website
-            </Link>
-          </div>
         </div>
+
+        {/* Footer info */}
+        <p className="mt-6 text-center text-[11px] text-stone-500">
+          WoodenSite Crafts & Furniture &copy; {new Date().getFullYear()}. All Rights Reserved.
+        </p>
       </div>
     </div>
   );
