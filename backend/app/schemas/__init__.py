@@ -16,6 +16,8 @@ from app.schemas.order import (
     OrderItemRead,
     OrderRead,
     OrderStatusUpdate,
+    OrderTrackingRead,
+    OrderTrackingRequest,
     PaymentStatusUpdate,
 )
 from app.schemas.product import (
@@ -31,6 +33,7 @@ from app.schemas.user import (
     UserStatusUpdate,
 )
 
+
 __all__ = [
     "AdminBootstrapCreate",
     "CategoryCreate",
@@ -45,6 +48,8 @@ __all__ = [
     "OrderItemRead",
     "OrderRead",
     "OrderStatusUpdate",
+    "OrderTrackingRead",
+    "OrderTrackingRequest",
     "PaymentStatusUpdate",
     "ProductCreate",
     "ProductImageCreate",

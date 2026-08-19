@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Package } from "lucide-react";
-import { fetchProducts, deleteProduct } from "../../services/api";
+import { Plus, Trash2, Package, Save } from "lucide-react";
+import {
+  fetchProducts,
+  deleteProduct,
+  updateProduct,
+} from "../../services/api";
 import AddProductModal from "../components/AddProductModal";
 
 export default function AdminProducts() {
@@ -8,6 +12,7 @@ export default function AdminProducts() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updatingId, setUpdatingId] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -46,6 +51,40 @@ export default function AdminProducts() {
 
   const handleProductAdded = (newProduct) => {
     setProducts((prev) => [newProduct, ...prev]);
+  };
+
+  const updateProductInState = (updatedProduct) => {
+    setProducts((currentProducts) =>
+      currentProducts.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product,
+      ),
+    );
+  };
+
+  const handleStockChange = (productId, value) => {
+    const stockQuantity = Math.max(0, Number(value) || 0);
+
+    setProducts((currentProducts) =>
+      currentProducts.map((product) =>
+        product.id === productId
+          ? { ...product, stock_quantity: stockQuantity }
+          : product,
+      ),
+    );
+  };
+
+  const saveStock = async (product) => {
+    try {
+      setUpdatingId(product.id);
+      const updatedProduct = await updateProduct(product.id, {
+        stock_quantity: product.stock_quantity,
+      });
+      updateProductInState(updatedProduct);
+    } catch (err) {
+      alert(err.message || "Failed to update stock");
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
   return (
@@ -91,6 +130,8 @@ export default function AdminProducts() {
                 <th className="px-4 py-3">Product Name</th>
                 <th className="px-4 py-3">Category</th>
                 <th className="px-4 py-3">Price</th>
+                <th className="px-4 py-3">Stock</th>
+                <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
@@ -108,6 +149,48 @@ export default function AdminProducts() {
                   </td>
                   <td className="px-4 py-3 font-semibold text-amber-500">
                     PKR {item.price}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="0"
+                        value={item.stock_quantity}
+                        onChange={(event) =>
+                          handleStockChange(item.id, event.target.value)
+                        }
+                        className="w-16 rounded border border-stone-700 bg-stone-900 px-2 py-1 text-xs text-stone-100 outline-none focus:border-amber-500"
+                      />
+                      <button
+                        onClick={() => saveStock(item)}
+                        disabled={updatingId === item.id}
+                        title="Save stock"
+                        className="rounded p-1.5 text-amber-500 hover:bg-amber-950/40 disabled:opacity-50"
+                      >
+                        <Save className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold uppercase ${
+                        !item.is_active
+                          ? "bg-stone-800 text-stone-400"
+                          : item.stock_quantity === 0
+                            ? "bg-rose-950/50 text-rose-400"
+                            : item.stock_quantity <= item.low_stock_threshold
+                              ? "bg-amber-950/50 text-amber-400"
+                              : "bg-emerald-950/50 text-emerald-400"
+                      }`}
+                    >
+                      {!item.is_active
+                        ? "Inactive"
+                        : item.stock_quantity === 0
+                          ? "Out of stock"
+                          : item.stock_quantity <= item.low_stock_threshold
+                            ? "Low stock"
+                            : "In stock"}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <button

@@ -12,6 +12,7 @@ import Gallery from "../pages/Gallery";
 import Faq from "../pages/Faq";
 import NotFound from "../pages/NotFound";
 import Checkout from "../pages/Checkout";
+import TrackOrder from "../pages/TrackOrder";
 
 export default function WebsiteRoutes() {
   return (
@@ -23,6 +24,7 @@ export default function WebsiteRoutes() {
         <Route path="/category/:categorySlug" element={<CategoryPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/track-order" element={<TrackOrder />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />

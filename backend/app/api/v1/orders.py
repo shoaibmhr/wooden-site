@@ -5,20 +5,25 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
-from app.core.config import settings
 
 from app.api.deps import require_admin
+from app.core.config import settings
 from app.db.session import get_db
-from app.models.order import Order, OrderItem, OrderStatus
+from app.models.order import (
+    Order,
+    OrderItem,
+    OrderStatus,
+    PaymentStatus,
+)
 from app.models.product import Product
 from app.models.user import User
 from app.schemas.order import (
     OrderCreate,
     OrderRead,
     OrderStatusUpdate,
-    PaymentStatusUpdate,
-    OrderTrackingRequest,
     OrderTrackingRead,
+    OrderTrackingRequest,
+    PaymentStatusUpdate,
 )
 
 
@@ -46,6 +51,22 @@ ALLOWED_ORDER_STATUS_TRANSITIONS = {
     },
     OrderStatus.DELIVERED: set(),
     OrderStatus.CANCELLED: set(),
+}
+
+
+ALLOWED_PAYMENT_STATUS_TRANSITIONS = {
+    PaymentStatus.PENDING: {
+        PaymentStatus.PAID,
+        PaymentStatus.FAILED,
+    },
+    PaymentStatus.FAILED: {
+        PaymentStatus.PENDING,
+        PaymentStatus.PAID,
+    },
+    PaymentStatus.PAID: {
+        PaymentStatus.REFUNDED,
+    },
+    PaymentStatus.REFUNDED: set(),
 }
 
 
@@ -168,13 +189,14 @@ def create_order(
             )
         )
 
-        delivery_charge = settings.DELIVERY_CHARGE
+    delivery_charge = settings.DELIVERY_CHARGE
 
     if (
         settings.FREE_DELIVERY_MINIMUM > Decimal("0.00")
         and subtotal >= settings.FREE_DELIVERY_MINIMUM
     ):
         delivery_charge = Decimal("0.00")
+
     total_amount = subtotal + delivery_charge
 
     order_data = order_in.model_dump(exclude={"items"})
@@ -198,6 +220,8 @@ def create_order(
     return db.scalar(
         order_query().where(Order.id == order.id)
     )
+
+
 @router.post(
     "/track",
     response_model=OrderTrackingRead,
@@ -299,7 +323,6 @@ def update_order_status(
             ),
         )
 
-    # Cancel ke waqt reserved stock wapas product mein add hoga.
     if status_in.status == OrderStatus.CANCELLED:
         product_ids = [
             item.product_id
@@ -348,13 +371,32 @@ def update_payment_status(
     current_user: User = Depends(require_admin),
 ):
     order = db.scalar(
-        order_query().where(Order.id == order_id)
+        order_query()
+        .where(Order.id == order_id)
+        .with_for_update()
     )
 
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Order not found.",
+        )
+
+    if order.payment_status == payment_in.payment_status:
+        return order
+
+    allowed_next_statuses = ALLOWED_PAYMENT_STATUS_TRANSITIONS[
+        order.payment_status
+    ]
+
+    if payment_in.payment_status not in allowed_next_statuses:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=(
+                f"Cannot change payment status from "
+                f"'{order.payment_status.value}' to "
+                f"'{payment_in.payment_status.value}'."
+            ),
         )
 
     order.payment_status = payment_in.payment_status

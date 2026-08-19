@@ -13,6 +13,8 @@ const initialFormData = {
   shipping_address: "",
   city: "",
   notes: "",
+  payment_method: "cash_on_delivery",
+  payment_reference: "",
 };
 
 function formatPrice(value) {
@@ -267,6 +269,39 @@ export default function Checkout() {
                     className="mt-1.5 w-full border border-neutral-300 px-3 py-2.5 text-sm outline-none focus:border-[#5c1f1f]"
                   />
                 </div>
+
+                <div>
+                  <label className="text-sm font-medium text-neutral-700">
+                    Payment Method *
+                  </label>
+                  <select
+                    name="payment_method"
+                    value={formData.payment_method}
+                    onChange={handleChange}
+                    className="mt-1.5 w-full border border-neutral-300 px-3 py-2.5 text-sm outline-none focus:border-[#5c1f1f]"
+                  >
+                    <option value="cash_on_delivery">
+                      Cash on Delivery
+                    </option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                  </select>
+                </div>
+
+                {formData.payment_method === "bank_transfer" && (
+                  <div>
+                    <label className="text-sm font-medium text-neutral-700">
+                      Payment Reference
+                    </label>
+                    <input
+                      type="text"
+                      name="payment_reference"
+                      value={formData.payment_reference}
+                      onChange={handleChange}
+                      placeholder="Bank transaction/reference number"
+                      className="mt-1.5 w-full border border-neutral-300 px-3 py-2.5 text-sm outline-none focus:border-[#5c1f1f]"
+                    />
+                  </div>
+                )}
               </div>
 
               <button
@@ -300,13 +335,13 @@ export default function Checkout() {
               </div>
 
               <div className="mt-4 flex justify-between text-base font-bold text-neutral-900">
-                <span>Total</span>
+                <span>Items Subtotal</span>
                 <span>{formatPrice(cartTotal)}</span>
               </div>
 
               <p className="mt-4 text-xs leading-5 text-neutral-500">
-                Final pricing is verified securely from the database when you
-                place your order.
+                Delivery charges and final total are calculated securely by the
+                backend when you place your order.
               </p>
             </aside>
           </div>

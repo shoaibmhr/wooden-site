@@ -15,6 +15,8 @@ const initialFormData = {
   category_id: "",
   price: "",
   original_price: "",
+  stock_quantity: "10",
+  low_stock_threshold: "3",
   primary_image_url: "",
   description: "",
 };
@@ -85,6 +87,8 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
         original_price: formData.original_price
           ? Number(formData.original_price)
           : null,
+        stock_quantity: Number(formData.stock_quantity),
+        low_stock_threshold: Number(formData.low_stock_threshold),
         primary_image_url: formData.primary_image_url.trim(),
         rating: 0,
         review_count: 0,
@@ -224,6 +228,38 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                   className="w-full rounded-lg border border-stone-700 bg-stone-900 py-2 pl-9 pr-3 text-xs text-stone-100 placeholder-stone-600 focus:border-[#5c1f1f] focus:outline-none"
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className="block text-xs font-medium text-stone-400">
+                Initial Stock *
+              </label>
+              <input
+                type="number"
+                name="stock_quantity"
+                required
+                min="0"
+                value={formData.stock_quantity}
+                onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-900 px-3 py-2 text-xs text-stone-100 focus:border-[#5c1f1f] focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-stone-400">
+                Low Stock Alert
+              </label>
+              <input
+                type="number"
+                name="low_stock_threshold"
+                required
+                min="0"
+                value={formData.low_stock_threshold}
+                onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-900 px-3 py-2 text-xs text-stone-100 focus:border-[#5c1f1f] focus:outline-none"
+              />
             </div>
           </div>
 

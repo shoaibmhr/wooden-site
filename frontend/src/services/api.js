@@ -157,10 +157,36 @@ export async function adminLogin(email, password) {
 }
 
 export async function fetchProducts() {
-  const res = await fetch(`${API_BASE_URL}/products/`);
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/products/admin/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");
+  }
+
+  return await res.json();
+}
+
+export async function updateProduct(productId, productData) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/products/${productId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(productData),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Failed to update product");
   }
 
   return await res.json();
@@ -396,6 +422,23 @@ export async function createOrder(orderData) {
     const errorData = await res.json().catch(() => ({}));
 
     throw new Error(errorData.detail || "Failed to place your order");
+  }
+
+  return await res.json();
+}
+
+export async function trackOrder(orderData) {
+  const res = await fetch(`${API_BASE_URL}/orders/track`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Order not found");
   }
 
   return await res.json();

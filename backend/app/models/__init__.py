@@ -4,6 +4,7 @@ from app.models.order import (
     Order,
     OrderItem,
     OrderStatus,
+    PaymentMethod,
     PaymentStatus,
 )
 from app.models.product import Product, ProductImage
@@ -16,6 +17,7 @@ __all__ = [
     "Order",
     "OrderItem",
     "OrderStatus",
+    "PaymentMethod",
     "PaymentStatus",
     "Product",
     "ProductImage",
