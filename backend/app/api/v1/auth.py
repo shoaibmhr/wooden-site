@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import secrets
+
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
+from app.core.config import settings
 from app.core.security import (
     create_access_token,
     hash_password,
@@ -29,7 +32,21 @@ router = APIRouter(
 def bootstrap_first_admin(
     admin_in: AdminBootstrapCreate,
     db: Session = Depends(get_db),
+    x_admin_bootstrap_secret: str | None = Header(default=None),
 ):
+    if (
+        not settings.ADMIN_BOOTSTRAP_SECRET
+        or not x_admin_bootstrap_secret
+        or not secrets.compare_digest(
+            x_admin_bootstrap_secret,
+            settings.ADMIN_BOOTSTRAP_SECRET,
+        )
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid bootstrap secret.",
+        )
+
     existing_admin = db.scalar(
         select(User).where(User.role == UserRole.ADMIN)
     )

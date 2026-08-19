@@ -3,7 +3,11 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-from app.models.order import OrderStatus, PaymentStatus
+from app.models.order import (
+    OrderStatus,
+    PaymentMethod,
+    PaymentStatus,
+)
 
 
 class OrderItemCreate(BaseModel):
@@ -19,6 +23,12 @@ class OrderCreate(BaseModel):
     shipping_address: str = Field(min_length=10, max_length=1000)
     city: str = Field(min_length=2, max_length=100)
     notes: str | None = Field(default=None, max_length=2000)
+
+    payment_method: PaymentMethod = PaymentMethod.CASH_ON_DELIVERY
+    payment_reference: str | None = Field(
+        default=None,
+        max_length=255,
+    )
 
     items: list[OrderItemCreate] = Field(min_length=1)
 
@@ -53,6 +63,31 @@ class OrderRead(BaseModel):
 
     status: OrderStatus
     payment_status: PaymentStatus
+    payment_method: PaymentMethod
+    payment_reference: str | None
+
+    created_at: datetime
+    updated_at: datetime
+
+    items: list[OrderItemRead]
+
+    model_config = ConfigDict(from_attributes=True)
+class OrderTrackingRequest(BaseModel):
+    order_number: str = Field(min_length=8, max_length=30)
+    customer_email: EmailStr
+    customer_phone: str = Field(min_length=7, max_length=30)
+
+
+class OrderTrackingRead(BaseModel):
+    order_number: str
+
+    status: OrderStatus
+    payment_status: PaymentStatus
+    payment_method: PaymentMethod
+
+    subtotal: Decimal
+    delivery_charge: Decimal
+    total_amount: Decimal
 
     created_at: datetime
     updated_at: datetime

@@ -41,6 +41,10 @@ class ProductBase(BaseModel):
         decimal_places=2,
     )
     review_count: int = Field(default=0, ge=0)
+
+    stock_quantity: int = Field(default=0, ge=0)
+    low_stock_threshold: int = Field(default=3, ge=0)
+
     primary_image_url: str = Field(min_length=1)
     is_active: bool = True
 
@@ -79,6 +83,10 @@ class ProductUpdate(BaseModel):
         decimal_places=2,
     )
     review_count: int | None = Field(default=None, ge=0)
+
+    stock_quantity: int | None = Field(default=None, ge=0)
+    low_stock_threshold: int | None = Field(default=None, ge=0)
+
     primary_image_url: str | None = Field(default=None, min_length=1)
     is_active: bool | None = None
     images: list[ProductImageCreate] | None = None

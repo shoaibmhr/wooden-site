@@ -48,6 +48,15 @@ class Product(Base):
         default=0,
     )
 
+    stock_quantity: Mapped[int] = mapped_column(
+        Integer,
+        default=0,
+    )
+    low_stock_threshold: Mapped[int] = mapped_column(
+        Integer,
+        default=3,
+    )
+
     primary_image_url: Mapped[str] = mapped_column(Text)
     is_active: Mapped[bool] = mapped_column(
         Boolean,

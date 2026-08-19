@@ -114,6 +114,20 @@ def list_products(
 
     return db.scalars(query).unique().all()
 
+@router.get(
+    "/admin/all",
+    response_model=list[ProductRead],
+)
+def list_all_products_for_admin(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
+):
+    query = product_query().order_by(
+        Product.created_at.desc()
+    )
+
+    return db.scalars(query).unique().all()
+
 
 @router.get("/slug/{slug}", response_model=ProductRead)
 def get_product_by_slug(

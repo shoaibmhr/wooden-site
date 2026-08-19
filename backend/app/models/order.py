@@ -33,6 +33,11 @@ class PaymentStatus(str, Enum):
     REFUNDED = "refunded"
 
 
+class PaymentMethod(str, Enum):
+    CASH_ON_DELIVERY = "cash_on_delivery"
+    BANK_TRANSFER = "bank_transfer"
+
+
 class Order(Base):
     __tablename__ = "orders"
 
@@ -44,14 +49,12 @@ class Order(Base):
         index=True,
     )
 
-    # Customer account abhi optional hai.
     user_id: Mapped[int | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"),
         nullable=True,
         index=True,
     )
 
-    # Order ke waqt customer details snapshot mein save hongi.
     customer_name: Mapped[str] = mapped_column(String(120))
     customer_email: Mapped[str] = mapped_column(String(255), index=True)
     customer_phone: Mapped[str] = mapped_column(String(30))
@@ -76,6 +79,15 @@ class Order(Base):
         SqlEnum(PaymentStatus, name="payment_status"),
         default=PaymentStatus.PENDING,
         index=True,
+    )
+    payment_method: Mapped[PaymentMethod] = mapped_column(
+        SqlEnum(PaymentMethod, name="payment_method"),
+        default=PaymentMethod.CASH_ON_DELIVERY,
+        index=True,
+    )
+    payment_reference: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
@@ -110,7 +122,6 @@ class OrderItem(Base):
         index=True,
     )
 
-    # Product ka historical snapshot.
     product_name: Mapped[str] = mapped_column(String(255))
     product_price: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     quantity: Mapped[int] = mapped_column(Integer)

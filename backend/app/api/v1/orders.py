@@ -5,10 +5,11 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
+from app.core.config import settings
 
 from app.api.deps import require_admin
 from app.db.session import get_db
-from app.models.order import Order, OrderItem
+from app.models.order import Order, OrderItem, OrderStatus
 from app.models.product import Product
 from app.models.user import User
 from app.schemas.order import (
@@ -16,6 +17,8 @@ from app.schemas.order import (
     OrderRead,
     OrderStatusUpdate,
     PaymentStatusUpdate,
+    OrderTrackingRequest,
+    OrderTrackingRead,
 )
 
 
@@ -23,6 +26,27 @@ router = APIRouter(
     prefix="/orders",
     tags=["Orders"],
 )
+
+
+ALLOWED_ORDER_STATUS_TRANSITIONS = {
+    OrderStatus.PENDING: {
+        OrderStatus.CONFIRMED,
+        OrderStatus.CANCELLED,
+    },
+    OrderStatus.CONFIRMED: {
+        OrderStatus.PROCESSING,
+        OrderStatus.CANCELLED,
+    },
+    OrderStatus.PROCESSING: {
+        OrderStatus.SHIPPED,
+        OrderStatus.CANCELLED,
+    },
+    OrderStatus.SHIPPED: {
+        OrderStatus.DELIVERED,
+    },
+    OrderStatus.DELIVERED: set(),
+    OrderStatus.CANCELLED: set(),
+}
 
 
 def order_query():
@@ -53,7 +77,6 @@ def generate_order_number(db: Session) -> str:
     )
 
 
-# Customer website: create an order
 @router.post(
     "/",
     response_model=OrderRead,
@@ -72,10 +95,12 @@ def create_order(
         )
 
     products = db.scalars(
-        select(Product).where(
+        select(Product)
+        .where(
             Product.id.in_(product_ids),
             Product.is_active.is_(True),
         )
+        .with_for_update()
     ).all()
 
     products_by_id = {
@@ -98,11 +123,38 @@ def create_order(
             ),
         )
 
+    insufficient_stock = []
+
+    for item_in in order_in.items:
+        product = products_by_id[item_in.product_id]
+
+        if product.stock_quantity < item_in.quantity:
+            insufficient_stock.append(
+                {
+                    "product_id": product.id,
+                    "product_name": product.name,
+                    "available": product.stock_quantity,
+                    "requested": item_in.quantity,
+                }
+            )
+
+    if insufficient_stock:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "message": "Some products do not have enough stock.",
+                "items": insufficient_stock,
+            },
+        )
+
     subtotal = Decimal("0.00")
     order_items = []
 
     for item_in in order_in.items:
         product = products_by_id[item_in.product_id]
+
+        product.stock_quantity -= item_in.quantity
+
         line_total = product.price * item_in.quantity
         subtotal += line_total
 
@@ -116,7 +168,13 @@ def create_order(
             )
         )
 
-    delivery_charge = Decimal("0.00")
+        delivery_charge = settings.DELIVERY_CHARGE
+
+    if (
+        settings.FREE_DELIVERY_MINIMUM > Decimal("0.00")
+        and subtotal >= settings.FREE_DELIVERY_MINIMUM
+    ):
+        delivery_charge = Decimal("0.00")
     total_amount = subtotal + delivery_charge
 
     order_data = order_in.model_dump(exclude={"items"})
@@ -140,9 +198,31 @@ def create_order(
     return db.scalar(
         order_query().where(Order.id == order.id)
     )
+@router.post(
+    "/track",
+    response_model=OrderTrackingRead,
+)
+def track_order(
+    tracking_in: OrderTrackingRequest,
+    db: Session = Depends(get_db),
+):
+    order = db.scalar(
+        order_query().where(
+            Order.order_number == tracking_in.order_number.strip().upper(),
+            Order.customer_email == tracking_in.customer_email.lower(),
+            Order.customer_phone == tracking_in.customer_phone.strip(),
+        )
+    )
+
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No order found with the provided details.",
+        )
+
+    return order
 
 
-# Admin dashboard: all orders
 @router.get(
     "/",
     response_model=list[OrderRead],
@@ -158,7 +238,6 @@ def list_orders(
     return db.scalars(query).unique().all()
 
 
-# Admin dashboard: one order with items
 @router.get(
     "/{order_id}",
     response_model=OrderRead,
@@ -181,7 +260,6 @@ def get_order(
     return order
 
 
-# Admin dashboard: order delivery status update
 @router.patch(
     "/{order_id}/status",
     response_model=OrderRead,
@@ -193,7 +271,9 @@ def update_order_status(
     current_user: User = Depends(require_admin),
 ):
     order = db.scalar(
-        order_query().where(Order.id == order_id)
+        order_query()
+        .where(Order.id == order_id)
+        .with_for_update()
     )
 
     if not order:
@@ -201,6 +281,53 @@ def update_order_status(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Order not found.",
         )
+
+    if order.status == status_in.status:
+        return order
+
+    allowed_next_statuses = ALLOWED_ORDER_STATUS_TRANSITIONS[
+        order.status
+    ]
+
+    if status_in.status not in allowed_next_statuses:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=(
+                f"Cannot change order status from "
+                f"'{order.status.value}' to "
+                f"'{status_in.status.value}'."
+            ),
+        )
+
+    # Cancel ke waqt reserved stock wapas product mein add hoga.
+    if status_in.status == OrderStatus.CANCELLED:
+        product_ids = [
+            item.product_id
+            for item in order.items
+            if item.product_id is not None
+        ]
+
+        if product_ids:
+            products = db.scalars(
+                select(Product)
+                .where(Product.id.in_(product_ids))
+                .order_by(Product.id)
+                .with_for_update()
+            ).all()
+
+            products_by_id = {
+                product.id: product
+                for product in products
+            }
+
+            for item in order.items:
+                if item.product_id is None:
+                    continue
+
+                product = products_by_id.get(item.product_id)
+
+                if product:
+                    product.stock_quantity += item.quantity
 
     order.status = status_in.status
 
@@ -210,7 +337,6 @@ def update_order_status(
     return order
 
 
-# Admin dashboard: payment status update
 @router.patch(
     "/{order_id}/payment-status",
     response_model=OrderRead,
