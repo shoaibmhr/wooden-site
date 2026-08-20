@@ -1,7 +1,9 @@
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, ShieldCheck, Sparkles } from "lucide-react";
 
 const WHATSAPP_NUMBER = "923027069093";
-const whatsappMessage = encodeURIComponent("Salam Ashtech Wooden! I have an inquiry about custom wooden furniture.");
+const whatsappMessage = encodeURIComponent(
+  "Salam Ashtech Wooden! I would like to inquire about showroom visit & custom woodcraft quotes."
+);
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
 function WhatsappIcon(props) {
@@ -13,59 +15,76 @@ function WhatsappIcon(props) {
 }
 
 const infoItems = [
-  { icon: MapPin, label: "Location", value: "Pakistan" },
-  { icon: Phone, label: "Phone", value: "+92-302-7069093", href: "tel:+923027069093" },
-  { icon: Mail, label: "Email", value: "info@ashtechwooden.com", href: "mailto:info@ashtechwooden.com" },
-  { icon: Clock, label: "Working Hours", value: "9:30 AM – 6:00 PM, Mon–Sat" },
+  { icon: MapPin, label: "Showroom & Workshop", value: "Ashtech Wooden Complex, Pakistan" },
+  { icon: Phone, label: "Phone Support", value: "+92 302 7069093", href: "tel:+923027069093" },
+  { icon: Mail, label: "Official Email", value: "info@ashtechwooden.com", href: "mailto:info@ashtechwooden.com" },
+  { icon: Clock, label: "Working Hours", value: "9:30 AM – 6:00 PM, Monday – Saturday" },
 ];
 
 export default function ContactInfo() {
   return (
-    <div className="flex h-full flex-col bg-[#faf1e0] p-6 sm:p-8 md:p-10">
-      <h2 className="text-xs font-bold uppercase tracking-widest text-amber-800">
-        Contact Details
-      </h2>
+    <div className="flex h-full flex-col justify-between bg-[#170e0a] p-6 sm:p-8 md:p-10 text-[#ecdfc4]">
+      <div>
+        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#d4af6a]">
+          Connect With Us
+        </span>
+        <h2 className="mt-1 font-serif text-2xl font-bold text-[#f7f0e2] sm:text-3xl">
+          Showroom & Workshop
+        </h2>
+        <p className="mt-2 text-xs sm:text-sm text-[#ecdfc4]/80 leading-relaxed">
+          Visit our showroom or schedule an on-site architectural measurement session with our master craftsmen.
+        </p>
 
-      <ul className="mt-5 flex-1 space-y-5">
-        {infoItems.map((item) => {
-          const Icon = item.icon;
-          const content = (
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-amber-900">
-                <Icon className="h-5 w-5" strokeWidth={1.75} />
+        <ul className="mt-8 space-y-6">
+          {infoItems.map((item) => {
+            const Icon = item.icon;
+            const content = (
+              <div className="flex items-start gap-3.5 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2b1710] text-[#d4af6a] ring-1 ring-[#d4af6a]/30 group-hover:bg-[#d4af6a] group-hover:text-[#170e0a] transition-all duration-300">
+                  <Icon className="h-5 w-5" strokeWidth={1.75} />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#d4af6a]">
+                    {item.label}
+                  </p>
+                  <p className="mt-0.5 text-xs sm:text-sm font-medium text-[#f0d9a8]">
+                    {item.value}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs text-neutral-500">{item.label}</p>
-                <p className="text-sm font-medium text-neutral-900 sm:text-base">
-                  {item.value}
-                </p>
-              </div>
-            </div>
-          );
+            );
 
-          return (
-            <li key={item.label}>
-              {item.href ? (
-                <a href={item.href} className="transition-opacity hover:opacity-70">
-                  {content}
-                </a>
-              ) : (
-                content
-              )}
-            </li>
-          );
-        })}
-      </ul>
+            return (
+              <li key={item.label}>
+                {item.href ? (
+                  <a href={item.href} className="transition-opacity hover:opacity-85">
+                    {content}
+                  </a>
+                ) : (
+                  content
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
-      <a
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-8 inline-flex w-full items-center justify-center gap-2.5 bg-[#25D366] px-6 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#1ea952] sm:w-auto"
-      >
-        <WhatsappIcon className="h-5 w-5" />
-        Chat on WhatsApp
-      </a>
+      <div className="mt-8 pt-6 border-t border-[#d4af6a]/20">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:bg-emerald-500"
+        >
+          <WhatsappIcon className="h-4 w-4 shrink-0" />
+          <span>Instant WhatsApp Chat</span>
+        </a>
+
+        <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[#ecdfc4]/70">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#d4af6a]" />
+          <span>Turnkey Installation & Site Measurements</span>
+        </div>
+      </div>
     </div>
   );
 }

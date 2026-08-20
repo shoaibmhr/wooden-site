@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
+import About from "../pages/About";
 import Products from "../pages/Products";
 import ProductDetail from "../pages/ProductDetail";
 import Cart from "../pages/Cart";
@@ -15,6 +16,7 @@ import Checkout from "../pages/Checkout";
 import TrackOrder from "../pages/TrackOrder";
 import ScrollToTop from "../components/common/ScrollToTop";
 import GetQuote from "../pages/GetQuote";
+import FloatingWhatsApp from "../components/common/FloatingWhatsApp";
 
 export default function WebsiteRoutes() {
   return (
@@ -23,6 +25,7 @@ export default function WebsiteRoutes() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/category/:categorySlug" element={<CategoryPage />} />
@@ -38,6 +41,7 @@ export default function WebsiteRoutes() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      <FloatingWhatsApp />
     </>
   );
 }

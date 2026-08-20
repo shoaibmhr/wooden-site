@@ -6,11 +6,11 @@ import SearchOverlay from "../common/SearchOverlay";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
+  { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Showcase", href: "/products" },
   { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
-  { label: "FAQs", href: "/faqs" },
 ];
 
 const tickerItems = [

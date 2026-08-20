@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { Star, Heart, ShoppingCart, Minus, Plus, Ruler, Sparkles } from "lucide-react";
+import { Ruler, Sparkles, ArrowRight, ShieldCheck, Hammer, CheckCircle2 } from "lucide-react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import { getProductBySlug } from "../../services/api";
 import { products as fallbackProducts } from "../data/products.data";
-import { useCart, useWishlist } from "../../store/hooks";
-import { useToast } from "../components/common/Toast";
 
 // WhatsApp Business Number for Ashtech Wooden
 const WHATSAPP_NUMBER = "923027069093";
@@ -19,10 +17,6 @@ function WhatsappIcon(props) {
   );
 }
 
-function formatPrice(value) {
-  return `PKR ${Number(value).toLocaleString("en-PK")}`;
-}
-
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(
@@ -30,18 +24,13 @@ export default function ProductDetail() {
   );
 
   const [activeImage, setActiveImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
 
   // Custom Dimensions & Customization State
   const [customLength, setCustomLength] = useState("");
   const [customWidth, setCustomWidth] = useState("");
   const [customUnit, setCustomUnit] = useState("Feet");
-  const [customPolish, setCustomPolish] = useState("Natural Teak");
+  const [customPolish, setCustomPolish] = useState("Natural Teak Finish");
   const [customNotes, setCustomNotes] = useState("");
-
-  const { addToCart } = useCart();
-  const { toggleWishlist, isInWishlist } = useWishlist();
-  const { showToast } = useToast();
 
   useEffect(() => {
     let isMounted = true;
@@ -61,12 +50,6 @@ export default function ProductDetail() {
     return <Navigate to="/products" replace />;
   }
 
-  const discountPercent = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100,
-      )
-    : null;
-  const inWishlist = isInWishlist(product.id);
   const gallery =
     product.images && product.images.length > 0
       ? product.images
@@ -74,24 +57,21 @@ export default function ProductDetail() {
 
   const currentImage = gallery[activeImage] || product.image;
   
-  // Resolve absolute image URL for WhatsApp card preview
   const absoluteImageUrl = currentImage?.startsWith("http")
     ? currentImage
     : `${window.location.origin}${currentImage?.startsWith("/") ? "" : "/"}${currentImage || ""}`;
 
   const currentProductUrl = window.location.href;
 
-  // Build high-converting, professional WhatsApp custom order message
   const buildWhatsAppMessage = () => {
-    let message = `🪵 *CUSTOM WOODEN ORDER - ASHTECH WOODEN* 🪵\n`;
+    let message = `🪵 *CUSTOM WOODWORK INQUIRY - ASHTECH WOODEN* 🪵\n`;
     message += `-----------------------------------------------\n`;
-    message += `📦 *Product:* ${product.name}\n`;
+    message += `📦 *Design:* ${product.name}\n`;
     if (product.category) message += `🏷️ *Category:* ${product.category}\n`;
-    message += `💰 *Catalog Price:* ${formatPrice(product.price)}\n`;
-    message += `🖼️ *Product Image:* ${absoluteImageUrl}\n`;
-    message += `🔗 *Product Link:* ${currentProductUrl}\n`;
+    message += `🖼️ *Photo:* ${absoluteImageUrl}\n`;
+    message += `🔗 *Link:* ${currentProductUrl}\n`;
     message += `-----------------------------------------------\n`;
-    message += `📏 *CUSTOM MEASUREMENTS & REQUIREMENTS:*\n`;
+    message += `📏 *CUSTOM SPECIFICATIONS & DIMENSIONS:*\n`;
     
     if (customLength) {
       message += `• *Length:* ${customLength} ${customUnit}\n`;
@@ -106,68 +86,53 @@ export default function ProductDetail() {
     }
 
     if (customPolish) {
-      message += `• *Polish/Finish:* ${customPolish}\n`;
+      message += `• *Timber Finish:* ${customPolish}\n`;
     }
 
     if (customNotes.trim()) {
-      message += `• *Special Request:* ${customNotes.trim()}\n`;
+      message += `• *Custom Request:* ${customNotes.trim()}\n`;
     }
 
-    message += `• *Quantity:* ${quantity}\n`;
     message += `-----------------------------------------------\n`;
-    message += `Salam Ashtech Wooden! Mujhe ye product apne custom size ke mutabiq ready karwana hai. Kindly image aur dimensions check kar ke final price quote aur delivery time share karein.`;
+    message += `Salam Ashtech Wooden! Mujhe ye project apne room / villa ke custom size ke mutabiq ready karwana hai. Kindly image aur dimensions check kar ke estimated price quote aur delivery time share karein.`;
 
     return encodeURIComponent(message);
   };
 
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMessage()}`;
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) addToCart(product);
-    showToast(`${product.name} added to cart`);
-  };
-
-  const handleToggleWishlist = () => {
-    toggleWishlist(product);
-    showToast(
-      inWishlist
-        ? `${product.name} removed from wishlist`
-        : `${product.name} added to wishlist`,
-    );
-  };
-
   return (
-    <section className="w-full bg-white py-8 sm:py-10 md:py-12">
+    <section className="w-full bg-[#faf6ef] py-10 sm:py-12 md:py-16">
       <Container>
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
-            { label: "Products", href: "/products" },
+            { label: "Showcase", href: "/products" },
             { label: product.name, href: product.href },
           ]}
         />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Image gallery */}
           <div>
-            <div className="aspect-square w-full overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 shadow-sm">
+            <div className="aspect-[4/3] sm:aspect-square w-full overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-xl">
               <img
                 src={currentImage}
                 alt={product.name}
-                className="h-full w-full object-cover transition-all duration-300"
+                className="h-full w-full object-cover transition-all duration-500"
               />
             </div>
             {gallery.length > 1 && (
-              <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+              <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
                 {gallery.map((img, index) => (
                   <button
                     key={img}
                     type="button"
                     onClick={() => setActiveImage(index)}
-                    className={`h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
+                    className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
                       activeImage === index
-                        ? "border-[#5c1f1f] ring-2 ring-[#5c1f1f]/20"
-                        : "border-transparent hover:border-neutral-300"
+                        ? "border-[#2b1710] ring-2 ring-[#d4af6a]"
+                        : "border-transparent opacity-70 hover:opacity-100"
                     }`}
                   >
                     <img
@@ -183,79 +148,65 @@ export default function ProductDetail() {
 
           {/* Product info */}
           <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-amber-800">
-              {product.category}
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
+              {product.category || "Bespoke Woodcraft"}
             </span>
-            <h1 className="mt-2 text-2xl font-bold leading-snug text-neutral-900 sm:text-3xl">
+            <h1 className="mt-2 font-serif text-3xl font-bold leading-tight text-[#2b1710] sm:text-4xl">
               {product.name}
             </h1>
 
-            <div className="mt-3 flex items-center gap-1.5">
-              <Star
-                className="h-4 w-4 text-amber-500"
-                fill="currentColor"
-                strokeWidth={0}
-              />
-              <span className="text-sm font-medium text-neutral-700">
-                {product.rating}
-              </span>
-              <span className="text-sm text-neutral-400">
-                ({product.reviews} reviews)
+            <div className="mt-4 flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-md border border-emerald-300">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700" />
+                Custom Size & Timber Finish Available
               </span>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-baseline gap-x-3">
-              <span className="text-2xl font-bold text-neutral-900 sm:text-3xl">
-                {formatPrice(product.price)}
-              </span>
-              {product.originalPrice && (
-                <>
-                  <span className="text-base text-neutral-400 line-through">
-                    {formatPrice(product.originalPrice)}
-                  </span>
-                  <span className="rounded bg-[#5c1f1f] px-2 py-1 text-xs font-semibold text-white">
-                    {discountPercent}% Off
-                  </span>
-                </>
-              )}
+            <div className="mt-5 rounded-lg bg-[#2b1710]/5 border border-[#ecdfc4] p-4">
+              <p className="text-xs uppercase tracking-widest font-semibold text-[#b8863f]">
+                Price Quote Policy
+              </p>
+              <p className="mt-1 text-sm font-serif font-bold text-[#2b1710]">
+                Price Available Upon Dimension & Wood Species Selection
+              </p>
+              <p className="mt-1 text-xs text-neutral-600">
+                Since every piece is custom handcrafted for your space, final price depends on dimensions, timber species (Teak, Sheesham, Oak), and polish complexity.
+              </p>
             </div>
 
-            <p className="mt-4 text-sm leading-relaxed text-neutral-600 sm:text-base">
+            <p className="mt-5 text-sm leading-relaxed text-[#5c4a3b] sm:text-base">
               {product.description}
             </p>
 
-            {/* ========================================================
-                CUSTOM SIZE & WHATSAPP ORDER SECTION
-                User can fill length, width, polish & send directly
-            ========================================================= */}
-            <div className="mt-6 rounded-xl border-2 border-emerald-100 bg-[#f4fcf6] p-4 sm:p-5 shadow-sm">
-              <div className="flex items-center gap-2 text-emerald-800">
-                <Ruler className="h-5 w-5 text-emerald-600" />
-                <h3 className="text-sm font-bold uppercase tracking-wider">
-                  Custom Size & Direct WhatsApp Order
+            {/* Custom Sizing & Direct WhatsApp Inquiry Box */}
+            <div className="mt-8 rounded-2xl border-2 border-[#d4af6a]/40 bg-white p-5 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="flex items-center gap-2.5 text-[#2b1710]">
+                <Ruler className="h-5 w-5 text-[#b8863f]" />
+                <h3 className="font-serif text-base font-bold uppercase tracking-wider">
+                  Select Custom Dimensions & Polish
                 </h3>
               </div>
               <p className="mt-1 text-xs text-neutral-600">
-                Enter your required dimensions below, or click directly to discuss size & polish with our craftsman on WhatsApp.
+                Enter your exact room dimensions below to send a direct inquiry to our master craftsman on WhatsApp:
               </p>
 
-              {/* Length, Width and Unit Inputs */}
-              <div className="mt-3.5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {/* Length, Width & Unit */}
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-neutral-700">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
                     Length
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. 6"
+                    placeholder="e.g. 7"
                     value={customLength}
                     onChange={(e) => setCustomLength(e.target.value)}
-                    className="mt-1 w-full rounded border border-neutral-300 bg-white px-2.5 py-1.5 text-xs text-neutral-800 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-neutral-700">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
                     Width
                   </label>
                   <input
@@ -263,18 +214,18 @@ export default function ProductDetail() {
                     placeholder="e.g. 3.5"
                     value={customWidth}
                     onChange={(e) => setCustomWidth(e.target.value)}
-                    className="mt-1 w-full rounded border border-neutral-300 bg-white px-2.5 py-1.5 text-xs text-neutral-800 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
                   />
                 </div>
 
                 <div className="col-span-2 sm:col-span-1">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-neutral-700">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
                     Unit
                   </label>
                   <select
                     value={customUnit}
                     onChange={(e) => setCustomUnit(e.target.value)}
-                    className="mt-1 w-full rounded border border-neutral-300 bg-white px-2.5 py-1.5 text-xs text-neutral-800 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
                   >
                     <option value="Feet">Feet (ft)</option>
                     <option value="Inches">Inches (in)</option>
@@ -284,114 +235,73 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Polish / Finish Selection */}
-              <div className="mt-3">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-neutral-700">
-                  Polish / Finish Preference
+              {/* Polish Finish Selection */}
+              <div className="mt-3.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+                  Timber Polish / Finish Selection
                 </label>
                 <select
                   value={customPolish}
                   onChange={(e) => setCustomPolish(e.target.value)}
-                  className="mt-1 w-full rounded border border-neutral-300 bg-white px-2.5 py-1.5 text-xs text-neutral-800 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                  className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
                 >
-                  <option value="Natural Teak Finish">Natural Teak Finish</option>
+                  <option value="Natural Teak Finish">Natural Teak Polish</option>
                   <option value="Dark Walnut Polish">Dark Walnut Polish</option>
                   <option value="Sheesham Honey Finish">Sheesham Honey Finish</option>
                   <option value="Matt Black Modern">Matt Black Modern</option>
                   <option value="High Gloss Lacquer">High Gloss Lacquer</option>
-                  <option value="Raw Unpolished Wood">Raw Unpolished Wood</option>
+                  <option value="Raw Seasoned Hardwood">Raw Seasoned Hardwood</option>
                 </select>
               </div>
 
               {/* Special Note */}
-              <div className="mt-2.5">
+              <div className="mt-3">
                 <input
                   type="text"
-                  placeholder="Additional note (e.g. storage drawers, carved border)"
+                  placeholder="Special instructions (e.g. carved border, glass fittings)"
                   value={customNotes}
                   onChange={(e) => setCustomNotes(e.target.value)}
-                  className="w-full rounded border border-neutral-300 bg-white px-2.5 py-1.5 text-xs text-neutral-800 focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                  className="w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
                 />
               </div>
 
-              {/* Main WhatsApp CTA Button */}
+              {/* Hero Action Buttons — Single line WhatsApp */}
               <a
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-lg bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-[#1ea952] hover:shadow-lg active:scale-[0.99]"
+                className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:from-emerald-500 hover:to-emerald-400 hover:shadow-xl active:scale-[0.99]"
               >
                 <WhatsappIcon className="h-5 w-5 shrink-0" />
-                <span>Order on WhatsApp with Custom Size</span>
+                <span>Inquire on WhatsApp</span>
               </a>
 
-              <div className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-emerald-800">
-                <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
-                <span>Product image & dimensions will be sent to WhatsApp automatically</span>
-              </div>
+              <Link
+                to="/get-quote"
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#2b1710] bg-[#2b1710] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] transition-colors hover:bg-[#3e2723]"
+              >
+                <span>Request Formal PDF Quote</span>
+                <ArrowRight className="h-4 w-4 text-[#d4af6a]" />
+              </Link>
             </div>
 
-            {/* Standard Cart & Checkout Actions */}
-            <div className="mt-6 border-t border-neutral-200 pt-6">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center border border-neutral-300 rounded">
-                  <button
-                    type="button"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    aria-label="Decrease quantity"
-                    className="flex h-11 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-50"
-                  >
-                    <Minus className="h-4 w-4" strokeWidth={1.75} />
-                  </button>
-                  <span className="flex h-11 w-12 items-center justify-center text-sm font-medium text-neutral-900">
-                    {quantity}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setQuantity((q) => q + 1)}
-                    aria-label="Increase quantity"
-                    className="flex h-11 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-50"
-                  >
-                    <Plus className="h-4 w-4" strokeWidth={1.75} />
-                  </button>
+            {/* Quality Badges */}
+            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-[#ecdfc4] pt-6">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck className="h-5 w-5 text-[#b8863f]" />
+                <div>
+                  <h4 className="text-xs font-bold text-[#2b1710]">Seasoned Timber</h4>
+                  <p className="text-[10px] text-neutral-500">Kiln-dried & termite treated</p>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={handleAddToCart}
-                  className="flex flex-1 items-center justify-center gap-2 rounded bg-[#5c1f1f] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors duration-300 hover:bg-[#732929]"
-                >
-                  <ShoppingCart className="h-4 w-4" strokeWidth={1.75} />
-                  Add to Cart
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleToggleWishlist}
-                  aria-label={
-                    inWishlist ? "Remove from wishlist" : "Add to wishlist"
-                  }
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded border transition-colors duration-200 ${
-                    inWishlist
-                      ? "border-[#5c1f1f] bg-[#5c1f1f] text-white"
-                      : "border-neutral-300 text-neutral-700 hover:border-[#5c1f1f] hover:text-[#5c1f1f]"
-                  }`}
-                >
-                  <Heart
-                    className="h-5 w-5"
-                    strokeWidth={1.75}
-                    fill={inWishlist ? "currentColor" : "none"}
-                  />
-                </button>
               </div>
 
-              {/* Proceed to Cart/Checkout */}
-              <Link
-                to="/cart"
-                className="mt-3 flex w-full items-center justify-center rounded border border-[#5c1f1f] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-[#5c1f1f] transition-all duration-300 hover:bg-[#5c1f1f] hover:text-white"
-              >
-                View Cart & Checkout
-              </Link>
+              <div className="flex items-center gap-2.5">
+                <Hammer className="h-5 w-5 text-[#b8863f]" />
+                <div>
+                  <h4 className="text-xs font-bold text-[#2b1710]">Turnkey Fitting</h4>
+                  <p className="text-[10px] text-neutral-500">Site measurement & installation</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -399,4 +309,3 @@ export default function ProductDetail() {
     </section>
   );
 }
-

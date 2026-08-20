@@ -7,7 +7,6 @@ import FilterPanel from "../components/products/FilterPanel";
 import MobileFilterDrawer from "../components/products/MobileFilterDrawer";
 import ProductToolbar from "../components/products/ProductToolbar";
 import ProductResultsGrid from "../components/products/ProductResultsGrid";
-import FilterChips from "../components/products/FilterChips";
 import SearchBar from "../components/products/SearchBar";
 import Pagination from "../components/products/Pagination";
 import { getProducts } from "../../services/api";
@@ -18,10 +17,9 @@ const ITEMS_PER_PAGE = 6;
 export default function Products() {
   const location = useLocation();
   const [productList, setProductList] = useState(() => fallbackProducts);
- const [selectedCategories, setSelectedCategories] = useState(() =>
-   location.state?.presetCategory ? [location.state.presetCategory] : [],
- );
-  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+  const [selectedCategories, setSelectedCategories] = useState(() =>
+    location.state?.presetCategory ? [location.state.presetCategory] : [],
+  );
   const [searchQuery, setSearchQuery] = useState(
     location.state?.searchQuery || "",
   );
@@ -50,7 +48,6 @@ export default function Products() {
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
-    setPriceRange({ min: "", max: "" });
     setSearchQuery("");
   };
 
@@ -60,12 +57,6 @@ export default function Products() {
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
-    if (priceRange.min !== "") {
-      result = result.filter((p) => p.price >= Number(priceRange.min));
-    }
-    if (priceRange.max !== "") {
-      result = result.filter((p) => p.price <= Number(priceRange.max));
-    }
     if (searchQuery.trim() !== "") {
       result = result.filter((p) =>
         p.name.toLowerCase().includes(searchQuery.trim().toLowerCase()),
@@ -73,17 +64,13 @@ export default function Products() {
     }
 
     result = [...result];
-    if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
-    if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
     if (sortBy === "rating") result.sort((a, b) => b.rating - a.rating);
 
     return result;
-  }, [productList, selectedCategories, priceRange, searchQuery, sortBy]);
+  }, [productList, selectedCategories, searchQuery, sortBy]);
 
-  // Reset to page 1 whenever filters/sort/search change
   const filtersKey = JSON.stringify({
     selectedCategories,
-    priceRange,
     searchQuery,
     sortBy,
   });
@@ -108,30 +95,33 @@ export default function Products() {
     <div>
       <PageHero
         image="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"
-        title="Our Products"
+        title="Craftsmanship Showcase Catalog"
         breadcrumb={[
           { label: "Home", href: "/" },
-          { label: "Products", href: "/product" },
+          { label: "Showcase", href: "/products" },
         ]}
       />
 
-      <section className="w-full bg-white py-8 sm:py-10 md:py-12">
+      <section className="w-full bg-[#faf6ef] py-10 sm:py-12 md:py-16">
         <Container>
           <Breadcrumbs
             items={[
               { label: "Home", href: "/" },
-              { label: "Products", href: "/products" },
+              { label: "Showcase", href: "/products" },
             ]}
           />
 
           <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl">
-                All Products
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
+                Handcrafted Portfolio
+              </span>
+              <h1 className="font-serif text-2xl font-bold tracking-wide text-[#2b1710] sm:text-3xl">
+                Woodwork & Furniture Designs
               </h1>
-              <p className="mt-2 text-sm text-neutral-600 sm:text-base">
-                {filteredProducts.length}{" "}
-                {filteredProducts.length === 1 ? "product" : "products"} found
+              <p className="mt-1 text-xs sm:text-sm text-neutral-600">
+                Displaying {filteredProducts.length}{" "}
+                {filteredProducts.length === 1 ? "design" : "custom designs"}
               </p>
             </div>
 
@@ -139,13 +129,11 @@ export default function Products() {
           </div>
 
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* Sidebar — desktop only */}
-            <aside className="hidden w-56 shrink-0 lg:block">
+            {/* Sidebar — desktop */}
+            <aside className="hidden w-60 shrink-0 lg:block">
               <FilterPanel
                 selectedCategories={selectedCategories}
                 onToggleCategory={toggleCategory}
-                priceRange={priceRange}
-                onPriceChange={setPriceRange}
                 onClear={clearAllFilters}
               />
             </aside>
@@ -153,21 +141,9 @@ export default function Products() {
             <div className="flex-1">
               <ProductToolbar
                 onOpenFilters={() => setIsFilterOpen(true)}
-                activeFilterCount={
-                  selectedCategories.length +
-                  (priceRange.min || priceRange.max ? 1 : 0)
-                }
+                activeFilterCount={selectedCategories.length}
                 sortBy={sortBy}
                 onSortChange={setSortBy}
-              />
-
-              <FilterChips
-                selectedCategories={selectedCategories}
-                onRemoveCategory={toggleCategory}
-                priceRange={priceRange}
-                onClearPrice={() => setPriceRange({ min: "", max: "" })}
-                searchQuery={searchQuery}
-                onClearSearch={() => setSearchQuery("")}
               />
 
               <ProductResultsGrid
@@ -190,8 +166,6 @@ export default function Products() {
         onClose={() => setIsFilterOpen(false)}
         selectedCategories={selectedCategories}
         onToggleCategory={toggleCategory}
-        priceRange={priceRange}
-        onPriceChange={setPriceRange}
         onClear={clearAllFilters}
         resultCount={filteredProducts.length}
       />

@@ -1,8 +1,7 @@
 export const sortOptions = [
-  { value: "featured", label: "Featured" },
-  { value: "price-low", label: "Price: Low to High" },
-  { value: "price-high", label: "Price: High to Low" },
-  { value: "rating", label: "Highest Rated" },
+  { value: "featured", label: "Featured Showcase" },
+  { value: "rating", label: "Highest Rated Projects" },
+  { value: "newest", label: "Latest Custom Designs" },
 ];
 
 export const categoryMeta = {

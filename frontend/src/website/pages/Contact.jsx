@@ -6,21 +6,25 @@ import Container from "../components/common/Container";
 
 export default function Contact() {
   return (
-    <div>
+    <div className="bg-[#faf6ef] min-h-screen">
       <PageHero
         image="https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=1600&q=80"
-        title="Contact Us"
+        title="Contact & Showroom"
         breadcrumb={[
           { label: "Home", href: "/" },
-          { label: "Contact", href: "/contact" },
+          { label: "Contact Us", href: "/contact" },
         ]}
       />
 
-      <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+      <section className="w-full py-12 sm:py-16 md:py-20">
         <Container>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-neutral-200 overflow-hidden rounded-xl border border-neutral-200 shadow-sm md:grid-cols-2 md:divide-x md:divide-y-0">
-            <ContactInfo />
-            <ContactForm />
+          <div className="mx-auto grid max-w-6xl grid-cols-1 overflow-hidden rounded-3xl border border-[#ecdfc4] bg-white shadow-2xl lg:grid-cols-12">
+            <div className="lg:col-span-5">
+              <ContactInfo />
+            </div>
+            <div className="lg:col-span-7">
+              <ContactForm />
+            </div>
           </div>
         </Container>
       </section>

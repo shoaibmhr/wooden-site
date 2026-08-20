@@ -4,8 +4,17 @@ import Container from "../common/Container";
 import ProductCard from "../common/ProductCard";
 import { getProducts } from "../../../services/api";
 import { products as fallbackProducts } from "../../data/products.data";
+import { ArrowRight } from "lucide-react";
 
-const WHATSAPP_NUMBER = "13103268940"; // from your navbar's (310) 326-8940 — change if different
+const WHATSAPP_NUMBER = "923027069093";
+
+function WhatsappIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M20 3.9A10 10 0 0 0 3.6 16.4L2 22l5.7-1.5A10 10 0 1 0 20 3.9Zm-8 16.6a8.4 8.4 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3A8.5 8.5 0 1 1 12 20.5Zm4.6-6.4c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.2.2-.3.2-.5.1a6.9 6.9 0 0 1-3.5-3c-.3-.4.3-.4.7-1.3.1-.2 0-.4 0-.5L8.6 7.3c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.6 1.1 2.8c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3Z" />
+    </svg>
+  );
+}
 
 export default function FeaturedProducts() {
   const [featured, setFeatured] = useState(() => fallbackProducts.slice(0, 6));
@@ -22,57 +31,50 @@ export default function FeaturedProducts() {
     };
   }, []);
 
-  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    "Hi, I'd like to get a quote for a wooden window/door from Restoration Sash & Door."
-  )}`;
+  const waMsg = encodeURIComponent(
+    "Salam Ashtech Wooden! Mujhe custom furniture aur interior doors ke quotes chahiye."
+  );
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
 
   return (
-    <section className="w-full bg-[#F5EFE6] py-14 sm:py-16 md:py-20">
+    <section className="w-full bg-[#faf6ef] py-14 sm:py-16 md:py-20 border-t border-[#ecdfc4]">
       <Container>
         <div className="mb-10 text-center sm:mb-12 md:mb-14">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C9A227]">
-            Handcrafted in Los Angeles
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
+            Handcrafted Woodwork Showcase
           </span>
-          <h2 className="mt-3 font-serif text-2xl text-[#7A1F2B] sm:text-3xl md:text-4xl">
-            Our Featured Work
+          <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-bold text-[#2b1710]">
+            Featured Architectural Designs
           </h2>
-          <div className="mx-auto mt-4 h-[2px] w-16 bg-[#C9A227]" />
-          <p className="mx-auto mt-4 max-w-xl text-sm text-neutral-600 sm:text-base">
-            A look at the wooden windows and doors our craftsmen have built for
-            homes across Southern California.
+          <div className="mx-auto mt-4 h-0.5 w-20 bg-[#d4af6a]" />
+          <p className="mx-auto mt-4 max-w-xl text-xs sm:text-sm text-neutral-600">
+            A glance at custom doors, luxury dining, bed sets, and interior wood paneling crafted for our clients.
           </p>
         </div>
 
-        {/* Grid & click-through logic unchanged */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:mt-14 sm:flex-row sm:gap-6">
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:mt-14 sm:flex-row sm:gap-5">
           <Link
             to="/products"
-            className="inline-flex items-center border border-[#7A1F2B] px-8 py-3 text-xs font-semibold uppercase tracking-widest text-[#7A1F2B] transition-all duration-300 hover:bg-[#7A1F2B] hover:text-white sm:px-10 sm:py-3.5 sm:text-sm"
+            className="flex items-center justify-center gap-2 rounded-lg bg-[#2b1710] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-[0.12em] text-[#f0d9a8] shadow-md transition-all duration-300 hover:bg-[#3e2723]"
           >
-            View All Our Work
+            <span>Explore Full Showcase</span>
+            <ArrowRight className="h-4 w-4 text-[#d4af6a]" />
           </Link>
 
-          
-           <a href={whatsappHref}
+          <a
+            href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#25D366] px-8 py-3 text-xs font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#1DA851] sm:px-10 sm:py-3.5 sm:text-sm"
+            className="flex items-center justify-center gap-2.5 rounded-lg bg-emerald-600 px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all duration-300 hover:bg-emerald-500"
           >
-            <svg
-              className="h-4 w-4"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.29-1.39a9.87 9.87 0 0 0 4.7 1.2h.01c5.46 0 9.9-4.45 9.9-9.9 0-2.65-1.03-5.13-2.9-7-1.87-1.87-4.35-2.91-7.01-2.91zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.53 3.68-8.21 8.22-8.21 2.19 0 4.25.86 5.8 2.4a8.16 8.16 0 0 1 2.4 5.81c0 4.53-3.69 8.25-8.17 8.25zm4.48-6.13c-.25-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.55.12-.16.24-.63.79-.77.95-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.22-1.46-1.37-1.7-.14-.24-.02-.37.11-.49.11-.11.25-.28.37-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28z" />
-            </svg>
-            Message Us on WhatsApp
+            <WhatsappIcon className="h-4 w-4 shrink-0" />
+            <span>Consult Master Craftsman</span>
           </a>
         </div>
       </Container>
