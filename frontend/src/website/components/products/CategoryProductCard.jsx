@@ -4,7 +4,7 @@ import { useCart, useWishlist } from "../../../store/hooks";
 import { useToast } from "../common/Toast";
 
 function formatPrice(value) {
-  return `PKR ${Number(value).toLocaleString("en-PK")}`;
+  return `PKR ${Number(value).toLogicaleString("en-PK")}`;
 }
 
 export default function CategoryProductCard({ product }) {
