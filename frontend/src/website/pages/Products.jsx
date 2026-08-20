@@ -18,7 +18,9 @@ const ITEMS_PER_PAGE = 6;
 export default function Products() {
   const location = useLocation();
   const [productList, setProductList] = useState(() => fallbackProducts);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+ const [selectedCategories, setSelectedCategories] = useState(() =>
+   location.state?.presetCategory ? [location.state.presetCategory] : [],
+ );
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [searchQuery, setSearchQuery] = useState(
     location.state?.searchQuery || "",

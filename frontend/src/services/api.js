@@ -447,3 +447,60 @@ export async function trackOrder(orderData) {
 
   return await res.json();
 }
+export async function createCategory(categoryData) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/categories/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(categoryData),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Failed to create category");
+  }
+
+  return await res.json();
+}
+
+export async function updateCategory(categoryId, categoryData) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/categories/${categoryId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(categoryData),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Failed to update category");
+  }
+
+  return await res.json();
+}
+
+export async function deactivateCategory(categoryId) {
+  const token = localStorage.getItem("admin_token");
+
+  const res = await fetch(`${API_BASE_URL}/categories/${categoryId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Failed to deactivate category");
+  }
+
+  return true;
+}
