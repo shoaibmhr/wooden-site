@@ -24,7 +24,7 @@ export default function Header({ setIsOpen }) {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-stone-200 bg-white/95 px-4 backdrop-blur-md sm:px-6 shadow-xs">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-stone-200 bg-white/95 px-4 py-3 backdrop-blur-md sm:px-6 shadow-xs">
       <div className="flex items-center gap-3">
         <button
           onClick={() => setIsOpen(true)}

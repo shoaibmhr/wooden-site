@@ -36,6 +36,7 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
   const [categories, setCategories] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [uploadMode, setUploadMode] = useState("url");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -64,6 +65,19 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
     setFormData(initialFormData);
     setErrorMsg("");
     onClose();
+  };
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((currentData) => ({
+        ...currentData,
+        primary_image_url: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (event) => {
@@ -169,7 +183,10 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
 
             {formData.name && (
               <p className="mt-1 text-[10px] text-stone-500 font-mono">
-                Live URL Slug: <span className="text-amber-800 font-semibold">/{createSlug(formData.name)}</span>
+                Live URL Slug:{" "}
+                <span className="text-amber-800 font-semibold">
+                  /{createSlug(formData.name)}
+                </span>
               </p>
             )}
           </div>
@@ -282,21 +299,60 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
 
           <div>
             <label className="block text-xs font-semibold text-stone-700">
-              Primary Image URL *
+              Primary Image *
             </label>
 
-            <div className="relative mt-1.5">
-              <ImageIcon className="absolute left-3.5 top-3 h-4 w-4 text-stone-400" />
-              <input
-                type="url"
-                name="primary_image_url"
-                required
-                value={formData.primary_image_url}
-                onChange={handleChange}
-                placeholder="https://example.com/furniture-image.jpg"
-                className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 pl-10 pr-3.5 text-xs text-stone-900 placeholder-stone-400 focus:bg-white focus:border-amber-800 outline-none transition-all"
-              />
+            <div className="mt-1.5 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setUploadMode("url")}
+                className={`flex-1 rounded-xl border py-2 text-xs font-semibold transition-all ${
+                  uploadMode === "url"
+                    ? "border-amber-800 bg-amber-50 text-amber-900"
+                    : "border-stone-300 bg-stone-50/60 text-stone-500"
+                }`}
+              >
+                Image URL
+              </button>
+              <button
+                type="button"
+                onClick={() => setUploadMode("file")}
+                className={`flex-1 rounded-xl border py-2 text-xs font-semibold transition-all ${
+                  uploadMode === "file"
+                    ? "border-amber-800 bg-amber-50 text-amber-900"
+                    : "border-stone-300 bg-stone-50/60 text-stone-500"
+                }`}
+              >
+                Upload from Device
+              </button>
             </div>
+
+            {uploadMode === "url" ? (
+              <div className="relative mt-2.5">
+                <ImageIcon className="absolute left-3.5 top-3 h-4 w-4 text-stone-400" />
+                <input
+                  type="url"
+                  name="primary_image_url"
+                  required
+                  value={formData.primary_image_url}
+                  onChange={handleChange}
+                  placeholder="https://example.com/furniture-image.jpg"
+                  className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 pl-10 pr-3.5 text-xs text-stone-900 placeholder-stone-400 focus:bg-white focus:border-amber-800 outline-none transition-all"
+                />
+              </div>
+            ) : (
+              <div className="relative mt-2.5">
+                <input
+                  type="file"
+                  accept="image/*"
+                  required={
+                    uploadMode === "file" && !formData.primary_image_url
+                  }
+                  onChange={handleFileChange}
+                  className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 px-3.5 text-xs text-stone-900 file:mr-3 file:rounded-lg file:border-0 file:bg-amber-900 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white outline-none transition-all"
+                />
+              </div>
+            )}
 
             {formData.primary_image_url && (
               <div className="mt-2.5 flex items-center gap-3 rounded-xl border border-stone-200 bg-[#faf6ee] p-2.5">
@@ -312,9 +368,14 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
                 </div>
                 <div className="text-[11px] text-stone-600 truncate">
                   <span className="font-bold text-amber-900 flex items-center gap-1">
-                    <Sparkles className="h-3 w-3 text-amber-700" /> Live Image Preview
+                    <Sparkles className="h-3 w-3 text-amber-700" /> Live Image
+                    Preview
                   </span>
-                  <span className="truncate block opacity-80">{formData.primary_image_url}</span>
+                  <span className="truncate block opacity-80">
+                    {uploadMode === "file"
+                      ? "Selected from device"
+                      : formData.primary_image_url}
+                  </span>
                 </div>
               </div>
             )}
@@ -355,7 +416,9 @@ export default function AddProductModal({ isOpen, onClose, onProductAdded }) {
               className="flex items-center gap-2 rounded-xl bg-amber-900 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-xs transition-all hover:bg-amber-950 disabled:opacity-50"
             >
               <Plus className="h-4 w-4" strokeWidth={2.5} />
-              <span>{isSubmitting ? "Creating..." : "Save & Publish Product"}</span>
+              <span>
+                {isSubmitting ? "Creating..." : "Save & Publish Product"}
+              </span>
             </button>
           </div>
         </form>
