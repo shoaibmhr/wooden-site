@@ -17,7 +17,7 @@ export default function StoreIntroBanner() {
         
         <div className="mt-6 sm:mt-8">
           <a
-            href="/shop"
+            href="/products"
             className="inline-block bg-[#5C2A2A] hover:bg-[#4A2121] text-white
                        tracking-[0.15em] font-medium uppercase
                        text-xs sm:text-sm
