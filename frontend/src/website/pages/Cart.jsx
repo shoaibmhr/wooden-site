@@ -5,7 +5,7 @@ import { useCart } from "../../store/hooks";
 import PageHero from "../components/common/PageHero";
 
 // WhatsApp Business Number for Ashtech Wooden
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923188686218";
 
 function WhatsappIcon(props) {
   return (
