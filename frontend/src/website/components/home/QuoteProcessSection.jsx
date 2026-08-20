@@ -34,26 +34,16 @@ export default function QuoteProcessSection() {
                 Share Your Requirement
               </a>
 
-              <div className="flex gap-[2px]">
+              <div className="mt-6 sm:mt-5 md:mt-6 flex flex-col gap-3">
                 <a
-                  href="/bulk-order"
-                  className="flex-1 inline-flex items-center justify-center bg-[#5C2A2A] hover:bg-[#4A2121]
+                  href="/get-quote"
+                  className=" inline-flex items-center justify-center bg-[#5C2A2A] hover:bg-[#4A2121]
                              text-white tracking-[0.15em] font-medium uppercase text-center
                              text-xs sm:text-sm
                              px-4 py-3 sm:px-6 sm:py-3.5
                              transition-all duration-300 ease-out active:scale-[0.98]"
                 >
                   Bulk Order
-                </a>
-                <a
-                  href="/about"
-                  className="flex-1 inline-flex items-center justify-center bg-[#5C2A2A] hover:bg-[#4A2121]
-                             text-white tracking-[0.15em] font-medium uppercase text-center
-                             text-xs sm:text-sm
-                             px-4 py-3 sm:px-6 sm:py-3.5
-                             transition-all duration-300 ease-out active:scale-[0.98]"
-                >
-                  Learn More
                 </a>
               </div>
             </div>

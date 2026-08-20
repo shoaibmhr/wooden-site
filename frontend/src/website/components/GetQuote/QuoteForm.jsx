@@ -14,7 +14,7 @@ import {
   Info,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093"; // apna business number yahan daalo (country code ke sath, + ke bina)
+const WHATSAPP_NUMBER = "923001234567"; // apna business number yahan daalo (country code ke sath, + ke bina)
 
 const productTypes = [
   "Dining Table",
@@ -58,6 +58,9 @@ const initialFormData = {
   height: "",
   budget: "",
   description: "",
+  isBulkOrder: false,
+  businessName: "",
+  quantity: "",
 };
 
 function buildWhatsAppMessage(data) {
@@ -68,6 +71,14 @@ function buildWhatsAppMessage(data) {
     `*WhatsApp:* ${data.whatsapp}`,
     data.email ? `*Email:* ${data.email}` : null,
     data.city ? `*City:* ${data.city}` : null,
+    "",
+    data.isBulkOrder ? "*Order Type:* Bulk / Wholesale Order" : null,
+    data.isBulkOrder && data.businessName
+      ? `*Business Name:* ${data.businessName}`
+      : null,
+    data.isBulkOrder && data.quantity
+      ? `*Quantity Required:* ${data.quantity}`
+      : null,
     "",
     `*Product Type:* ${data.productType}`,
     `*Material:* ${data.material}`,
@@ -90,8 +101,11 @@ export default function QuoteForm() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((current) => ({ ...current, [name]: value }));
+    const { name, value, type, checked } = event.target;
+    setFormData((current) => ({
+      ...current,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = (event) => {
@@ -205,6 +219,55 @@ export default function QuoteForm() {
               />
             </div>
           </div>
+        </div>
+
+        {/* Bulk Order Toggle */}
+        <div className="rounded-xl border border-stone-200 bg-stone-50/60 p-4">
+          <label className="flex items-center gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              name="isBulkOrder"
+              checked={formData.isBulkOrder}
+              onChange={handleChange}
+              className="h-4 w-4 rounded border-stone-300 text-[#5C2A2A] focus:ring-[#5C2A2A]/20"
+            />
+            <span className="text-sm font-semibold text-stone-700">
+              This is a Bulk / Wholesale Order
+            </span>
+          </label>
+
+          {formData.isBulkOrder && (
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-stone-700">
+                  Business / Organization Name
+                </label>
+                <input
+                  type="text"
+                  name="businessName"
+                  value={formData.businessName}
+                  onChange={handleChange}
+                  placeholder="e.g. Grand Hotel Sargodha"
+                  className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-semibold text-stone-700">
+                  Quantity Required
+                </label>
+                <input
+                  type="number"
+                  name="quantity"
+                  min="1"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  placeholder="e.g. 50 chairs"
+                  className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Product Details */}

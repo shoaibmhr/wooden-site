@@ -58,7 +58,7 @@ export default function ContactForm() {
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange("phone")}
-                placeholder="+91 00000 00000"
+                placeholder="+92 00000 00000"
                 className="mt-1 w-full border border-neutral-300 px-3 py-2.5 text-sm focus:border-[#5c1f1f] focus:outline-none"
               />
             </div>
