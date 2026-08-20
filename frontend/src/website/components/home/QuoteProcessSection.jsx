@@ -24,7 +24,7 @@ export default function QuoteProcessSection() {
 
             <div className="mt-6 sm:mt-7 md:mt-8 flex flex-col gap-3">
               <a
-                href="/contact"
+                href="/get-quote"
                 className="inline-flex items-center justify-center bg-[#5C2A2A] hover:bg-[#4A2121]
                            text-white tracking-[0.15em] font-medium uppercase text-center
                            text-xs sm:text-sm
@@ -59,7 +59,6 @@ export default function QuoteProcessSection() {
             </div>
           </div>
 
-         
           <div className="relative w-full  min-h-[240px] sm:min-h-[300px] md:min-h-[360px] lg:min-h-0 lg:h-auto">
             <img
               src={processStepsImg}

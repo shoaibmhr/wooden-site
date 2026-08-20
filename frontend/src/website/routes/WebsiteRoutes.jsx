@@ -14,11 +14,12 @@ import NotFound from "../pages/NotFound";
 import Checkout from "../pages/Checkout";
 import TrackOrder from "../pages/TrackOrder";
 import ScrollToTop from "../components/common/ScrollToTop";
+import GetQuote from "../pages/GetQuote";
 
 export default function WebsiteRoutes() {
   return (
     <>
-    <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -33,6 +34,7 @@ export default function WebsiteRoutes() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/faqs" element={<Faq />} />
+          <Route path="/get-quote" element={<GetQuote />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
