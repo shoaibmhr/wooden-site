@@ -174,19 +174,19 @@ const socialLinks = [
 ];
 
 const supportLinks = [
-  { label: "Assembly Services", href: "/assembly-services" },
-  { label: "Cleaning & Care", href: "/cleaning-care" },
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Contact us", href: "/contact" },
   { label: "FAQs", href: "/faqs" },
   { label: "Track Order", href: "/track-order" },
 ];
 
 const usefulLinks = [
-  { label: "Blogs", href: "/blogs" },
-  { label: "Buy in Bulk (B2B)", href: "/bulk-order" },
-  { label: "Custom & Bespoke Furniture", href: "/custom-furniture" },
-  { label: "Interior Services", href: "/interior-services" },
-  { label: "Price match", href: "/price-match" },
+  { label: "Products", href: "/products" },
+  { label: "Buy in Bulk (B2B)", href: "/get-quote" },
+  { label: "Custom & Bespoke Furniture", href: "/get-quote" },
+  { label: "Interior Services", href: "/gallery" },
+  { label: "Price match", href: "/products" },
 ];
 
 const policyLinks = [
