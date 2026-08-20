@@ -31,7 +31,7 @@ export default function Cart() {
   const buildWhatsappMessage = () => {
     let msg = `🪵 *NEW CART ORDER INQUIRY - ASHTECH WOODEN* 🪵\n`;
     msg += `-----------------------------------------------\n`;
-    msg += `Salam Ashtech Wooden! I would like to place an order for the following items:\n\n`;
+    msg += `Hey Ashtech Wooden! I would like to place an order for the following items:\n\n`;
 
     cartItems.forEach((item, index) => {
       const fullImg = getFullImageUrl(item.image);
