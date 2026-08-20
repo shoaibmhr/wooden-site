@@ -1,15 +1,6 @@
-const categories = [
-  "Wooden Bed",
-  "Dining Set",
-  "Sofa",
-  "Stool",
-  "Study Table",
-  "TV Unit",
-  "Wooden Bench",
-  "Coffee Table",
-  "Wall Decor",
-  "Swing",
-];
+import { useEffect, useState } from "react";
+import { getCategories } from "../../../services/api";
+
 
 export default function FilterPanel({
   selectedCategories,
@@ -18,11 +9,26 @@ export default function FilterPanel({
   onPriceChange,
   onClear,
 }) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getCategories().then((data) => {
+      if (isMounted) {
+        setCategories(data);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const hasActiveFilters =
     selectedCategories.length > 0 ||
     priceRange.min !== "" ||
     priceRange.max !== "";
-
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -47,15 +53,15 @@ export default function FilterPanel({
         </h4>
         <ul className="mt-4 space-y-3">
           {categories.map((category) => (
-            <li key={category}>
+            <li key={category.id}>
               <label className="flex cursor-pointer items-center gap-2.5 text-sm text-neutral-700">
                 <input
                   type="checkbox"
-                  checked={selectedCategories.includes(category)}
-                  onChange={() => onToggleCategory(category)}
+                  checked={selectedCategories.includes(category.name)}
+                  onChange={() => onToggleCategory(category.name)}
                   className="h-4 w-4 rounded border-neutral-300 text-[#5c1f1f] focus:ring-[#5c1f1f]"
                 />
-                {category}
+                {category.name}
               </label>
             </li>
           ))}
@@ -100,5 +106,3 @@ export default function FilterPanel({
     </div>
   );
 }
-
-

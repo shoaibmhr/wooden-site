@@ -45,7 +45,7 @@ export default function CategoryProductCard({ product }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-amber-900/10 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-amber-900/25 hover:shadow-2xl">
-      {/* Clickable Image Container */}
+     
       <Link
         to={product.href}
         className="relative block aspect-[4/3] w-full overflow-hidden bg-neutral-100"
@@ -57,7 +57,7 @@ export default function CategoryProductCard({ product }) {
           loading="lazy"
         />
 
-        {/* Top-Left: Discount Tag */}
+       
         {discountPercent && (
           <span className="absolute left-3 top-3 z-10 rounded-full bg-[#5c1f1f] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-md">
             {discountPercent}% OFF
