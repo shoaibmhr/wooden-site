@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
+import { Link } from "react-router-dom";
 
 const steps = [
   { title: "Share Your Vision", detail: "Tell us the design, material, and finish you're looking for." },
@@ -80,8 +81,8 @@ export default function QuoteProcessSection() {
               }`}
               style={{ transitionDelay: "460ms" }}
             >
-              <a
-                href="/get-quote"
+              <Link
+                to="/get-quote"
                 className="group relative inline-flex items-center justify-center overflow-hidden bg-[#A9793C]
                            text-[#17130F] tracking-[0.15em] font-semibold uppercase text-center
                            text-xs sm:text-sm
@@ -90,10 +91,10 @@ export default function QuoteProcessSection() {
               >
                 <span className="absolute inset-0 -translate-x-full bg-[#8F642F] transition-transform duration-300 ease-out group-hover:translate-x-0" />
                 <span className="relative">Share Your Requirement</span>
-              </a>
+              </Link>
 
-              <a
-                href="/get-quote"
+              <Link
+                to="/get-quote"
                 className="group inline-flex items-center justify-center border border-[#17130F]/25 hover:border-[#A9793C]
                            text-[#17130F] hover:text-[#A9793C] tracking-[0.15em] font-semibold uppercase text-center
                            text-xs sm:text-sm
@@ -101,7 +102,7 @@ export default function QuoteProcessSection() {
                            transition-all duration-300 ease-out active:scale-[0.97]"
               >
                 Bulk Order Inquiry
-              </a>
+              </Link>
             </div>
           </div>
 

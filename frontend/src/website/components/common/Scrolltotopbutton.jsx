@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ArrowUp } from "lucide-react";
 
 const SHOW_AFTER_PX = 400;
+const SCROLL_DURATION = 600; // ms
+
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
 
 export default function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
+  const animationFrameRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsVisible(window.scrollY > SHOW_AFTER_PX);
@@ -13,8 +19,35 @@ export default function ScrollToTopButton() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    const startY = window.scrollY;
+    const startTime = performance.now();
+
+    const step = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / SCROLL_DURATION, 1);
+      const eased = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY * (1 - eased));
+
+      if (progress < 1) {
+        animationFrameRef.current = requestAnimationFrame(step);
+      }
+    };
+
+    animationFrameRef.current = requestAnimationFrame(step);
   };
 
   return (
@@ -34,7 +67,6 @@ export default function ScrollToTopButton() {
                       : "translate-y-4 scale-75 opacity-0 pointer-events-none"
                   }`}
     >
-      {/* Subtle pulse ring, only animates while the button is visible */}
       {isVisible && (
         <span className="absolute inset-0 rounded-full ring-1 ring-[#d4af6a]/50 animate-ping" />
       )}
