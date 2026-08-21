@@ -26,8 +26,9 @@ export default function Home() {
       <StoryShowcase />
       <TrendingCategories />
       <WhyChooseUs />
-      <HomeFaqSection />
       <WarrantyCraftSection />
+      <HomeFaqSection />
+      
     </div>
   );
 }

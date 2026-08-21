@@ -1,14 +1,24 @@
+import { useEffect, useState } from "react";
 import heroVideo from "../../../assets/video/heroVideo.mp4";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 export default function HeroCarousel() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsLoaded(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <section className="w-full bg-[#17130F]">
       {/* Video zone */}
       <div className="relative w-full h-[70vh] min-h-[460px] sm:h-[78vh] sm:min-h-[540px] lg:h-[82vh] lg:min-h-[600px] max-h-[780px] overflow-hidden">
         <video
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[2500ms] ease-out ${
+            isLoaded ? "scale-100" : "scale-110"
+          }`}
           src={heroVideo}
           autoPlay
           loop
@@ -22,25 +32,59 @@ export default function HeroCarousel() {
         <div className="relative z-10 flex h-full items-end">
           <div className="w-full px-6 sm:px-10 lg:px-16 pb-14 sm:pb-16 lg:pb-20">
             <div className="max-w-2xl">
-              <span className="block text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] mb-5">
+              <span
+                className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] mb-5 transition-all duration-700 ease-out ${
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+                style={{ transitionDelay: "150ms" }}
+              >
                 Bespoke Wooden Craftsmanship
               </span>
 
               <h1 className="font-serif text-[#F3ECDD] text-4xl sm:text-6xl lg:text-[4.5rem] leading-[1.08] tracking-tight mb-6">
-                Tradition, trust
-                <br />
-                and <span className="italic text-[#C9A468]">perfection</span>,
-                <br />
-                built into every joint.
+                <span
+                  className={`block transition-all duration-[900ms] ease-out ${
+                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                  }`}
+                  style={{ transitionDelay: "280ms" }}
+                >
+                  Tradition, trust
+                </span>
+                <span
+                  className={`block transition-all duration-[900ms] ease-out ${
+                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                  }`}
+                  style={{ transitionDelay: "420ms" }}
+                >
+                  and <span className="italic text-[#C9A468]">perfection</span>,
+                </span>
+                <span
+                  className={`block transition-all duration-[900ms] ease-out ${
+                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                  }`}
+                  style={{ transitionDelay: "560ms" }}
+                >
+                  built into every joint.
+                </span>
               </h1>
 
-              <p className="max-w-lg text-[#D9CFBC]/75 text-sm sm:text-base leading-relaxed mb-9">
+              <p
+                className={`max-w-lg text-[#D9CFBC]/75 text-sm sm:text-base leading-relaxed mb-9 transition-all duration-700 ease-out ${
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+                style={{ transitionDelay: "720ms" }}
+              >
                 Handcrafted wooden doors, luxury furniture and architectural
                 millwork — built in seasoned hardwood, finished for
                 generations, not seasons.
               </p>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+              <div
+                className={`flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 transition-all duration-700 ease-out ${
+                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+                style={{ transitionDelay: "860ms" }}
+              >
                 <Link
                   to="/get-quote"
                   className="group inline-flex items-center justify-center gap-2 bg-[#A9793C] px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#17130F] transition-colors duration-300 hover:bg-[#C9A468]"
@@ -63,7 +107,12 @@ export default function HeroCarousel() {
       </div>
 
       {/* Info bar — separate, solid zone beneath the video */}
-      <div className="w-full border-t border-[#A9793C]/20">
+      <div
+        className={`w-full border-t border-[#A9793C]/20 transition-all duration-700 ease-out ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+        }`}
+        style={{ transitionDelay: "1050ms" }}
+      >
         <div className="px-6 sm:px-10 lg:px-16 py-5 sm:py-6 flex flex-wrap items-center gap-x-10 gap-y-3">
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#D9CFBC]/70">
             100% Seasoned Hardwood

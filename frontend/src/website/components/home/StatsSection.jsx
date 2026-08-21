@@ -57,37 +57,79 @@ function CountUpNumber({ end, duration = 2000, suffix = "" }) {
 }
 
 export default function StatsSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative w-full overflow-hidden bg-[#1a1310] py-16 sm:py-20 lg:py-24 text-white">
-      {/* Background Image with Dark Wood Texture Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-luminosity transform scale-105 transition-transform duration-1000"
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden bg-[#17130F] py-16 sm:py-20 lg:py-24 text-white"
+    >
+      {/* Background texture */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.12] mix-blend-luminosity"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=2000&q=80')`
+          backgroundImage: `url('https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=2000&q=80')`,
         }}
       />
-      
-      {/* Gradient Vignette overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1a1310] via-black/60 to-[#1a1310]" />
+
+      {/* Single, quiet overlay — no stacked gradients */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#17130F] via-[#17130F]/70 to-[#17130F]/90" />
 
       <Container className="relative z-10">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.25em] text-[#e0bd7c]/90">
-            Customer Satisfaction Guaranteed.
+        <div className="mx-auto max-w-2xl text-center">
+          <p
+            className={`text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] transition-all duration-700 ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+            style={{ transitionDelay: "100ms" }}
+          >
+            Customer Satisfaction Guaranteed
           </p>
-          <h2 className="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide text-[#faf6ef] drop-shadow-md">
+          <h2
+            className={`mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-[#F3ECDD] transition-all duration-[900ms] ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+            style={{ transitionDelay: "220ms" }}
+          >
             The Best Hands In The Business
           </h2>
-          <div className="mx-auto mt-6 h-0.5 w-24 bg-gradient-to-r from-transparent via-[#d4af6a] to-transparent" />
+          <div
+            className={`mx-auto mt-6 h-px bg-[#A9793C] transition-all duration-[900ms] ease-out ${
+              isVisible ? "w-12 opacity-100" : "w-0 opacity-0"
+            }`}
+            style={{ transitionDelay: "400ms" }}
+          />
         </div>
 
-        <div className="mt-12 sm:mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6 text-center">
+        <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 divide-y divide-[#A9793C]/15 md:divide-y-0 md:divide-x">
           {stats.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center group">
-              <div className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#d4af6a] tracking-tight group-hover:scale-105 transition-transform duration-300">
+            <div
+              key={idx}
+              className={`flex flex-col items-center text-center py-6 md:py-0 md:px-6 transition-all duration-700 ease-out ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: `${520 + idx * 120}ms` }}
+            >
+              <div className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#F3ECDD] tracking-tight">
                 <CountUpNumber end={stat.value} suffix={stat.suffix} />
               </div>
-              <p className="mt-3 text-xs sm:text-sm font-medium uppercase tracking-[0.12em] text-[#ecdfc4]/80">
+              <p className="mt-3 text-[11px] sm:text-xs font-medium uppercase tracking-[0.15em] text-[#A79A85]">
                 {stat.label}
               </p>
             </div>

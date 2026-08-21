@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -57,9 +57,8 @@ export default function PromoBannerCarousel() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#1a1310]">
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#17130F]">
       <style>{`
-        /* Smooth Zoom-In-to-Normal Settle effect when slide becomes active */
         .slide-img-zoom {
           transform: scale(1.12);
           transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1);
@@ -68,34 +67,33 @@ export default function PromoBannerCarousel() {
           transform: scale(1.0);
         }
 
-        /* Smooth Center Text & Badge Fade-In Scale */
         .slide-text-content {
           opacity: 0;
-          transform: translateY(18px) scale(0.95);
+          transform: translateY(18px);
           transition: opacity 0.9s ease-out 0.2s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
         }
         .swiper-slide-active .slide-text-content {
           opacity: 1;
-          transform: translateY(0) scale(1.0);
+          transform: translateY(0);
         }
       `}</style>
 
       <div
         className={`transition-all duration-1000 ease-out ${
-          isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-98"
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
         <Swiper
           modules={[Autoplay, Pagination, EffectFade]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          speed={1200}
-          autoplay={{ delay: 5500, disableOnInteraction: false }}
+          speed={2000}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           loop
           pagination={{ clickable: true }}
           style={{
-            "--swiper-pagination-color": "#d4af6a",
-            "--swiper-pagination-bullet-inactive-color": "#ffffff",
+            "--swiper-pagination-color": "#A9793C",
+            "--swiper-pagination-bullet-inactive-color": "#F3ECDD",
             "--swiper-pagination-bullet-inactive-opacity": "0.4",
           }}
           className="h-[380px] sm:h-[440px] md:h-[500px] lg:h-[540px]"
@@ -103,37 +101,33 @@ export default function PromoBannerCarousel() {
           {slides.map((slide) => (
             <SwiperSlide key={slide.heading}>
               <div className="relative h-full w-full overflow-hidden">
-                {/* Background Image: Zoomed-in scale settling smoothly to 1.0 */}
                 <img
                   src={slide.image}
                   alt={slide.heading}
                   className="slide-img-zoom absolute inset-0 h-full w-full object-cover"
                 />
 
-                {/* Dark Luxury Vignette Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1310] via-black/50 to-[#1a1310]/70" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#d4af6a]/10 via-transparent to-black/60" />
+                {/* Single, quiet overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#17130F] via-[#17130F]/55 to-[#17130F]/25" />
 
-                {/* Animated Center Content */}
                 <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center sm:px-10 md:px-16 lg:px-24">
                   <div className="slide-text-content flex flex-col items-center">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-[#d4af6a]/40 bg-[#1a1310]/80 px-4 py-1.5 backdrop-blur-md text-[#e0bd7c] text-xs font-semibold uppercase tracking-[0.2em] shadow-md mb-3">
-                      <Sparkles className="h-3.5 w-3.5 text-[#d4af6a]" />
-                      <span>{slide.subtitle}</span>
-                    </div>
+                    <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] mb-4">
+                      {slide.subtitle}
+                    </span>
 
-                    <h2 className="max-w-3xl font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#f7f0e2] drop-shadow-xl tracking-tight">
+                    <h2 className="max-w-3xl font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal leading-tight text-[#F3ECDD] tracking-tight">
                       {slide.heading}
                     </h2>
 
-                    <div className="my-5 h-0.5 w-20 bg-gradient-to-r from-transparent via-[#d4af6a] to-transparent" />
+                    <div className="my-6 h-px w-12 bg-[#A9793C]" />
 
                     <Link
                       to={slide.href}
-                      className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-xl bg-gradient-to-r from-[#d4af6a] via-[#b8863f] to-[#d4af6a] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-[0.15em] text-[#1a1310] shadow-[0_4px_25px_rgba(212,175,106,0.35)] transition-all duration-300 hover:shadow-[0_6px_30px_rgba(212,175,106,0.55)] hover:scale-105 active:scale-95"
+                      className="group inline-flex items-center gap-2.5 bg-[#A9793C] px-8 py-3.5 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] text-[#17130F] transition-colors duration-300 hover:bg-[#C9A468]"
                     >
                       <span>{slide.buttonLabel}</span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>

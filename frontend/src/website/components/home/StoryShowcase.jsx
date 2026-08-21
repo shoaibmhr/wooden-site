@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Play, X } from "lucide-react";
 import Container from "../common/Container";
 
-
 const stories = [
   {
     title: "Wood Furniture at a Reasonable Price",
@@ -23,7 +22,7 @@ const stories = [
   {
     title: "Furniture Means Wood",
     description:
-      "Here at Woodshala, we don't use engineered wood or MDF except behind mirrors or upholstery, as we ourselves believe that wooden products are for decades to come.",
+      "Here at WoodenSite, we don't use engineered wood or MDF except behind mirrors or upholstery, as we ourselves believe that wooden products are for decades to come.",
     image:
       "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80",
     video: "https://www.youtube.com/embed/FUUq7PL_3v0",
@@ -58,26 +57,29 @@ export default function StoryShowcase() {
   const [playingIndex, setPlayingIndex] = useState(null);
 
   return (
-    <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+    <section className="w-full bg-white py-14 sm:py-16 md:py-20">
       <Container>
-        <div className="mb-8 text-center sm:mb-10 md:mb-12">
-          <h2 className="text-xl font-bold tracking-wide text-amber-900 sm:text-2xl md:text-3xl">
+        <div className="mb-10 text-center sm:mb-12 md:mb-14">
+          <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C]">
+            Behind The Craft
+          </span>
+          <h2 className="mt-3 font-serif text-[#17130F] tracking-tight text-2xl sm:text-3xl md:text-4xl">
             Our Craft, Our Story
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-neutral-600 sm:text-base">
+          <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base text-[#5C5142] leading-relaxed">
             From raw timber to timeless furniture — see what goes into every
-            piece we make
+            piece we make.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
           {stories.map((story, index) => {
             const isPlaying = playingIndex === index;
 
             return (
               <div
                 key={story.title}
-                className="relative h-72 w-full overflow-hidden rounded-xl bg-black shadow-md transition-shadow duration-300 hover:shadow-xl sm:h-80 md:h-96"
+                className="relative h-56 w-full overflow-hidden bg-[#17130F] sm:h-64 md:h-72"
               >
                 {isPlaying ? (
                   <>
@@ -92,7 +94,7 @@ export default function StoryShowcase() {
                       type="button"
                       onClick={() => setPlayingIndex(null)}
                       aria-label="Close video"
-                      className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-neutral-800 transition-colors hover:bg-white"
+                      className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center bg-[#F3ECDD] text-[#17130F] transition-colors hover:bg-white"
                     >
                       <X className="h-4 w-4" strokeWidth={2} />
                     </button>
@@ -106,24 +108,24 @@ export default function StoryShowcase() {
                     <img
                       src={story.image}
                       alt={story.title}
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#17130F]/90 via-[#17130F]/30 to-transparent" />
 
-                    <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-110 sm:h-16 sm:w-16">
+                    <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#F3ECDD] transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
                       <Play
-                        className="ml-1 h-5 w-5 text-amber-900 sm:h-6 sm:w-6"
+                        className="ml-0.5 h-4 w-4 text-[#A9793C] sm:h-5 sm:w-5"
                         fill="currentColor"
                         strokeWidth={0}
                       />
                     </span>
 
-                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                      <h3 className="text-lg font-semibold text-white sm:text-xl">
+                    <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                      <h3 className="text-sm font-semibold uppercase tracking-[0.05em] text-[#F3ECDD] sm:text-base">
                         {story.title}
                       </h3>
-                      <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-neutral-200 sm:text-sm">
+                      <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#D9CFBC]/80 sm:text-sm">
                         {story.description}
                       </p>
                     </div>

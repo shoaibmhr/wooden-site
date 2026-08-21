@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Hammer, Truck, ShieldCheck, Sparkles } from "lucide-react";
 import Container from "../common/Container";
 
@@ -10,7 +11,7 @@ const features = [
   },
   {
     icon: Truck,
-    title: "Pan-India Delivery",
+    title: "Nationwide Delivery",
     description:
       "Free delivery and installation, wherever you are in the country.",
   },
@@ -28,35 +29,93 @@ const features = [
   },
 ];
 
+// Shared scroll-visibility hook — move this to src/hooks/useInView.js
+// and reuse across the other homepage sections.
+function useInView(threshold = 0.15) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return [ref, isVisible];
+}
+
 export default function WhyChooseUs() {
+  const [sectionRef, isVisible] = useInView(0.15);
+
   return (
-    <section className="w-full bg-[#faf1e0] py-10 sm:py-12 md:py-16">
+    <section ref={sectionRef} className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20">
       <Container>
-        <div className="mb-8 text-center sm:mb-10 md:mb-12">
-          <h2 className="text-2xl font-bold tracking-wide text-amber-900 sm:text-3xl md:text-4xl">
+        <div className="mb-10 text-center sm:mb-12 md:mb-14">
+          <span
+            className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+            style={{ transitionDelay: "80ms" }}
+          >
+            Why Choose Us
+          </span>
+          <h2
+            className={`mt-3 font-serif text-[#17130F] tracking-tight text-2xl sm:text-3xl md:text-4xl transition-all duration-[900ms] ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+            style={{ transitionDelay: "180ms" }}
+          >
             The Hassle-Free Way to Buy Furniture Online
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-neutral-600 sm:text-base">
-            Exquisitely carved wooden furniture, picked from the comfort of your
-            home
+          <p
+            className={`mx-auto mt-4 max-w-xl text-sm sm:text-base text-[#5C5142] leading-relaxed transition-all duration-700 ease-out ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            Exquisitely carved wooden furniture, picked from the comfort of
+            your home.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {features.map((feature) => {
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+          {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
               <div
                 key={feature.title}
-                className="flex flex-col items-center text-center"
+                className={`group flex flex-col items-center text-center transition-all ease-out ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{
+                  transitionDuration: "700ms",
+                  transitionDelay: isVisible ? `${420 + idx * 140}ms` : "0ms",
+                }}
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-amber-900 shadow-sm sm:h-16 sm:w-16">
-                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={1.75} />
+                {/* Icon box — rotates and fills with the accent color on hover */}
+                <div className="relative flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
+                  <div className="absolute inset-0 border border-[#A9793C]/40 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C]" />
+                  <div className="absolute inset-0 scale-0 bg-[#A9793C] transition-transform duration-500 ease-out group-hover:scale-100" />
+                  <Icon
+                    className="relative h-6 w-6 text-[#A9793C] transition-all duration-500 ease-out group-hover:scale-110 group-hover:text-[#17130F] sm:h-7 sm:w-7"
+                    strokeWidth={1.5}
+                  />
                 </div>
-                <h3 className="mt-4 text-base font-semibold text-neutral-900 sm:text-lg">
+
+                <h3 className="mt-5 text-sm font-semibold uppercase tracking-[0.08em] text-[#17130F] transition-colors duration-300 group-hover:text-[#A9793C] sm:text-base">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                <p className="mt-2.5 text-sm leading-relaxed text-[#5C5142]">
                   {feature.description}
                 </p>
               </div>
