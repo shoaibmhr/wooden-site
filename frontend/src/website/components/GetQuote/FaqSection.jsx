@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Container from "../common/Container";
+import { Link } from "react-router-dom";
 
 const faqs = [
   {
@@ -65,11 +66,11 @@ export default function FaqSection() {
 
         <div className="mt-7 text-center">
           
-          <a href="/faqs"
+          <Link to="/faqs"
             className="text-xs sm:text-sm font-medium uppercase tracking-[0.15em] text-[#5C2A2A] hover:tracking-[0.2em] transition-all duration-300"
           >
             View All FAQs →
-          </a>
+          </Link>
         </div>
       </Container>
     </section>
