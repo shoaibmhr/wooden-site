@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useToast } from "../common/Toast";
 
 const WHATSAPP_NUMBER = "923027069093";
 
@@ -12,8 +11,6 @@ function WhatsappIcon(props) {
 }
 
 export default function ContactForm() {
-  const { showToast } = useToast();
-
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -23,32 +20,36 @@ export default function ContactForm() {
     message: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleChange = (field) => (e) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
- const buildWhatsAppMsg = () => {
-   let msg = `NEW PROJECT INQUIRY - ASHTECH WOODEN\n`;
-   msg += `------------------------------------------\n`;
-   if (formData.name) msg += `Client Name: ${formData.name}\n`;
-   if (formData.phone) msg += `Phone: ${formData.phone}\n`;
-   if (formData.email) msg += `Email: ${formData.email}\n`;
-   msg += `Project Type: ${formData.projectType}\n`;
-   if (formData.location) msg += `City / Site Location: ${formData.location}\n`;
-   if (formData.message) msg += `Requirements: ${formData.message}\n`;
-   msg += `------------------------------------------\n`;
-   msg += `Hello Ashtech Wooden, kindly review my project details and share the estimated budget and timeline.`;
-   return encodeURIComponent(msg);
- };
+  const buildWhatsAppMsg = () => {
+    let msg = `NEW PROJECT INQUIRY - ASHTECH WOODEN\n`;
+    msg += `------------------------------------------\n`;
+    if (formData.name) msg += `Client Name: ${formData.name}\n`;
+    if (formData.phone) msg += `Phone: ${formData.phone}\n`;
+    if (formData.email) msg += `Email: ${formData.email}\n`;
+    msg += `Project Type: ${formData.projectType}\n`;
+    if (formData.location)
+      msg += `City / Site Location: ${formData.location}\n`;
+    if (formData.message) msg += `Requirements: ${formData.message}\n`;
+    msg += `------------------------------------------\n`;
+    msg += `Hello Ashtech Wooden, kindly review my project details and share the estimated budget and timeline.`;
+    return encodeURIComponent(msg);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.phone || !formData.message) {
-      showToast("Please fill in your name, phone, and project details.");
+      setErrorMessage("Please fill in your name, phone, and project details.");
       return;
     }
 
+    setErrorMessage("");
     const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMsg()}`;
     window.open(waHref, "_blank", "noopener,noreferrer");
   };
@@ -200,6 +201,24 @@ export default function ContactForm() {
               className="mt-1.5 w-full resize-none rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
             />
           </div>
+
+          {/* Inline error message (replaces the old toast) */}
+          {errorMessage && (
+            <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700 animate-in fade-in slide-in-from-top-1 duration-300">
+              <svg
+                className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h.01a1 1 0 100-2H10v-3a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span>{errorMessage}</span>
+            </div>
+          )}
         </div>
 
         {/* Action Button */}
