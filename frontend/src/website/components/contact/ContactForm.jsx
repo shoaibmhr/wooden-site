@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useToast } from "../common/Toast";
-import { sendContactInquiry } from "../../../services/api";
-import { Send, CheckCircle2 } from "lucide-react";
 
 const WHATSAPP_NUMBER = "923027069093";
 
@@ -15,8 +13,6 @@ function WhatsappIcon(props) {
 
 export default function ContactForm() {
   const { showToast } = useToast();
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -31,36 +27,31 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = async (e) => {
+ const buildWhatsAppMsg = () => {
+   let msg = `NEW PROJECT INQUIRY - ASHTECH WOODEN\n`;
+   msg += `------------------------------------------\n`;
+   if (formData.name) msg += `Client Name: ${formData.name}\n`;
+   if (formData.phone) msg += `Phone: ${formData.phone}\n`;
+   if (formData.email) msg += `Email: ${formData.email}\n`;
+   msg += `Project Type: ${formData.projectType}\n`;
+   if (formData.location) msg += `City / Site Location: ${formData.location}\n`;
+   if (formData.message) msg += `Requirements: ${formData.message}\n`;
+   msg += `------------------------------------------\n`;
+   msg += `Hello Ashtech Wooden, kindly review my project details and share the estimated budget and timeline.`;
+   return encodeURIComponent(msg);
+ };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      await sendContactInquiry(formData);
-      showToast("Inquiry submitted successfully! Our team will reach out shorty.");
-      setSubmitted(true);
-    } catch {
-      showToast("Inquiry received! We will contact you soon.");
-      setSubmitted(true);
-    } finally {
-      setLoading(false);
+
+    if (!formData.name || !formData.phone || !formData.message) {
+      showToast("Please fill in your name, phone, and project details.");
+      return;
     }
-  };
 
-  const buildWhatsAppMsg = () => {
-    let msg = `🪵 *NEW PROJECT INQUIRY - ASHTECH WOODEN* 🪵\n`;
-    msg += `-----------------------------------------------\n`;
-    if (formData.name) msg += `👤 *Client Name:* ${formData.name}\n`;
-    if (formData.phone) msg += `📞 *Phone:* ${formData.phone}\n`;
-    if (formData.email) msg += `✉️ *Email:* ${formData.email}\n`;
-    msg += `🏷️ *Project Type:* ${formData.projectType}\n`;
-    if (formData.location) msg += `📍 *City / Site Location:* ${formData.location}\n`;
-    if (formData.message) msg += `📝 *Requirements:* ${formData.message}\n`;
-    msg += `-----------------------------------------------\n`;
-    msg += `Hey Ashtech Wooden! Kindly review my project details and share estimated budget & timeline.`;
-    return encodeURIComponent(msg);
+    const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMsg()}`;
+    window.open(waHref, "_blank", "noopener,noreferrer");
   };
-
-  const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMsg()}`;
 
   return (
     <div className="flex h-full flex-col bg-white p-6 sm:p-8 md:p-10">
@@ -71,163 +62,157 @@ export default function ContactForm() {
         Request Custom Quote
       </h2>
       <p className="mt-2 text-xs sm:text-sm text-neutral-600">
-        Fill out your room specifications or project requirements below to consult with our master woodworkers.
+        Fill out your room specifications or project requirements below to
+        consult with our master woodworkers.
       </p>
 
-      {submitted ? (
-        <div className="my-auto flex flex-col items-center justify-center rounded-2xl bg-[#faf6ef] p-8 text-center border border-[#ecdfc4]">
-          <CheckCircle2 className="h-12 w-12 text-emerald-600" />
-          <h3 className="mt-4 font-serif text-xl font-bold text-[#2b1710]">
-            Inquiry Received Successfully!
-          </h3>
-          <p className="mt-2 text-xs text-neutral-600 max-w-sm">
-            Thank you, <strong className="text-[#2b1710]">{formData.name}</strong>. Our senior woodcraft consultant will examine your requirements and get back to you shortly.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setSubmitted(false);
-              setFormData({
-                name: "",
-                phone: "",
-                email: "",
-                projectType: "Custom Wooden Furniture",
-                location: "",
-                message: "",
-              });
-            }}
-            className="mt-6 rounded-lg bg-[#2b1710] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] hover:bg-[#3e2723]"
-          >
-            Submit Another Inquiry
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-1 flex-col justify-between">
-          <div className="space-y-4">
-            {/* Name & Phone */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                  Full Name *
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleChange("name")}
-                  placeholder="e.g. Muhammad Ali"
-                  className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                  Phone / WhatsApp *
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange("phone")}
-                  placeholder="+92 300 0000000"
-                  className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
-                />
-              </div>
-            </div>
-
-            {/* Email & Project Type */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                  Email Address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange("email")}
-                  placeholder="you@domain.com"
-                  className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="projectType" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                  Project Type
-                </label>
-                <select
-                  id="projectType"
-                  value={formData.projectType}
-                  onChange={handleChange("projectType")}
-                  className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
-                >
-                  <option value="Custom Wooden Furniture">Custom Wooden Furniture</option>
-                  <option value="Carved Entrance Doors & Frames">Carved Doors & Entrance Frames</option>
-                  <option value="Interior Wood Paneling & Fluted Walls">Interior Paneling & Accent Walls</option>
-                  <option value="Wooden Windows & Glazing">Wooden Windows & Glazing</option>
-                  <option value="Full Villa Architectural Woodwork">Full Villa Architectural Woodwork</option>
-                  <option value="Polish & Antique Restoration">Polish & Antique Restoration</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Location / City */}
+      <form
+        onSubmit={handleSubmit}
+        className="mt-6 flex flex-1 flex-col justify-between"
+      >
+        <div className="space-y-4">
+          {/* Name & Phone */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="location" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                City / Project Location
+              <label
+                htmlFor="name"
+                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              >
+                Full Name *
               </label>
               <input
-                id="location"
+                id="name"
                 type="text"
-                value={formData.location}
-                onChange={handleChange("location")}
-                placeholder="e.g. Lahore, Islamabad, Karachi"
+                required
+                value={formData.name}
+                onChange={handleChange("name")}
+                placeholder="e.g. Muhammad Ali"
                 className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
               />
             </div>
 
-            {/* Requirements Message */}
             <div>
-              <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-[#2b1710]">
-                Project Details & Dimensions *
+              <label
+                htmlFor="phone"
+                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              >
+                Phone / WhatsApp *
               </label>
-              <textarea
-                id="message"
+              <input
+                id="phone"
+                type="tel"
                 required
-                rows={3}
-                value={formData.message}
-                onChange={handleChange("message")}
-                placeholder="Specify dimensions (Length x Width), preferred wood type (Teak, Sheesham, Oak), or polish details..."
-                className="mt-1.5 w-full resize-none rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                value={formData.phone}
+                onChange={handleChange("phone")}
+                placeholder="+92 300 0000000"
+                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
               />
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
-            {/* <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2b1710] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] shadow-md transition-all duration-300 hover:bg-[#3e2723] active:scale-[0.99]"
-            >
-              <Send className="h-4 w-4 text-[#d4af6a]" />
-              <span>{loading ? "Submitting..." : "Submit Project Inquiry"}</span>
-            </button> */}
+          {/* Email & Project Type */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="email"
+                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              >
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange("email")}
+                placeholder="you@domain.com"
+                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+              />
+            </div>
 
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-emerald-500 active:scale-[0.99]"
-            >
-              <WhatsappIcon className="h-4 w-4 shrink-0" />
-              <span>Send via WhatsApp</span>
-            </a>
+            <div>
+              <label
+                htmlFor="projectType"
+                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              >
+                Project Type
+              </label>
+              <select
+                id="projectType"
+                value={formData.projectType}
+                onChange={handleChange("projectType")}
+                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+              >
+                <option value="Custom Wooden Furniture">
+                  Custom Wooden Furniture
+                </option>
+                <option value="Carved Entrance Doors & Frames">
+                  Carved Doors & Entrance Frames
+                </option>
+                <option value="Interior Wood Paneling & Fluted Walls">
+                  Interior Paneling & Accent Walls
+                </option>
+                <option value="Wooden Windows & Glazing">
+                  Wooden Windows & Glazing
+                </option>
+                <option value="Full Villa Architectural Woodwork">
+                  Full Villa Architectural Woodwork
+                </option>
+                <option value="Polish & Antique Restoration">
+                  Polish & Antique Restoration
+                </option>
+              </select>
+            </div>
           </div>
-        </form>
-      )}
+
+          {/* Location / City */}
+          <div>
+            <label
+              htmlFor="location"
+              className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+            >
+              City / Project Location
+            </label>
+            <input
+              id="location"
+              type="text"
+              value={formData.location}
+              onChange={handleChange("location")}
+              placeholder="e.g. Lahore, Islamabad, Karachi"
+              className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+            />
+          </div>
+
+          {/* Requirements Message */}
+          <div>
+            <label
+              htmlFor="message"
+              className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+            >
+              Project Details & Dimensions *
+            </label>
+            <textarea
+              id="message"
+              required
+              rows={3}
+              value={formData.message}
+              onChange={handleChange("message")}
+              placeholder="Specify dimensions (Length x Width), preferred wood type (Teak, Sheesham, Oak), or polish details..."
+              className="mt-1.5 w-full resize-none rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+            />
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
+          <button
+            type="submit"
+            className="flex-1 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-emerald-500 active:scale-[0.99]"
+          >
+            <WhatsappIcon className="h-4 w-4 shrink-0" />
+            <span>Send via WhatsApp</span>
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
