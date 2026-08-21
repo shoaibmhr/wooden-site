@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { Ruler, Sparkles, ArrowRight, ShieldCheck, Hammer, CheckCircle2 } from "lucide-react";
+import { Ruler, ArrowRight, ShieldCheck, Hammer, CheckCircle2, TreeDeciduous, Droplets, SunMedium, } from "lucide-react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
-import { getProductBySlug } from "../../services/api";
 import { products as fallbackProducts } from "../data/products.data";
 
-// WhatsApp Business Number for Ashtech Wooden
 const WHATSAPP_NUMBER = "923027069093";
 
 function WhatsappIcon(props) {
@@ -19,32 +17,17 @@ function WhatsappIcon(props) {
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState(
-    () => fallbackProducts.find((p) => p.id === id || p.slug === id) || null,
+  const [product] = useState(
+    () => fallbackProducts.find((p) => p.id === id || p.slug === id) || null
   );
 
   const [activeImage, setActiveImage] = useState(0);
 
-  // Custom Dimensions & Customization State
   const [customLength, setCustomLength] = useState("");
   const [customWidth, setCustomWidth] = useState("");
   const [customUnit, setCustomUnit] = useState("Feet");
   const [customPolish, setCustomPolish] = useState("Natural Teak Finish");
   const [customNotes, setCustomNotes] = useState("");
-
-  useEffect(() => {
-    let isMounted = true;
-    if (id) {
-      getProductBySlug(id).then((data) => {
-        if (isMounted && data) {
-          setProduct(data);
-        }
-      });
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
 
   if (!product) {
     return <Navigate to="/products" replace />;
@@ -56,7 +39,7 @@ export default function ProductDetail() {
       : [product.image];
 
   const currentImage = gallery[activeImage] || product.image;
-  
+
   const absoluteImageUrl = currentImage?.startsWith("http")
     ? currentImage
     : `${window.location.origin}${currentImage?.startsWith("/") ? "" : "/"}${currentImage || ""}`;
@@ -64,37 +47,37 @@ export default function ProductDetail() {
   const currentProductUrl = window.location.href;
 
   const buildWhatsAppMessage = () => {
-    let message = `🪵 *CUSTOM WOODWORK INQUIRY - ASHTECH WOODEN* 🪵\n`;
+    let message = `CUSTOM WOODWORK INQUIRY - ASHTECH WOODEN\n`;
     message += `-----------------------------------------------\n`;
-    message += `📦 *Design:* ${product.name}\n`;
-    if (product.category) message += `🏷️ *Category:* ${product.category}\n`;
-    message += `🖼️ *Photo:* ${absoluteImageUrl}\n`;
-    message += `🔗 *Link:* ${currentProductUrl}\n`;
+    message += `Design: ${product.name}\n`;
+    if (product.category) message += `Category: ${product.category}\n`;
+    message += `Photo: ${absoluteImageUrl}\n`;
+    message += `Link: ${currentProductUrl}\n`;
     message += `-----------------------------------------------\n`;
-    message += `📏 *CUSTOM SPECIFICATIONS & DIMENSIONS:*\n`;
-    
+    message += `CUSTOM SPECIFICATIONS & DIMENSIONS:\n`;
+
     if (customLength) {
-      message += `• *Length:* ${customLength} ${customUnit}\n`;
+      message += `Length: ${customLength} ${customUnit}\n`;
     } else {
-      message += `• *Length:* [ _Enter desired length_ ]\n`;
+      message += `Length: (please specify)\n`;
     }
 
     if (customWidth) {
-      message += `• *Width:* ${customWidth} ${customUnit}\n`;
+      message += `Width: ${customWidth} ${customUnit}\n`;
     } else {
-      message += `• *Width:* [ _Enter desired width_ ]\n`;
+      message += `Width: (please specify)\n`;
     }
 
     if (customPolish) {
-      message += `• *Timber Finish:* ${customPolish}\n`;
+      message += `Timber Finish: ${customPolish}\n`;
     }
 
     if (customNotes.trim()) {
-      message += `• *Custom Request:* ${customNotes.trim()}\n`;
+      message += `Custom Request: ${customNotes.trim()}\n`;
     }
 
     message += `-----------------------------------------------\n`;
-    message += `Salam Ashtech Wooden! Mujhe ye project apne room / villa ke custom size ke mutabiq ready karwana hai. Kindly image aur dimensions check kar ke estimated price quote aur delivery time share karein.`;
+    message += `Hello Ashtech Wooden, I'd like this piece custom-made for my space. Kindly review the image and dimensions and share an estimated quote and delivery time.`;
 
     return encodeURIComponent(message);
   };
@@ -144,8 +127,78 @@ export default function ProductDetail() {
                 ))}
               </div>
             )}
-          </div>
 
+            {/* Wood & Craft Details */}
+           {/* Wood & Craft Details */}
+<div className="mt-6 overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-md">
+  <div className="border-b border-[#ecdfc4] bg-[#2b1710]/[0.03] px-5 py-4 sm:px-6">
+    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b8863f]">
+      Craftsmanship Profile
+    </p>
+    <h3 className="mt-1 font-serif text-base font-bold text-[#2b1710] sm:text-lg">
+      Wood & Craft Details
+    </h3>
+  </div>
+
+  <div className="divide-y divide-[#ecdfc4]">
+    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
+        <TreeDeciduous className="h-4.5 w-4.5 text-[#b8863f]" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+          Timber
+        </p>
+        <p className="mt-0.5 text-sm text-neutral-600">
+          Teak, Sheesham & Oak
+        </p>
+      </div>
+    </div>
+
+    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
+        <Droplets className="h-4.5 w-4.5 text-[#b8863f]" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+          Grain & Finish
+        </p>
+        <p className="mt-0.5 text-sm text-neutral-600">
+          Natural grain, hand-polished
+        </p>
+      </div>
+    </div>
+
+    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
+        <ShieldCheck className="h-4.5 w-4.5 text-[#b8863f]" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+          Treatment
+        </p>
+        <p className="mt-0.5 text-sm text-neutral-600">
+          Kiln-dried & termite treated
+        </p>
+      </div>
+    </div>
+
+    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
+        <SunMedium className="h-4.5 w-4.5 text-[#b8863f]" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+          Care
+        </p>
+        <p className="mt-0.5 text-sm text-neutral-600">
+          Wipe with dry cloth, avoid direct sunlight
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>   
           {/* Product info */}
           <div>
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
@@ -190,7 +243,6 @@ export default function ProductDetail() {
                 Enter your exact room dimensions below to send a direct inquiry to our master craftsman on WhatsApp:
               </p>
 
-              {/* Length, Width & Unit */}
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <div>
                   <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
@@ -235,7 +287,6 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Polish Finish Selection */}
               <div className="mt-3.5">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
                   Timber Polish / Finish Selection
@@ -254,7 +305,6 @@ export default function ProductDetail() {
                 </select>
               </div>
 
-              {/* Special Note */}
               <div className="mt-3">
                 <input
                   type="text"
@@ -265,12 +315,11 @@ export default function ProductDetail() {
                 />
               </div>
 
-              {/* Hero Action Buttons — Single line WhatsApp */}
-              <a
-                href={whatsappHref}
+              
+              <a href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:from-emerald-500 hover:to-emerald-400 hover:shadow-xl active:scale-[0.99]"
+                className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-emerald-500 hover:shadow-xl active:scale-[0.99]"
               >
                 <WhatsappIcon className="h-5 w-5 shrink-0" />
                 <span>Inquire on WhatsApp</span>
@@ -285,7 +334,6 @@ export default function ProductDetail() {
               </Link>
             </div>
 
-            {/* Quality Badges */}
             <div className="mt-8 grid grid-cols-2 gap-4 border-t border-[#ecdfc4] pt-6">
               <div className="flex items-center gap-2.5">
                 <ShieldCheck className="h-5 w-5 text-[#b8863f]" />
@@ -308,4 +356,5 @@ export default function ProductDetail() {
       </Container>
     </section>
   );
-}
+  }
+  
