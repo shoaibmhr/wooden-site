@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, ShieldCheck, Sparkles } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, ShieldCheck,  } from "lucide-react";
 
 const WHATSAPP_NUMBER = "923027069093";
 const whatsappMessage = encodeURIComponent(
