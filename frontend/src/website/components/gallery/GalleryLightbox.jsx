@@ -1,6 +1,6 @@
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-const WHATSAPP_NUMBER = "919509658944";
+const WHATSAPP_NUMBER = "923027069093";
 
 export default function GalleryLightbox({ items, activeIndex, onClose, onNavigate }) {
   if (activeIndex === null) return null;

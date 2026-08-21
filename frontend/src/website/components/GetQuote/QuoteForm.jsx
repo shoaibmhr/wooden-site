@@ -14,7 +14,7 @@ import {
   Info,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923001234567"; // apna business number yahan daalo (country code ke sath, + ke bina)
+const WHATSAPP_NUMBER = "923027069093"; // apna business number yahan daalo (country code ke sath, + ke bina)
 
 const productTypes = [
   "Dining Table",

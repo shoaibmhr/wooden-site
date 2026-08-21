@@ -28,7 +28,6 @@ export default function Home() {
       <WhyChooseUs />
       <WarrantyCraftSection />
       <HomeFaqSection />
-      
     </div>
   );
 }

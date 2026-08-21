@@ -9,15 +9,11 @@ import ProductToolbar from "../components/products/ProductToolbar";
 import ProductResultsGrid from "../components/products/ProductResultsGrid";
 import SearchBar from "../components/products/SearchBar";
 import Pagination from "../components/products/Pagination";
-import { getProducts } from "../../services/api";
 import { products as fallbackProducts } from "../data/products.data";
 
 const ITEMS_PER_PAGE = 6;
 
-// Shared scroll-visibility hook — same pattern used across About, Contact,
-// ServicesGrid, ProcessSteps, and ServiceCTA. Worth moving to
-// src/hooks/useInView.js and importing everywhere instead of redefining
-// it per component.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -41,7 +37,7 @@ function useInView(threshold = 0.15) {
 
 export default function Products() {
   const location = useLocation();
-  const [productList, setProductList] = useState(() => fallbackProducts);
+  const [productList] = useState(() => fallbackProducts);
   const [selectedCategories, setSelectedCategories] = useState(() =>
     location.state?.presetCategory ? [location.state.presetCategory] : [],
   );
@@ -55,17 +51,7 @@ export default function Products() {
   const [sidebarRef, sidebarVisible] = useInView(0.1);
   const [gridRef, gridVisible] = useInView(0.05);
 
-  useEffect(() => {
-    let isMounted = true;
-    getProducts().then((data) => {
-      if (isMounted && data && data.length > 0) {
-        setProductList(data);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -120,8 +106,7 @@ export default function Products() {
     currentPage * ITEMS_PER_PAGE,
   );
 
-  // Re-keying the grid on page + filter change re-triggers its entrance
-  // animation, so paging feels intentional rather than an abrupt swap.
+  
   const gridAnimationKey = `${currentPage}-${filtersKey}`;
 
   return (

@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
-import { getCategories } from "../../../services/api";
 import { products as fallbackProducts } from "../../data/products.data";
 
-// Extra categories to round out the grid if the product data alone leaves
-// an odd count (e.g. 9 items orphaning a single card in the last row).
-// Swap these images for real product photos once you have them.
 const SUPPLEMENTAL_CATEGORIES = [
   {
     title: "Wardrobe",
@@ -28,11 +24,7 @@ const SUPPLEMENTAL_CATEGORIES = [
   },
 ];
 
-// Build a fallback list from local product data, just in case the API
-// call fails or returns nothing (keeps the homepage from looking empty).
-// Supplemental categories are appended (skipping any already present)
-// so the grid doesn't end on a single orphaned card.
-function buildFallbackCategories() {
+function buildCategories() {
   const seen = new Map();
 
   fallbackProducts.forEach((product) => {
@@ -54,8 +46,7 @@ function buildFallbackCategories() {
   return Array.from(seen.values());
 }
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across the other homepage sections.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -78,35 +69,8 @@ function useInView(threshold = 0.15) {
 }
 
 export default function TrendingCategories() {
-  const [categories, setCategories] = useState(() => buildFallbackCategories());
-  const [isLoading, setIsLoading] = useState(true);
+  const [categories] = useState(() => buildCategories());
   const [sectionRef, isVisible] = useInView(0.1);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    getCategories()
-      .then((data) => {
-        if (!isMounted || !data || data.length === 0) return;
-
-        const mapped = data.map((cat) => ({
-          title: cat.name,
-          slug: cat.slug,
-          image: cat.image_url,
-        }));
-
-        setCategories(mapped);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  if (!isLoading && categories.length === 0) return null;
 
   return (
     <section ref={sectionRef} className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20">

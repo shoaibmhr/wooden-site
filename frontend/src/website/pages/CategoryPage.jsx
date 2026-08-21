@@ -1,10 +1,9 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import PageHero from "../components/common/PageHero";
 import CategoryProductCard from "../components/products/CategoryProductCard";
-import { getProducts } from "../../services/api";
 import {
   products as fallbackProducts,
   categoryMeta,
@@ -25,25 +24,12 @@ const allCategoriesList = [
 
 export default function CategoryPage() {
   const { categorySlug } = useParams();
-  const [productList, setProductList] = useState(() => fallbackProducts);
+  const [productList] = useState(() => fallbackProducts);
   const [sortBy, setSortBy] = useState("featured");
   const [searchQuery, setSearchQuery] = useState("");
 
   const currentMeta = categoryMeta[categorySlug];
 
-  useEffect(() => {
-    let isMounted = true;
-    if (categorySlug) {
-      getProducts({ category_slug: categorySlug }).then((data) => {
-        if (isMounted && data && data.length > 0) {
-          setProductList(data);
-        }
-      });
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [categorySlug]);
 
   const categoryProducts = useMemo(() => {
     if (!categorySlug) return [];

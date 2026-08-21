@@ -5,9 +5,7 @@ import ContactForm from "../components/contact/ContactForm";
 import ContactMap from "../components/contact/ContactMap";
 import Container from "../components/common/Container";
 
-// Shared scroll-visibility hook — same pattern used on the About page.
-// Worth moving to src/hooks/useInView.js and importing everywhere instead
-// of redefining it per page.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -29,8 +27,7 @@ function useInView(threshold = 0.15) {
   return [ref, isVisible];
 }
 
-// Separate component so the map gets its own scroll trigger further down
-// the page, rather than firing together with the card above.
+
 function MapReveal() {
   const [mapRef, mapVisible] = useInView(0.1);
 
@@ -64,8 +61,7 @@ export default function Contact() {
       <section ref={cardRef} className="w-full py-12 sm:py-16 md:py-20 overflow-hidden">
         <Container>
           <div className="mx-auto grid max-w-6xl grid-cols-1 overflow-hidden rounded-3xl border border-[#ecdfc4] bg-white shadow-2xl lg:grid-cols-12">
-            {/* Left: Contact info panel — slides in from the left, like the
-                About page's image showcase clip-path reveal */}
+            
             <div
               className={`lg:col-span-5 transition-all duration-[900ms] ease-out ${
                 cardVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
@@ -75,8 +71,7 @@ export default function Contact() {
               <ContactInfo />
             </div>
 
-            {/* Right: form — fades/slides up, matching the About page's
-                copy-block reveal timing */}
+            
             <div
               className={`lg:col-span-7 transition-all duration-700 ease-out ${
                 cardVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"

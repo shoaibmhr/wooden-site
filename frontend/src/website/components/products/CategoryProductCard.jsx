@@ -6,7 +6,7 @@ export default function CategoryProductCard({ product }) {
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#d4af6a] hover:shadow-xl">
-      {/* Image Block */}
+     
       <Link
         to={targetHref}
         className="relative block aspect-[4/3] w-full overflow-hidden bg-neutral-100"
@@ -25,7 +25,7 @@ export default function CategoryProductCard({ product }) {
         </span>
       </Link>
 
-      {/* Product Details */}
+     
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <Link to={targetHref}>
           <h3 className="line-clamp-1 font-serif text-base font-bold text-[#2b1710] transition-colors duration-200 hover:text-[#b8863f] sm:text-lg">

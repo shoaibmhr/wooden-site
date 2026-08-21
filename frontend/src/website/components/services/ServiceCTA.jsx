@@ -17,9 +17,7 @@ function WhatsappIcon(props) {
   );
 }
 
-// Shared scroll-visibility hook — same pattern used across About, Contact,
-// ServicesGrid, and ProcessSteps. Worth moving to src/hooks/useInView.js
-// and importing everywhere instead of redefining it per component.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -49,8 +47,7 @@ export default function ServiceCTA() {
       ref={ref}
       className="relative w-full overflow-hidden bg-[#170e0a] py-20 sm:py-24 md:py-28"
     >
-      {/* Background image — slow ambient zoom, same easing rhythm as the
-          About page's showcase image */}
+     
       <img
         src="https://images.unsplash.com/photo-1601058268499-e52658b8bb88?auto=format&fit=crop&w=1800&q=80"
         alt="Craftsman working on custom wooden furniture"

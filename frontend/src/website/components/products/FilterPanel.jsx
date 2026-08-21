@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
-import { getCategories } from "../../../services/api";
+import { useState } from "react";
+import { products as fallbackProducts } from "../../data/products.data";
+
+function buildCategoryList() {
+  const seen = new Map();
+  fallbackProducts.forEach((product) => {
+    if (product.category && !seen.has(product.category)) {
+      seen.set(product.category, {
+        id: product.categorySlug || product.category,
+        name: product.category,
+      });
+    }
+  });
+  return Array.from(seen.values());
+}
 
 export default function FilterPanel({
   selectedCategories,
   onToggleCategory,
   onClear,
 }) {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    getCategories().then((data) => {
-      if (isMounted && data) {
-        setCategories(data);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const [categories] = useState(() => buildCategoryList());
 
   const hasActiveFilters = selectedCategories.length > 0;
 
@@ -39,7 +40,7 @@ export default function FilterPanel({
         )}
       </div>
 
-      {/* Category List */}
+     
       <div className="mt-4">
         <ul className="space-y-3">
           {categories.map((category) => (
@@ -58,13 +59,14 @@ export default function FilterPanel({
         </ul>
       </div>
 
-      {/* Craftsmanship Info Badge */}
+     
       <div className="mt-8 rounded-lg border border-[#d4af6a]/30 bg-[#170e0a] p-4 text-[#f0d9a8]">
         <p className="text-[11px] font-bold uppercase tracking-wider text-[#d4af6a]">
           Bespoke Customization
         </p>
         <p className="mt-1 text-[11px] leading-relaxed text-[#ecdfc4]/80">
-          All designs can be adapted to your room measurements and preferred wood species (Teak, Sheesham, Oak).
+          All designs can be adapted to your room measurements and preferred
+          wood species (Teak, Sheesham, Oak).
         </p>
       </div>
     </div>

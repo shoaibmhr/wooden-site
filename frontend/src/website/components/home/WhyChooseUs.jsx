@@ -29,8 +29,7 @@ const features = [
   },
 ];
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across the other homepage sections.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -102,7 +101,7 @@ export default function WhyChooseUs() {
                   transitionDelay: isVisible ? `${420 + idx * 140}ms` : "0ms",
                 }}
               >
-                {/* Icon box — rotates and fills with the accent color on hover */}
+               
                 <div className="relative flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
                   <div className="absolute inset-0 border border-[#A9793C]/40 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C]" />
                   <div className="absolute inset-0 scale-0 bg-[#A9793C] transition-transform duration-500 ease-out group-hover:scale-100" />

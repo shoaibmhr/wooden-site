@@ -29,9 +29,7 @@ const steps = [
   },
 ];
 
-// Shared scroll-visibility hook — same pattern used across About, Contact,
-// and ServicesGrid. Worth moving to src/hooks/useInView.js and importing
-// everywhere instead of redefining it per component.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
