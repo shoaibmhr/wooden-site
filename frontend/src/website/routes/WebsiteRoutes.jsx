@@ -16,7 +16,7 @@ import Checkout from "../pages/Checkout";
 import TrackOrder from "../pages/TrackOrder";
 import ScrollToTop from "../components/common/ScrollToTop";
 import GetQuote from "../pages/GetQuote";
-import FloatingWhatsApp from "../components/common/FloatingWhatsApp";
+
 
 export default function WebsiteRoutes() {
   return (
@@ -41,7 +41,7 @@ export default function WebsiteRoutes() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      <FloatingWhatsApp />
+      
     </>
   );
 }
