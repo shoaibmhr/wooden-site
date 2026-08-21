@@ -10,6 +10,10 @@ function WhatsappIcon(props) {
   );
 }
 
+const NAME_REGEX = /^[A-Za-z\s.'-]{3,50}$/;
+const PHONE_REGEX = /^[+]?[\d\s-]{10,15}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -41,11 +45,47 @@ export default function ContactForm() {
     return encodeURIComponent(msg);
   };
 
+  const validateForm = () => {
+    const name = formData.name.trim();
+    const phone = formData.phone.trim();
+    const email = formData.email.trim();
+    const message = formData.message.trim();
+
+    if (!name) {
+      return "Please enter your full name.";
+    }
+    if (!NAME_REGEX.test(name)) {
+      return "Please enter a valid full name (at least 3 letters, no numbers).";
+    }
+
+    if (!phone) {
+      return "Please enter your phone number.";
+    }
+    const digitsOnly = phone.replace(/[^\d]/g, "");
+    if (!PHONE_REGEX.test(phone) || digitsOnly.length < 10) {
+      return "Please enter a valid phone number (at least 10 digits).";
+    }
+
+    if (email && !EMAIL_REGEX.test(email)) {
+      return "Please enter a valid email address.";
+    }
+
+    if (!message) {
+      return "Please describe your project details.";
+    }
+    if (message.length < 10) {
+      return "Please provide a bit more detail about your project (at least 10 characters).";
+    }
+
+    return "";
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.phone || !formData.message) {
-      setErrorMessage("Please fill in your name, phone, and project details.");
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage(validationError);
       return;
     }
 
