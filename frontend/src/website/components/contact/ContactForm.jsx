@@ -56,7 +56,7 @@ export default function ContactForm() {
     if (formData.location) msg += `📍 *City / Site Location:* ${formData.location}\n`;
     if (formData.message) msg += `📝 *Requirements:* ${formData.message}\n`;
     msg += `-----------------------------------------------\n`;
-    msg += `Salam Ashtech Wooden! Kindly review my project details and share estimated budget & timeline.`;
+    msg += `Hey Ashtech Wooden! Kindly review my project details and share estimated budget & timeline.`;
     return encodeURIComponent(msg);
   };
 
@@ -207,14 +207,14 @@ export default function ContactForm() {
 
           {/* Action Buttons */}
           <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
-            <button
+            {/* <button
               type="submit"
               disabled={loading}
               className="flex-1 flex w-full items-center justify-center gap-2 rounded-xl bg-[#2b1710] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] shadow-md transition-all duration-300 hover:bg-[#3e2723] active:scale-[0.99]"
             >
               <Send className="h-4 w-4 text-[#d4af6a]" />
               <span>{loading ? "Submitting..." : "Submit Project Inquiry"}</span>
-            </button>
+            </button> */}
 
             <a
               href={waHref}
