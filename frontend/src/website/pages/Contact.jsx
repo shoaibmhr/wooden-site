@@ -9,7 +9,7 @@ export default function Contact() {
     <div className="bg-[#faf6ef] min-h-screen">
       <PageHero
         image="https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=1600&q=80"
-        title="Contact & Showroom"
+        title="Contact Us"
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "Contact Us", href: "/contact" },
