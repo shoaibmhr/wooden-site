@@ -13,19 +13,10 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const tickerItems = [
-  "Handcrafted Wooden Furniture",
-  "Bespoke Design, Built to Order",
-  "Sustainably Sourced Wood",
-  "Lifetime Craftsmanship Guarantee",
-];
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [tickerIndex, setTickerIndex] = useState(0);
-  const [tickerVisible, setTickerVisible] = useState(true);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -41,17 +32,6 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTickerVisible(false);
-      setTimeout(() => {
-        setTickerIndex((prev) => (prev + 1) % tickerItems.length);
-        setTickerVisible(true);
-      }, 400);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <header className="sticky top-0 z-50 w-full bg-[#faf6ef]">
       <style>{`
@@ -59,56 +39,11 @@ export default function Navbar() {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
-        .wd-shimmer-line {
-          background: linear-gradient(90deg, transparent, #f0d9a8, #b8863f, #f0d9a8, transparent);
-          background-size: 200% 100%;
-          animation: wd-shimmer 5s ease-in-out infinite;
-        }
-        .wd-ticker-text {
-          transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .wd-ticker-hidden {
-          opacity: 0;
-          transform: translateY(4px);
-        }
-        .wd-ticker-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        
       `}</style>
 
       {/* Shimmer accent line */}
       <div className="h-[3px] w-full wd-shimmer-line" />
-
-      {/* Utility bar with fade-transition highlight */}
-      <div className="hidden bg-gradient-to-r from-[#170e0a] via-[#2b1710] to-[#170e0a] text-[#ecdfc4] sm:block">
-        <Container>
-          <div className="flex h-9 items-center justify-between text-[11px] tracking-[0.12em]">
-            <div className="flex items-center gap-2 uppercase">
-              <span className="h-1 w-1 rounded-full bg-[#d4af6a]" />
-              <span
-                className={`wd-ticker-text text-[#e0bd7c] ${
-                  tickerVisible ? "wd-ticker-visible" : "wd-ticker-hidden"
-                }`}
-              >
-                {tickerItems[tickerIndex]}
-              </span>
-            </div>
-            <div className="flex shrink-0 items-center gap-5 pl-6 border-l border-[#4a3324]">
-              <span className="hidden items-center gap-1.5 md:flex">
-                <Phone className="h-3 w-3 text-[#d4af6a]" strokeWidth={1.75} />
-                +92 300 123 4567
-              </span>
-              <Link
-                to="/contact"
-                className="uppercase text-[#ecdfc4] transition-colors hover:text-[#f0d9a8]"
-              >
-                Visit Showroom
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </div>
 
       {/* Main nav */}
       <div
