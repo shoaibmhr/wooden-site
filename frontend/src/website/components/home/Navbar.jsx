@@ -66,76 +66,74 @@ const serviceItems = [
   {
     title: "Custom Furniture Design",
     description: "Bespoke pieces built to your dimensions",
-    href: "/services/custom-design",
+    href: "/services?type=custom-design",
     icon: Hammer,
   },
   {
     title: "Interior Wood Paneling",
     description: "Wall paneling & architectural millwork",
-    href: "/services/paneling",
+    href: "/services?type=paneling",
     icon: LayoutGrid,
   },
   {
     title: "Doors & Windows",
     description: "Solid wood doors, frames & finishing",
-    href: "/services/doors-windows",
+    href: "/services?type=doors-windows",
     icon: DoorClosed,
   },
   {
     title: "Bulk & Corporate Orders",
     description: "Large-scale projects, priority timelines",
-    href: "/services/bulk-orders",
+    href: "/services?type=bulk-orders",
     icon: Users,
   },
   {
     title: "On-Site Installation",
     description: "Measurement visits & turnkey fitting",
-    href: "/services/installation",
+    href: "/services?type=installation",
     icon: Wrench,
   },
   {
     title: "Restoration & Refinishing",
     description: "Bring old woodwork back to life",
-    href: "/services/restoration",
+    href: "/services?type=restoration",
     icon: Paintbrush,
   },
 ];
-
 const galleryItems = [
   {
     title: "Living Rooms",
     description: "Sofas, coffee tables & TV units",
-    href: "/gallery/living-rooms",
+    href: "/gallery?category=living-room",
     icon: Sofa,
   },
   {
     title: "Bedrooms",
     description: "Beds, wardrobes & dressers",
-    href: "/gallery/bedrooms",
+    href: "/gallery?category=bedroom",
     icon: BedDouble,
   },
   {
     title: "Dining Spaces",
     description: "Tables, chairs & sideboards",
-    href: "/gallery/dining",
+    href: "/gallery?category=dining",
     icon: UtensilsCrossed,
   },
   {
     title: "Doors & Entryways",
     description: "Main doors, gates & frames",
-    href: "/gallery/doors",
+    href: "/gallery?category=entryway",
     icon: DoorOpen,
   },
   {
     title: "Workshop & Process",
     description: "Behind the scenes with our craftsmen",
-    href: "/gallery/workshop",
+    href: "/gallery?category=workshop",
     icon: Factory,
   },
 ];
 
-// Central config for every nav item — plain links have no `dropdown` key,
-// dropdown-enabled links declare their type ("images" or "list") and items.
+
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },

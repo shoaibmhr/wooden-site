@@ -1,9 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Container from "../common/Container";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const WHATSAPP_NUMBER = "923027069093";
+
+// Injects the pulsing-glow keyframe used to draw attention to the service
+// card a visitor lands on from the Navbar's Services dropdown. Defined once
+// at module scope so it isn't re-injected on every render.
+if (typeof document !== "undefined" && !document.getElementById("service-highlight-style")) {
+  const styleTag = document.createElement("style");
+  styleTag.id = "service-highlight-style";
+  styleTag.textContent = `
+    @keyframes service-card-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 106, 0.55); }
+      50% { box-shadow: 0 0 0 10px rgba(212, 175, 106, 0); }
+    }
+  `;
+  document.head.appendChild(styleTag);
+}
 
 function WhatsappIcon(props) {
   return (
@@ -13,8 +29,12 @@ function WhatsappIcon(props) {
   );
 }
 
+// `slug` matches the ?type= query values used by the Navbar's Services
+// dropdown links (e.g. /services?type=custom-design), so we know which
+// card to scroll to and highlight when a visitor arrives from that menu.
 const services = [
   {
+    slug: "custom-design",
     title: "Bespoke Custom Furniture",
     description:
       "We design and build custom furniture to your exact room dimensions and wood preference — solid Teak, Sheesham, and Oak dining sets, beds, & wardrobes.",
@@ -22,6 +42,7 @@ const services = [
       "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=900&q=80",
   },
   {
+    slug: "doors-windows",
     title: "Carved Main Doors & Frames",
     description:
       "Solid wooden entrance doors, carved panels, pivot doors, and jamb frames built with seasoned weather-resistant timber for villas and modern homes.",
@@ -29,6 +50,7 @@ const services = [
       "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
   },
   {
+    slug: "paneling",
     title: "Interior Wood Paneling & Fluted Walls",
     description:
       "Transform interior living spaces with floor-to-ceiling wooden accent walls, fluted timber panels, acoustic louvers, and bespoke ceiling beams.",
@@ -36,6 +58,7 @@ const services = [
       "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80",
   },
   {
+    slug: "bulk-orders",
     title: "Wooden Windows & Glass Casements",
     description:
       "Traditional sash windows, modern casements, and sliding patio doors built with precision weather seals and high-durability wood polishes.",
@@ -43,6 +66,7 @@ const services = [
       "https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=900&q=80",
   },
   {
+    slug: "restoration",
     title: "Artisan Polish & Antique Lacquer",
     description:
       "Bring old heirloom wood back to life with our re-polishing service — natural teak oil, dark walnut stain, matt black, and lacquer finishes.",
@@ -50,6 +74,7 @@ const services = [
       "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=80",
   },
   {
+    slug: "installation",
     title: "Commercial & Villa Fitting Services",
     description:
       "Full turnkey installation by our master carpentry team. We measure, deliver, align, and fit all wooden elements at your site.",
@@ -85,6 +110,33 @@ function useInView(threshold = 0.15) {
 export default function ServicesGrid() {
   const [headerRef, headerVisible] = useInView(0.2);
   const [gridRef, gridVisible] = useInView(0.08);
+  const [searchParams] = useSearchParams();
+  const [highlightedSlug, setHighlightedSlug] = useState(null);
+
+  // Scrolls to and briefly highlights the service card matching ?type=
+  // in the URL (set by the Navbar's Services dropdown links). This runs
+  // as a side effect intentionally — it talks to the real DOM (scrolling)
+  // and a timer, not just deriving state from a prop, so useEffect is the
+  // right tool here.
+  useEffect(() => {
+    const targetSlug = searchParams.get("type");
+    if (!targetSlug) return;
+
+    const el = document.getElementById(`service-${targetSlug}`);
+    if (!el) return;
+
+    const scrollTimer = setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setHighlightedSlug(targetSlug);
+    }, 100);
+
+    const clearTimer = setTimeout(() => setHighlightedSlug(null), 4000);
+
+    return () => {
+      clearTimeout(scrollTimer);
+      clearTimeout(clearTimer);
+    };
+  }, [searchParams]);
 
   return (
     <section className="w-full bg-[#faf6ef] py-16 sm:py-20 lg:py-24 overflow-hidden">
@@ -130,18 +182,32 @@ export default function ServicesGrid() {
               `Salam Ashtech Wooden! Mujhe *${service.title}* ke baare mein consult karna hai.`
             );
             const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
+            const isHighlighted = highlightedSlug === service.slug;
 
             return (
               <div
                 key={service.title}
-                className={`group flex flex-col overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-sm transition-all ease-out hover:-translate-y-1.5 hover:border-[#d4af6a]/60 hover:shadow-[0_24px_45px_-22px_rgba(43,23,16,0.25)] ${
+                id={`service-${service.slug}`}
+                className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ease-out hover:-translate-y-1.5 hover:border-[#d4af6a]/60 hover:shadow-[0_24px_45px_-22px_rgba(43,23,16,0.25)] ${
+                  isHighlighted
+                    ? "border-[#d4af6a] ring-2 ring-[#d4af6a]/70 shadow-[0_24px_45px_-22px_rgba(212,175,106,0.5)]"
+                    : "border-[#ecdfc4]"
+                } ${
                   gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDuration: "700ms",
                   transitionDelay: gridVisible ? `${idx * 120}ms` : "0ms",
+                  animation: isHighlighted ? "service-card-pulse 1.1s ease-out 3" : "none",
                 }}
               >
+                {isHighlighted && (
+                  <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-[#2b1710] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#f0d9a8] shadow-md">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    You're here
+                  </div>
+                )}
+
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100">
                   <img
                     src={service.image}
@@ -181,8 +247,8 @@ export default function ServicesGrid() {
                       </span>
                     </Link>
 
-                    <a
-                      href={waHref}
+                    
+                     <a href={waHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center rounded-lg bg-emerald-600 p-2.5 text-white transition-all duration-300 hover:scale-105 hover:bg-emerald-500"
