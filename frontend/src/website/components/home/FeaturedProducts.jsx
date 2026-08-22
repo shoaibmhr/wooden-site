@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
 import ProductCard from "../common/ProductCard";
-import { getProducts } from "../../../services/api";
 import { products as fallbackProducts } from "../../data/products.data";
 import { ArrowRight } from "lucide-react";
 
@@ -39,20 +38,10 @@ function useInView(threshold = 0.15) {
 }
 
 export default function FeaturedProducts() {
-  const [featured, setFeatured] = useState(() => fallbackProducts.slice(0, 6));
+  const [featured,] = useState(() => fallbackProducts.slice(0, 6));
   const [sectionRef, isVisible] = useInView(0.1);
 
-  useEffect(() => {
-    let isMounted = true;
-    getProducts().then((data) => {
-      if (isMounted && data && data.length > 0) {
-        setFeatured(data.slice(0, 6));
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+ 
 
   const waMsg = encodeURIComponent(
     "Hello, I came across WoodenSite and I'm interested in getting a quote for custom furniture and interior doors. Could you please share more details?"

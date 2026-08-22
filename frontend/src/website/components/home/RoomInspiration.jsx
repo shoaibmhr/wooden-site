@@ -5,7 +5,7 @@ import backgroundImage from "../../../assets/image/bg-2-1 - Copy.jpg";
 import roomImage from "../../../assets/image/lookbook-1.jpg";
 
 const panelHeight =
-  "h-[280px] sm:h-[340px] md:h-[380px] lg:h-[420px] xl:h-[460px]";
+  "min-h-[320px] sm:min-h-[380px] md:min-h-[420px] lg:h-[420px] xl:h-[460px]";
 
 
 function useInView(threshold = 0.15) {
@@ -38,7 +38,7 @@ export default function RoomInspiration() {
         <div className="grid w-full gap-4 sm:gap-5 lg:grid-cols-[5fr_7fr] lg:gap-6">
          
           <div
-            className={`relative flex items-center justify-center overflow-hidden px-6 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16 lg:px-10 lg:py-12 xl:px-16 ${panelHeight}`}
+            className={`relative flex items-center justify-center overflow-hidden px-6 py-10 sm:px-8 sm:py-12 md:px-12 md:py-14 lg:px-10 lg:py-12 xl:px-16 ${panelHeight}`}
             style={{
               clipPath: isVisible ? "inset(0 0 0 0)" : "inset(0 0 0 100%)",
               transition: "clip-path 1000ms cubic-bezier(0.65, 0, 0.35, 1)",

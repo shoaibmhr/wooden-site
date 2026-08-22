@@ -1,26 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X, ArrowRight } from "lucide-react";
-import { getProducts } from "../../../services/api";
 import { products as fallbackProducts } from "../../data/products.data";
 
 export default function SearchOverlay({ isOpen, onClose }) {
-  const [productList, setProductList] = useState(() => fallbackProducts);
+  const [productList,] = useState(() => fallbackProducts);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let isMounted = true;
-    getProducts().then((data) => {
-      if (isMounted && data && data.length > 0) {
-        setProductList(data);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+ 
   const handleClose = () => {
     setQuery("");
     onClose();

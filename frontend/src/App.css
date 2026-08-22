@@ -182,3 +182,7 @@
     border-right-color: var(--border);
   }
 }
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
