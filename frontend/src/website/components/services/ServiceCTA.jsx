@@ -55,7 +55,7 @@ export default function ServiceCTA() {
         style={{ transform: isVisible ? "scale(1.06)" : "scale(1)" }}
       />
 
-      {/* Overlay for text readability + brand mood */}
+      
       <div className="absolute inset-0 bg-[#170e0a]/80" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#170e0a] via-[#170e0a]/50 to-[#170e0a]/70" />
 

@@ -79,9 +79,7 @@ const services = [
   },
 ];
 
-// Shared scroll-visibility hook — same pattern used on About/Contact.
-// Worth moving to src/hooks/useInView.js and importing everywhere instead
-// of redefining it per page/component.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);

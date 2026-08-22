@@ -23,14 +23,14 @@ const fadeUp = {
 export default function GalleryCTA() {
   return (
     <section className="relative w-full overflow-hidden py-16 sm:py-20 md:py-24">
-      {/* Background image */}
+     
       <img
         src="https://images.unsplash.com/photo-1749566760135-e54ece18a532?auto=format&fit=crop&w=1600&q=80"
         alt="Wood grain texture"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Dark overlay for text readability */}
+     
       <div className="absolute inset-0 bg-gradient-to-b from-[#241713]/85 via-[#241713]/90 to-[#241713]/95" />
 
       <Container>

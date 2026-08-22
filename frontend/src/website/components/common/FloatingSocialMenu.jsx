@@ -59,10 +59,7 @@ export default function FloatingSocialMenu() {
         lg:right-8
       "
     >
-      {/* =====================================================
-          SOCIAL ICONS
-          Only icons - NO LABELS
-      ====================================================== */}
+     
       <div
         className="
           absolute
@@ -137,9 +134,7 @@ export default function FloatingSocialMenu() {
         })}
       </div>
 
-      {/* =====================================================
-          MAIN FLOATING BUTTON
-      ====================================================== */}
+     
       <button
         type="button"
         onClick={toggleMenu}
@@ -186,11 +181,7 @@ export default function FloatingSocialMenu() {
           }
         `}
       >
-        {/* =================================================
-            CONTACT US
-            Only visible on main button hover
-            Only when menu is closed
-        ================================================== */}
+       
         {!isOpen && (
           <span
             className="
@@ -230,9 +221,7 @@ export default function FloatingSocialMenu() {
           </span>
         )}
 
-        {/* =================================================
-            MESSAGE ICON
-        ================================================== */}
+       
         <FaCommentDots
           className={`
             absolute
@@ -254,9 +243,7 @@ export default function FloatingSocialMenu() {
           `}
         />
 
-        {/* =================================================
-            CLOSE ICON
-        ================================================== */}
+       
         <FaTimes
           className={`
             absolute
@@ -278,9 +265,7 @@ export default function FloatingSocialMenu() {
           `}
         />
 
-        {/* =================================================
-            NOTIFICATION DOT
-        ================================================== */}
+        
         {!isOpen && (
           <span
             className="

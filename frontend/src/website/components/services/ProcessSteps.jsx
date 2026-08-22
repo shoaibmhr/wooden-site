@@ -93,7 +93,7 @@ export default function ProcessSteps() {
         </div>
 
         <div ref={stepsRef} className="relative">
-          {/* Connecting line across desktop — reinforces the step sequence */}
+         
           <div
             className={`pointer-events-none absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-[#d4af6a]/60 to-transparent transition-all duration-[1200ms] ease-out lg:block ${
               stepsVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
@@ -115,8 +115,7 @@ export default function ProcessSteps() {
                     transitionDelay: stepsVisible ? `${180 + index * 150}ms` : "0ms",
                   }}
                 >
-                  {/* Diamond-framed icon — same rotate/fill treatment used
-                      on the About page's feature blocks */}
+                
                   <div className="relative flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
                     <div className="absolute inset-0 rounded-full bg-white shadow-sm transition-shadow duration-500 ease-out group-hover:shadow-lg" />
                     <div className="absolute inset-0 scale-0 rounded-full bg-[#2b1710] transition-transform duration-500 ease-out group-hover:scale-100" />

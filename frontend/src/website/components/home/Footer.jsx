@@ -54,7 +54,7 @@ export default function Footer() {
     <footer className="w-full bg-[#17130F] text-[#D9CFBC] border-t border-[#A9793C]/20">
       <Container>
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 py-14 sm:py-16 lg:grid-cols-12">
-          {/* Brand column */}
+        
           <div className="flex flex-col items-center text-center lg:col-span-4 lg:items-start lg:text-left">
             <Link to="/" className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center bg-[#A9793C] text-base font-semibold tracking-wide text-[#17130F]">
@@ -108,7 +108,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links columns */}
+         
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 lg:col-span-8 lg:pl-12">
             <div>
               <h3 className="font-serif text-sm uppercase tracking-widest text-[#C9A468]">
@@ -148,7 +148,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+       
         <div className="border-t border-[#A9793C]/20 py-6 text-center text-xs text-[#D9CFBC]/60">
           <p>© {new Date().getFullYear()} WoodenSite Craftsmanship. All rights reserved.</p>
         </div>

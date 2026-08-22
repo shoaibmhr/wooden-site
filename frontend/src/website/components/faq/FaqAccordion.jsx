@@ -3,7 +3,7 @@ import Container from "../common/Container";
 import FaqItem from "./FaqItem";
 import { faqCategories } from "../../data/faq.data";
 
-// Shared scroll-visibility hook — kept local to this file
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -25,7 +25,7 @@ function useInView(threshold = 0.15) {
   return [ref, isVisible];
 }
 
-// Precompute each group's starting index (no mutation during render)
+
 const groupStartIndices = faqCategories.reduce((acc, group, i) => {
   const prevStart =
     i === 0 ? 0 : acc[i - 1] + faqCategories[i - 1].items.length;

@@ -128,8 +128,7 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {/* Wood & Craft Details */}
-           {/* Wood & Craft Details */}
+           
 <div className="mt-6 overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-md">
   <div className="border-b border-[#ecdfc4] bg-[#2b1710]/[0.03] px-5 py-4 sm:px-6">
     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b8863f]">

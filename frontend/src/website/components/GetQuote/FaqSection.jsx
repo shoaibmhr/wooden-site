@@ -19,7 +19,7 @@ const faqs = [
   },
 ];
 
-// Stagger container for FAQ items
+
 const container = {
   hidden: {},
   visible: {

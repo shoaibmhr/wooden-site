@@ -159,9 +159,9 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  // Which desktop dropdown is currently open, identified by nav link label.
+ 
   const [openMenu, setOpenMenu] = useState(null);
-  // Which mobile accordion(s) are expanded, identified by nav link label.
+  
   const [openMobileMenus, setOpenMobileMenus] = useState({});
   const closeTimer = useRef(null);
 
@@ -179,8 +179,7 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  // Small delay before closing on mouse-out so moving the cursor from the
-  // nav link down into its dropdown panel doesn't close it prematurely.
+ 
   const openDropdown = (label) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenMenu(label);
@@ -209,10 +208,10 @@ export default function Navbar() {
         
       `}</style>
 
-      {/* Shimmer accent line */}
+     
       <div className="h-[3px] w-full wd-shimmer-line" />
 
-      {/* Main nav */}
+    
       <div
         className={`border-b transition-shadow duration-300 ${
           isScrolled
@@ -299,7 +298,7 @@ export default function Navbar() {
                         />
                       </Link>
 
-                      {/* Dropdown panel */}
+                     
                       <div
                         className={`absolute top-full z-50 pt-4 transition-all duration-300 ease-out ${
                           isImageType
@@ -312,7 +311,7 @@ export default function Navbar() {
                         }`}
                       >
                         <div className="overflow-hidden rounded-md border border-[#ecdfc4] bg-[#faf6ef] shadow-[0_18px_50px_-12px_rgba(28,18,13,0.25)]">
-                          {/* Thin gradient cap, echoes the shimmer line at the top of the page */}
+                         
                           <div className="h-[3px] w-full bg-gradient-to-r from-[#b8863f] via-[#f0d9a8] to-[#b8863f]" />
 
                           {isImageType ? (
@@ -359,7 +358,7 @@ export default function Navbar() {
                                       transitionDelay: isOpen ? `${idx * 45}ms` : "0ms",
                                     }}
                                   >
-                                    {/* Gold accent bar that draws in on hover */}
+                                   
                                     <span className="absolute inset-y-1.5 left-0 w-[3px] scale-y-0 bg-gradient-to-b from-[#b8863f] to-[#f0d9a8] transition-transform duration-300 ease-out group-hover/item:scale-y-100" />
                                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f] transition-colors duration-300 group-hover/item:bg-[#2b1710] group-hover/item:text-[#f0d9a8]">
                                       <Icon className="h-4 w-4" strokeWidth={1.75} />

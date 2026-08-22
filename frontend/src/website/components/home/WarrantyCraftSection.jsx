@@ -38,8 +38,7 @@ const process = [
   },
 ];
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across the other homepage sections.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -98,7 +97,7 @@ export default function WarrantyCraftSection() {
 
   return (
     <>
-      {/* Warranty & Delivery Care */}
+    
       <section ref={careRef} className="w-full bg-white py-14 sm:py-16 md:py-20">
         <Container>
           <SectionHeading
@@ -134,7 +133,7 @@ export default function WarrantyCraftSection() {
         </Container>
       </section>
 
-      {/* How We Craft It */}
+      
       <section ref={processRef} className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20">
         <Container>
           <SectionHeading
@@ -166,7 +165,7 @@ export default function WarrantyCraftSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17130F]/90 via-[#17130F]/25 to-transparent transition-opacity duration-500 ease-out group-hover:from-[#17130F]/95" />
 
-                {/* Step number — drops in with a slight overshoot, then lifts on hover */}
+               
                 <span
                   className={`absolute left-4 top-4 font-serif text-2xl text-[#C9A468] leading-none transition-all ease-out group-hover:-translate-y-1 group-hover:text-[#F3ECDD] ${
                     processVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
@@ -180,7 +179,7 @@ export default function WarrantyCraftSection() {
                   {item.step}
                 </span>
 
-                {/* Caption — slides up slightly on hover, with an accent rule that draws in */}
+               
                 <div className="absolute inset-x-0 bottom-0 overflow-hidden p-5 sm:p-6">
                   <span className="mb-2 block h-px w-0 bg-[#A9793C] transition-all duration-500 ease-out group-hover:w-10" />
                   <p className="text-sm font-semibold uppercase tracking-[0.06em] text-[#F3ECDD] transition-transform duration-300 ease-out group-hover:-translate-y-0.5 sm:text-base">

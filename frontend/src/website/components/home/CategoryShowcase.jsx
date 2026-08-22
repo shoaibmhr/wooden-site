@@ -48,9 +48,7 @@ const categories = [
   },
 ];
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across HeroCarousel, StoreIntroBanner, StatsSection,
-// FeaturedProducts, and QuoteProcessSection.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);

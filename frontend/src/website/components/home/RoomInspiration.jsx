@@ -7,8 +7,7 @@ import roomImage from "../../../assets/image/lookbook-1.jpg";
 const panelHeight =
   "h-[280px] sm:h-[340px] md:h-[380px] lg:h-[420px] xl:h-[460px]";
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across the other homepage sections.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -37,7 +36,7 @@ export default function RoomInspiration() {
     <section ref={sectionRef} className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20 overflow-hidden">
       <Container>
         <div className="grid w-full gap-4 sm:gap-5 lg:grid-cols-[5fr_7fr] lg:gap-6">
-          {/* Left: text panel over background image — wipes in from the left */}
+         
           <div
             className={`relative flex items-center justify-center overflow-hidden px-6 py-12 sm:px-8 sm:py-14 md:px-12 md:py-16 lg:px-10 lg:py-12 xl:px-16 ${panelHeight}`}
             style={{
@@ -45,7 +44,7 @@ export default function RoomInspiration() {
               transition: "clip-path 1000ms cubic-bezier(0.65, 0, 0.35, 1)",
             }}
           >
-            {/* Background image, isolated so it can Ken-Burns independently of the clip-path */}
+           
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[3500ms] ease-out"
               style={{
@@ -101,7 +100,7 @@ export default function RoomInspiration() {
             </div>
           </div>
 
-          {/* Right: image — wipes in from the right, Ken Burns zoom */}
+         
           <div
             className={`relative overflow-hidden ${panelHeight}`}
             style={{

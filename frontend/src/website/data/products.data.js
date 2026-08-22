@@ -56,7 +56,7 @@ export const categoryMeta = {
 };
 
 export const products = [
-  // ==================== BEDS ====================
+ 
   {
     id: "wooden-bed",
     name: "Carved Four-Poster Sheesham Bed",

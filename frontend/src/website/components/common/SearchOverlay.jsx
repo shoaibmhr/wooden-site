@@ -26,7 +26,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
     onClose();
   };
 
-  // Lock body scroll while open
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -38,7 +38,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
     };
   }, [isOpen]);
 
-  // Close on Escape
+ 
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {

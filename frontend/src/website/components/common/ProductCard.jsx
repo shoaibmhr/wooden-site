@@ -16,13 +16,13 @@ export default function ProductCard({ product }) {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-        {/* Category / Wood Badge */}
+       
         <span className="absolute left-3 top-3 rounded-md bg-[#170e0a]/85 backdrop-blur-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#f0d9a8] border border-[#d4af6a]/30 shadow-md">
           {product.category || "Custom Hardwood"}
         </span>
       </Link>
 
-      {/* Info Block */}
+     
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <Link to={targetHref}>
           <h3 className="line-clamp-1 font-serif text-base font-bold text-[#2b1710] transition-colors duration-200 hover:text-[#b8863f] sm:text-lg">
@@ -30,13 +30,13 @@ export default function ProductCard({ product }) {
           </h3>
         </Link>
 
-        {/* Timber Info Tagline */}
+        
         <div className="mt-2 flex items-center gap-1.5 text-xs text-[#5c4a3b]">
           <ShieldCheck className="h-3.5 w-3.5 text-[#b8863f] shrink-0" />
           <span className="line-clamp-1">Built to Custom Size & Timber Selection</span>
         </div>
 
-        {/* Sleek Unified Luxury Button */}
+        
         <div className="mt-4 border-t border-[#ecdfc4]/60 pt-3">
           <Link
             to={targetHref}

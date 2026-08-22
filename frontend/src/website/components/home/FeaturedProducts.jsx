@@ -16,9 +16,7 @@ function WhatsappIcon(props) {
   );
 }
 
-// Small reusable hook — scroll-triggered visibility.
-// (Worth moving to its own file, e.g. src/hooks/useInView.js, since it now
-// repeats across HeroCarousel, StoreIntroBanner, StatsSection, and this file.)
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);

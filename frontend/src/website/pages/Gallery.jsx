@@ -9,7 +9,7 @@ import GalleryLightbox from "../components/gallery/GalleryLightbox";
 import GalleryCTA from "../components/gallery/GalleryCTA";
 import { categories, galleryItems } from "../data/gallery.data";
 
-// URL query slugs (Navbar links use these) mapped to actual category names in gallery.data.js
+
 const categorySlugMap = {
   "living-room": "Living Room",
   bedroom: "Bedroom",
@@ -29,11 +29,7 @@ export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState(categoryFromUrl);
   const [activeIndex, setActiveIndex] = useState(null);
 
-  // Tracks the URL category we last synced to. When the URL's ?category=
-  // changes (e.g. clicking a different Navbar link while already on
-  // /gallery), we adjust state during render rather than in an effect —
-  // this is React's recommended pattern for syncing state to a changed
-  // prop/derived value, and avoids the extra "cascading render" effects cause.
+  
   const [lastSyncedCategory, setLastSyncedCategory] = useState(categoryFromUrl);
   if (categoryFromUrl !== lastSyncedCategory) {
     setLastSyncedCategory(categoryFromUrl);

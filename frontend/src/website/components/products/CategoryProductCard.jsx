@@ -42,7 +42,7 @@ export default function CategoryProductCard({ product }) {
           <span>Bespoke Sizing & Premium Polish Finish</span>
         </div>
 
-        {/* Sleek Unified Luxury Button */}
+      
         <div className="mt-4">
           <Link
             to={targetHref}

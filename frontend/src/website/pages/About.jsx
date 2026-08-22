@@ -27,8 +27,7 @@ const timbers = [
   },
 ];
 
-// Shared scroll-visibility hook — same pattern used across the homepage
-// sections. Worth moving to src/hooks/useInView.js and importing everywhere.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -65,11 +64,11 @@ export default function About() {
         ]}
       />
 
-      {/* Brand Heritage Section */}
+     
       <section ref={heritageRef} className="w-full bg-[#FAF6EF] py-16 sm:py-20 lg:py-24 overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center lg:gap-16">
-            {/* Left: copy */}
+          
             <div>
               <span
                 className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
@@ -169,7 +168,7 @@ export default function About() {
               </div>
             </div>
 
-            {/* Right: Showcase image stack */}
+          
             <div className="relative">
               <div
                 className="relative aspect-[4/5] w-full overflow-hidden shadow-2xl ring-1 ring-[#17130F]/10"
@@ -187,7 +186,7 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17130F]/60 via-transparent to-transparent" />
               </div>
 
-              {/* Floating Quality Badge */}
+             
               <div
                 className={`absolute -bottom-6 -left-6 max-w-xs bg-[#17130F] p-6 text-white shadow-2xl border border-[#A9793C]/30 transition-all duration-700 ease-out ${
                   heritageVisible
@@ -213,10 +212,10 @@ export default function About() {
         </Container>
       </section>
 
-      {/* Stats counter section */}
+    
       <StatsSection />
 
-      {/* Materials & Sourcing */}
+     
       <section ref={materialsRef} className="w-full bg-white py-16 sm:py-20 lg:py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
@@ -290,8 +289,6 @@ export default function About() {
           </div>
         </Container>
       </section>
-
-      {/* Why Choose Us */}
       <WhyChooseUs />
     </div>
   );

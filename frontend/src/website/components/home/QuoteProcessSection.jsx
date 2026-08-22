@@ -10,8 +10,7 @@ const steps = [
   { title: "Receive Your Order", detail: "Your piece is finished, dispatched, and delivered to your door." },
 ];
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across HeroCarousel, StoreIntroBanner, StatsSection, FeaturedProducts.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -43,7 +42,7 @@ export default function QuoteProcessSection() {
     >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-16 xl:gap-20">
-          {/* Left: copy + CTAs — slides in from the left */}
+         
           <div className="flex text-center lg:text-left flex-col justify-center py-10 sm:py-12 md:py-16 lg:py-20">
             <span
               className={`text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] mb-4 transition-all duration-700 ease-out ${
@@ -106,7 +105,7 @@ export default function QuoteProcessSection() {
             </div>
           </div>
 
-          {/* Right: 5-step process — cascades in from the right, each step interactive on hover */}
+        
           <div className="py-10 sm:py-12 md:py-16 lg:py-20 lg:border-l lg:border-[#17130F]/10 lg:pl-16 xl:pl-20">
             <ol className="flex flex-col divide-y divide-[#17130F]/10">
               {steps.map((step, idx) => (

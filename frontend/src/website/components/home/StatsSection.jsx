@@ -80,7 +80,7 @@ export default function StatsSection() {
       ref={sectionRef}
       className="relative w-full overflow-hidden bg-[#17130F] py-16 sm:py-20 lg:py-24 text-white"
     >
-      {/* Background texture */}
+     
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.12] mix-blend-luminosity"
         style={{
@@ -88,7 +88,7 @@ export default function StatsSection() {
         }}
       />
 
-      {/* Single, quiet overlay — no stacked gradients */}
+     
       <div className="absolute inset-0 bg-gradient-to-t from-[#17130F] via-[#17130F]/70 to-[#17130F]/90" />
 
       <Container className="relative z-10">

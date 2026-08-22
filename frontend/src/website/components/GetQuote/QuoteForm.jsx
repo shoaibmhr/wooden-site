@@ -15,7 +15,7 @@ import {
   Info,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093"; // apna business number yahan daalo (country code ke sath, + ke bina)
+const WHATSAPP_NUMBER = "923027069093"; 
 
 const productTypes = [
   "Dining Table",
@@ -97,7 +97,7 @@ function buildWhatsAppMessage(data) {
   return lines.filter(Boolean).join("\n");
 }
 
-// Stagger container for the form fields
+
 const container = {
   hidden: {},
   visible: {
@@ -261,7 +261,7 @@ export default function QuoteForm() {
           </div>
         </motion.div>
 
-        {/* Bulk Order Toggle */}
+       
         <motion.div
           variants={fieldVariant}
           className="rounded-xl border border-stone-200 bg-stone-50/60 p-4"

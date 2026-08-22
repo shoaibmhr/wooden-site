@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
 import { ArrowRight } from "lucide-react";
 
-// Shared scroll-visibility hook — kept local to this file
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);

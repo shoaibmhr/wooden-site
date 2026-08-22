@@ -129,7 +129,7 @@ export default function Products() {
             ]}
           />
 
-          {/* Header — same eyebrow / heading reveal cadence used sitewide */}
+         
           <div
             ref={headerRef}
             className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between"
@@ -173,8 +173,7 @@ export default function Products() {
           </div>
 
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* Sidebar — desktop, slides in from the left like the Contact
-                page's info panel */}
+           
             <aside
               ref={sidebarRef}
               className={`hidden w-60 shrink-0 lg:block transition-all duration-[900ms] ease-out ${

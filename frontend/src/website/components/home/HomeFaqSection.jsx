@@ -36,8 +36,7 @@ const homeFaqs = [
   },
 ];
 
-// Shared scroll-visibility hook — move this to src/hooks/useInView.js
-// and reuse across the other homepage sections.
+
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -176,7 +175,7 @@ export default function HomeFaqSection() {
             })}
           </div>
 
-          {/* Bottom WhatsApp Help Banner */}
+         
           <div
             className={`group mt-10 flex flex-col sm:flex-row items-center justify-between gap-5 bg-[#17130F] p-6 text-[#F3ECDD] border border-[#A9793C]/25 transition-all duration-700 ease-out hover:border-[#A9793C]/60 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"

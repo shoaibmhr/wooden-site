@@ -13,7 +13,7 @@ export default function HeroCarousel() {
 
   return (
     <section className="w-full bg-[#17130F]">
-      {/* Video zone */}
+     
       <div className="relative w-full h-[70vh] min-h-[460px] sm:h-[78vh] sm:min-h-[540px] lg:h-[82vh] lg:min-h-[600px] max-h-[780px] overflow-hidden">
         <video
           className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[2500ms] ease-out ${
@@ -28,7 +28,7 @@ export default function HeroCarousel() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#17130F] from-0% via-[#17130F]/45 via-40% to-[#17130F]/10" />
 
-        {/* Content */}
+       
         <div className="relative z-10 flex h-full items-end">
           <div className="w-full px-6 sm:px-10 lg:px-16 pb-14 sm:pb-16 lg:pb-20">
             <div className="max-w-2xl">
@@ -106,7 +106,7 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      {/* Info bar — separate, solid zone beneath the video */}
+    
       <div
         className={`w-full border-t border-[#A9793C]/20 transition-all duration-700 ease-out ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
