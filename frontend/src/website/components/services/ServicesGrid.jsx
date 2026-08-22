@@ -29,9 +29,7 @@ function WhatsappIcon(props) {
   );
 }
 
-// `slug` matches the ?type= query values used by the Navbar's Services
-// dropdown links (e.g. /services?type=custom-design), so we know which
-// card to scroll to and highlight when a visitor arrives from that menu.
+
 const services = [
   {
     slug: "custom-design",
