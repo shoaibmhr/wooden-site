@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   User,
   Phone,
@@ -96,6 +97,19 @@ function buildWhatsAppMessage(data) {
   return lines.filter(Boolean).join("\n");
 }
 
+// Stagger container for the form fields
+const container = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06 },
+  },
+};
+
+const fieldVariant = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
 export default function QuoteForm() {
   const [formData, setFormData] = useState(initialFormData);
   const [errorMsg, setErrorMsg] = useState("");
@@ -132,7 +146,13 @@ export default function QuoteForm() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-2xl border border-stone-200 bg-white p-5 sm:p-7 md:p-9 shadow-sm">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="w-full max-w-3xl mx-auto rounded-2xl border border-stone-200 bg-white p-5 sm:p-7 md:p-9 shadow-sm"
+    >
       <h2 className="font-serif text-stone-900 text-xl sm:text-2xl md:text-3xl tracking-tight">
         Tell Us What You Need
       </h2>
@@ -141,15 +161,35 @@ export default function QuoteForm() {
         ready to send.
       </p>
 
-      {errorMsg && (
-        <div className="mt-5 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs sm:text-sm font-semibold text-rose-700">
-          {errorMsg}
-        </div>
-      )}
+      <AnimatePresence>
+        {errorMsg && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+            animate={{ opacity: 1, height: "auto", marginTop: 20 }}
+            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs sm:text-sm font-semibold text-rose-700">
+              {errorMsg}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+      <motion.form
+        onSubmit={handleSubmit}
+        className="mt-6 space-y-5"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+      >
         {/* Contact Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <motion.div
+          variants={fieldVariant}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        >
           <div>
             <label className="block text-xs sm:text-sm font-semibold text-stone-700">
               Full Name *
@@ -219,10 +259,13 @@ export default function QuoteForm() {
               />
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bulk Order Toggle */}
-        <div className="rounded-xl border border-stone-200 bg-stone-50/60 p-4">
+        <motion.div
+          variants={fieldVariant}
+          className="rounded-xl border border-stone-200 bg-stone-50/60 p-4"
+        >
           <label className="flex items-center gap-2.5 cursor-pointer">
             <input
               type="checkbox"
@@ -236,42 +279,55 @@ export default function QuoteForm() {
             </span>
           </label>
 
-          {formData.isBulkOrder && (
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700">
-                  Business / Organization Name
-                </label>
-                <input
-                  type="text"
-                  name="businessName"
-                  value={formData.businessName}
-                  onChange={handleChange}
-                  placeholder="e.g. Grand Hotel Sargodha"
-                  className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
-                />
-              </div>
+          <AnimatePresence initial={false}>
+            {formData.isBulkOrder && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold text-stone-700">
+                      Business / Organization Name
+                    </label>
+                    <input
+                      type="text"
+                      name="businessName"
+                      value={formData.businessName}
+                      onChange={handleChange}
+                      placeholder="e.g. Grand Hotel Sargodha"
+                      className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-xs sm:text-sm font-semibold text-stone-700">
-                  Quantity Required
-                </label>
-                <input
-                  type="number"
-                  name="quantity"
-                  min="1"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  placeholder="e.g. 50 chairs"
-                  className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
-                />
-              </div>
-            </div>
-          )}
-        </div>
+                  <div>
+                    <label className="block text-xs sm:text-sm font-semibold text-stone-700">
+                      Quantity Required
+                    </label>
+                    <input
+                      type="number"
+                      name="quantity"
+                      min="1"
+                      value={formData.quantity}
+                      onChange={handleChange}
+                      placeholder="e.g. 50 chairs"
+                      className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white py-2.5 px-3.5 text-sm text-stone-900 placeholder-stone-400 focus:border-[#5C2A2A] focus:ring-2 focus:ring-[#5C2A2A]/10 outline-none transition-all"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
         {/* Product Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <motion.div
+          variants={fieldVariant}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        >
           <div>
             <label className="block text-xs sm:text-sm font-semibold text-stone-700">
               Product Type *
@@ -362,10 +418,10 @@ export default function QuoteForm() {
               </select>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Dimensions */}
-        <div>
+        <motion.div variants={fieldVariant}>
           <label className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-stone-700">
             <Ruler className="h-3.5 w-3.5 text-stone-400" />
             Dimensions in inches (Optional)
@@ -399,10 +455,10 @@ export default function QuoteForm() {
               className="w-full rounded-xl border border-stone-300 bg-stone-50/60 px-3.5 py-2.5 text-sm text-stone-900 placeholder-stone-400 focus:bg-white focus:border-[#5C2A2A] outline-none transition-all"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Description */}
-        <div>
+        <motion.div variants={fieldVariant}>
           <label className="block text-xs sm:text-sm font-semibold text-stone-700">
             Describe Your Requirement *
           </label>
@@ -418,25 +474,31 @@ export default function QuoteForm() {
               className="w-full rounded-xl border border-stone-300 bg-stone-50/60 py-2.5 pl-10 pr-3.5 text-sm text-stone-900 placeholder-stone-400 focus:bg-white focus:border-[#5C2A2A] outline-none transition-all"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Reference Image Note */}
-        <div className="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5">
+        <motion.div
+          variants={fieldVariant}
+          className="flex items-start gap-2.5 rounded-xl border border-amber-200 bg-amber-50 p-3.5"
+        >
           <Info className="h-4 w-4 shrink-0 text-amber-700 mt-0.5" />
           <p className="text-xs sm:text-sm text-amber-800 leading-relaxed">
             Have a reference photo? No problem — once WhatsApp opens with your
             details, simply attach the image directly in the chat.
           </p>
-        </div>
+        </motion.div>
 
-        <button
+        <motion.button
+          variants={fieldVariant}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.97 }}
           type="submit"
-          className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#5C2A2A] hover:bg-[#4A2121] px-6 py-3.5 text-xs sm:text-sm font-medium uppercase tracking-[0.15em] text-white transition-all duration-300 ease-out hover:tracking-[0.2em] active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#5C2A2A] hover:bg-[#4A2121] px-6 py-3.5 text-xs sm:text-sm font-medium uppercase tracking-[0.15em] text-white transition-colors duration-300 ease-out hover:tracking-[0.2em]"
         >
           <Send className="h-4 w-4" />
           Send Request on WhatsApp
-        </button>
-      </form>
-    </div>
+        </motion.button>
+      </motion.form>
+    </motion.div>
   );
 }

@@ -1,5 +1,28 @@
+import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
-import { ArrowRight,  } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+// Shared scroll-visibility hook — kept local to this file
+function useInView(threshold = 0.15) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return [ref, isVisible];
+}
 
 const WHATSAPP_NUMBER = "923027069093";
 const whatsappMessage = encodeURIComponent(
@@ -16,30 +39,54 @@ function WhatsappIcon(props) {
 }
 
 export default function FaqCTA() {
+  const [sectionRef, isVisible] = useInView(0.2);
+
   return (
-    <section className="relative w-full overflow-hidden py-16 sm:py-20 md:py-24">
-      {/* Background image - fully visible */}
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden py-16 sm:py-20 md:py-24"
+    >
       <img
         src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1600&q=80"
         alt="Natural wood grain texture"
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out ${
+          isVisible ? "scale-100" : "scale-110"
+        }`}
       />
 
-      {/* Subtle directional gradient only where needed - image stays clear */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/25 to-black/50" />
 
       <Container>
         <div className="relative z-10 mx-auto max-w-lg text-center">
-          <div className="mx-auto max-w-md rounded-lg bg-[#170e0a]/70 px-6 py-8 backdrop-blur-sm sm:px-10 sm:py-10">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d4af6a]">
+          <div
+            className={`group/box mx-auto max-w-md rounded-lg bg-[#170e0a]/70 px-6 py-8 backdrop-blur-sm transition-all duration-700 ease-out sm:px-10 sm:py-10 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <p
+              className={`text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d4af6a] transition-all duration-700 ease-out ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+              }`}
+              style={{ transitionDelay: isVisible ? "120ms" : "0ms" }}
+            >
               Need Help Deciding?
             </p>
 
-            <h2 className="mt-2 font-serif text-xl font-bold text-[#f7f0e2] sm:text-2xl md:text-3xl">
+            <h2
+              className={`mt-2 font-serif text-xl font-bold text-[#f7f0e2] transition-all duration-700 ease-out sm:text-2xl md:text-3xl ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: isVisible ? "220ms" : "0ms" }}
+            >
               Still have questions?
             </h2>
 
-            <p className="mt-3 text-sm text-stone-300 sm:text-base">
+            <p
+              className={`mt-3 text-sm text-stone-300 transition-all duration-700 ease-out sm:text-base ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: isVisible ? "320ms" : "0ms" }}
+            >
               Can't find what you're looking for? Message our team directly
               and we'll get back to you right away.
             </p>
@@ -48,11 +95,15 @@ export default function FaqCTA() {
              <a href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-6 inline-flex items-center gap-2 rounded-sm bg-emerald-600 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all duration-300 hover:bg-emerald-500"
+              className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-sm bg-emerald-600 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all duration-300 active:scale-[0.97] ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: isVisible ? "420ms" : "0ms" }}
             >
-              <WhatsappIcon className="h-4 w-4 shrink-0" />
-              <span>Chat on WhatsApp</span>
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              <span className="absolute inset-0 -translate-x-full bg-emerald-500 transition-transform duration-300 ease-out group-hover:translate-x-0" />
+              <WhatsappIcon className="relative h-4 w-4 shrink-0" />
+              <span className="relative">Chat on WhatsApp</span>
+              <ArrowRight className="relative h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </div>
         </div>

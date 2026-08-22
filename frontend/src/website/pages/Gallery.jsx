@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import Container from "../components/common/Container";
 import PageHero from "../components/common/PageHero";
 import GalleryFilter from "../components/gallery/GalleryFilters";
@@ -7,33 +8,9 @@ import GalleryLightbox from "../components/gallery/GalleryLightbox";
 import GalleryCTA from "../components/gallery/GalleryCTA";
 import { categories, galleryItems } from "../data/gallery.data";
 
-function useInView(threshold = 0.15) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return [ref, isVisible];
-}
-
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeIndex, setActiveIndex] = useState(null);
-
-  const [filterRef, filterVisible] = useInView(0.2);
-  const [gridRef, gridVisible] = useInView(0.05);
 
   const filteredItems = useMemo(() => {
     if (activeCategory === "All") return galleryItems;
@@ -58,14 +35,11 @@ export default function Gallery() {
 
       <section className="w-full bg-white py-10 sm:py-12 md:py-16">
         <Container>
-          <div
-            ref={filterRef}
-            className={`transition-all duration-700 ease-out ${
-              filterVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: "80ms" }}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.08, ease: "easeOut" }}
           >
             <GalleryFilter
               categories={categories}
@@ -75,22 +49,20 @@ export default function Gallery() {
                 setActiveIndex(null);
               }}
             />
-          </div>
+          </motion.div>
 
-          <div
-            ref={gridRef}
-            className={`mt-8 sm:mt-10 transition-all duration-[900ms] ease-out ${
-              gridVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-            style={{ transitionDelay: "200ms" }}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+            className="mt-8 sm:mt-10"
           >
             <GalleryMasonryGrid
               items={filteredItems}
               onSelectItem={handleSelectItem}
             />
-          </div>
+          </motion.div>
         </Container>
       </section>
 

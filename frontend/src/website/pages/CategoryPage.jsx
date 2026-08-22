@@ -1,5 +1,6 @@
-import { useMemo, useState, } from "react";
+import { useMemo, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import PageHero from "../components/common/PageHero";
@@ -22,6 +23,24 @@ const allCategoriesList = [
   { slug: "temple", name: "Pooja Temples" },
 ];
 
+const gridContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.07 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
+};
+
 export default function CategoryPage() {
   const { categorySlug } = useParams();
   const [productList] = useState(() => fallbackProducts);
@@ -29,7 +48,6 @@ export default function CategoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const currentMeta = categoryMeta[categorySlug];
-
 
   const categoryProducts = useMemo(() => {
     if (!categorySlug) return [];
@@ -94,7 +112,12 @@ export default function CategoryPage() {
           />
 
           {/* Quick Category Navigation Pills */}
-          <div className="my-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="my-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none"
+          >
             <span className="shrink-0 text-xs font-bold uppercase tracking-wider text-neutral-400">
               Browse:
             </span>
@@ -104,20 +127,36 @@ export default function CategoryPage() {
                 <Link
                   key={cat.slug}
                   to={`/category/${cat.slug}`}
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                  className={`relative shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors duration-200 ${
                     isActive
-                      ? "bg-[#2b1710] text-[#f0d9a8] shadow-md"
+                      ? "text-[#f0d9a8]"
                       : "bg-white text-neutral-700 border border-[#ecdfc4] hover:border-[#2b1710] hover:text-[#2b1710]"
                   }`}
                 >
-                  {cat.name}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeCategoryPill"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 32,
+                      }}
+                      className="absolute inset-0 rounded-full bg-[#2b1710] shadow-md"
+                    />
+                  )}
+                  <span className="relative">{cat.name}</span>
                 </Link>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Category Header & Filter Toolbar */}
-          <div className="mt-4 flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6 border border-[#ecdfc4]">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="mt-4 flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6 border border-[#ecdfc4]"
+          >
             <div>
               <h1 className="font-serif text-xl font-bold tracking-tight text-[#2b1710] sm:text-2xl md:text-3xl">
                 {currentMeta.title}
@@ -152,28 +191,61 @@ export default function CategoryPage() {
                 </select>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Results Info Count */}
-          <div className="mt-6 flex items-center justify-between px-1">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 flex items-center justify-between px-1"
+          >
             <p className="text-xs font-medium text-neutral-500 sm:text-sm">
               Showing{" "}
-              <span className="font-bold text-[#2b1710]">
+              <motion.span
+                key={categoryProducts.length}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="inline-block font-bold text-[#2b1710]"
+              >
                 {categoryProducts.length}
-              </span>{" "}
+              </motion.span>{" "}
               handcrafted designs
             </p>
-          </div>
+          </motion.div>
 
           {/* Product Grid */}
           {categoryProducts.length > 0 ? (
-            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-              {categoryProducts.map((product) => (
-                <CategoryProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <motion.div
+              layout
+              variants={gridContainer}
+              initial="hidden"
+              animate="visible"
+              className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+            >
+              <AnimatePresence mode="popLayout">
+                {categoryProducts.map((product) => (
+                  <motion.div
+                    key={product.id}
+                    layout
+                    variants={cardVariant}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                  >
+                    <CategoryProductCard product={product} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
           ) : (
-            <div className="my-12 flex flex-col items-center justify-center rounded-2xl bg-white p-12 text-center shadow-sm">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="my-12 flex flex-col items-center justify-center rounded-2xl bg-white p-12 text-center shadow-sm"
+            >
               <Sparkles className="h-12 w-12 text-[#b8863f]/40" />
               <h3 className="mt-4 text-lg font-bold text-neutral-900">
                 No designs found
@@ -188,11 +260,17 @@ export default function CategoryPage() {
               >
                 Clear Search
               </button>
-            </div>
+            </motion.div>
           )}
 
           {/* WhatsApp Custom Sizing CTA Banner */}
-          <div className="mt-14 overflow-hidden rounded-3xl bg-gradient-to-r from-[#170e0a] via-[#2b1710] to-[#170e0a] p-6 text-white shadow-xl sm:p-10 border border-[#d4af6a]/30">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mt-14 overflow-hidden rounded-3xl bg-gradient-to-r from-[#170e0a] via-[#2b1710] to-[#170e0a] p-6 text-white shadow-xl sm:p-10 border border-[#d4af6a]/30"
+          >
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
               <div className="text-center md:text-left">
                 <span className="inline-block rounded-full bg-[#d4af6a]/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#d4af6a]">
@@ -202,21 +280,25 @@ export default function CategoryPage() {
                   Need custom dimensions or bespoke carving?
                 </h3>
                 <p className="mt-2 max-w-xl text-xs text-[#ecdfc4]/80 sm:text-sm">
-                  We handcraft furniture in Sheesham, Teak, and Oak according to your exact room blueprint. Chat directly with our master craftsman on WhatsApp!
+                  We handcraft furniture in Sheesham, Teak, and Oak according to
+                  your exact room blueprint. Chat directly with our master
+                  craftsman on WhatsApp!
                 </p>
               </div>
 
-              <a
+              <motion.a
                 href={`https://wa.me/${WHATSAPP_NUMBER}?text=${customWhatsAppMsg}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex shrink-0 items-center gap-2.5 rounded-full bg-emerald-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-emerald-500 hover:scale-105"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="flex shrink-0 items-center gap-2.5 rounded-full bg-emerald-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-colors duration-300 hover:bg-emerald-500"
               >
                 <MessageCircle className="h-5 w-5" />
                 <span>WhatsApp</span>
-              </a>
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
         </Container>
       </section>
     </div>

@@ -22,8 +22,7 @@ import {
 import Container from "../common/Container";
 import SearchOverlay from "../common/SearchOverlay";
 
-// Same categories as the homepage CategoryShowcase — keep this list in sync
-// with that file, or better, lift both to a shared src/data/categories.js.
+
 const categories = [
   {
     title: "Bed",
