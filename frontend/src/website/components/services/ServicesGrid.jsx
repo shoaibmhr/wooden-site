@@ -6,9 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 const WHATSAPP_NUMBER = "923027069093";
 
-// Injects the pulsing-glow keyframe used to draw attention to the service
-// card a visitor lands on from the Navbar's Services dropdown. Defined once
-// at module scope so it isn't re-injected on every render.
+
 if (typeof document !== "undefined" && !document.getElementById("service-highlight-style")) {
   const styleTag = document.createElement("style");
   styleTag.id = "service-highlight-style";
@@ -111,11 +109,7 @@ export default function ServicesGrid() {
   const [searchParams] = useSearchParams();
   const [highlightedSlug, setHighlightedSlug] = useState(null);
 
-  // Scrolls to and briefly highlights the service card matching ?type=
-  // in the URL (set by the Navbar's Services dropdown links). This runs
-  // as a side effect intentionally — it talks to the real DOM (scrolling)
-  // and a timer, not just deriving state from a prop, so useEffect is the
-  // right tool here.
+  
   useEffect(() => {
     const targetSlug = searchParams.get("type");
     if (!targetSlug) return;
@@ -215,8 +209,7 @@ export default function ServicesGrid() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-85" />
 
-                  {/* Index marker — small professional detail echoing the
-                      diamond icon treatment used elsewhere on the site */}
+                 
                   <div className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center">
                     <div className="absolute inset-0 rotate-45 border border-white/50 transition-all duration-500 ease-out group-hover:border-[#d4af6a] group-hover:bg-[#2b1710]/70" />
                     <span className="relative font-serif text-xs text-white">
