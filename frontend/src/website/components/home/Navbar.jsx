@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import Container from "../common/Container";
 import SearchOverlay from "../common/SearchOverlay";
-import logo from "src/assets/image/logo-navbar.png";
+import logo from "../../../assets/image/logo-navbar.png";
 
 const categories = [
   {
