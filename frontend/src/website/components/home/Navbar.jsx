@@ -136,7 +136,7 @@ const galleryItems = [
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
+  { label: "About", href: "/about" },
   {
     label: "Services",
     href: "/services",
@@ -208,10 +208,8 @@ export default function Navbar() {
         
       `}</style>
 
-     
       <div className="h-[3px] w-full wd-shimmer-line" />
 
-    
       <div
         className={`border-b transition-shadow duration-300 ${
           isScrolled
@@ -236,13 +234,13 @@ export default function Navbar() {
 
             <Link
               to="/"
-              className="order-2 flex flex-1 items-center justify-center gap-2.5 md:order-2 lg:order-1 lg:flex-none lg:justify-start"
+              className="order-2 flex flex-1 items-center justify-center gap-2 md:order-2 lg:order-1 lg:flex-none lg:justify-start lg:gap-2.5"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-[#3e2723] via-[#2b1710] to-[#170e0a] text-sm font-semibold tracking-wide text-[#f0d9a8] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.55)] ring-1 ring-[#d4af6a]/40">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-[#3e2723] via-[#2b1710] to-[#170e0a] text-xs font-semibold tracking-wide text-[#f0d9a8] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.55)] ring-1 ring-[#d4af6a]/40  sm:h-9 sm:w-9 sm:text-sm lg:h-10 lg:w-10">
                 W
               </span>
               <span className="flex flex-col leading-none">
-                <span className="font-serif text-lg font-semibold tracking-wide text-[#2b1710] sm:text-xl">
+                <span className="font-serif text-base font-semibold tracking-wide text-[#2b1710]  sm:text-lg lg:text-xl">
                   WoodenSite
                 </span>
                 <span className="mt-1 hidden text-[9px] uppercase tracking-[0.25em] text-[#b8863f] sm:block">
@@ -252,7 +250,7 @@ export default function Navbar() {
             </Link>
 
             <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
-              <ul className="flex flex-wrap items-center justify-center gap-x-8 xl:gap-x-10">
+              <ul className="flex flex-nowrap items-center justify-center gap-x-4 lg:gap-x-6 xl:gap-x-10">
                 {navLinks.map((link) => {
                   if (!link.dropdown) {
                     return (
@@ -298,7 +296,6 @@ export default function Navbar() {
                         />
                       </Link>
 
-                     
                       <div
                         className={`absolute top-full z-50 pt-4 transition-all duration-300 ease-out ${
                           isImageType
@@ -311,7 +308,6 @@ export default function Navbar() {
                         }`}
                       >
                         <div className="overflow-hidden rounded-md border border-[#ecdfc4] bg-[#faf6ef] shadow-[0_18px_50px_-12px_rgba(28,18,13,0.25)]">
-                         
                           <div className="h-[3px] w-full bg-gradient-to-r from-[#b8863f] via-[#f0d9a8] to-[#b8863f]" />
 
                           {isImageType ? (
@@ -323,7 +319,9 @@ export default function Navbar() {
                                   onClick={() => setOpenMenu(null)}
                                   className="group/item flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 hover:bg-[#f0e6cc]/60"
                                   style={{
-                                    transitionDelay: isOpen ? `${idx * 40}ms` : "0ms",
+                                    transitionDelay: isOpen
+                                      ? `${idx * 40}ms`
+                                      : "0ms",
                                   }}
                                 >
                                   <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border border-[#ecdfc4]">
@@ -355,13 +353,17 @@ export default function Navbar() {
                                         : "opacity-0 -translate-x-2"
                                     }`}
                                     style={{
-                                      transitionDelay: isOpen ? `${idx * 45}ms` : "0ms",
+                                      transitionDelay: isOpen
+                                        ? `${idx * 45}ms`
+                                        : "0ms",
                                     }}
                                   >
-                                   
                                     <span className="absolute inset-y-1.5 left-0 w-[3px] scale-y-0 bg-gradient-to-b from-[#b8863f] to-[#f0d9a8] transition-transform duration-300 ease-out group-hover/item:scale-y-100" />
                                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f] transition-colors duration-300 group-hover/item:bg-[#2b1710] group-hover/item:text-[#f0d9a8]">
-                                      <Icon className="h-4 w-4" strokeWidth={1.75} />
+                                      <Icon
+                                        className="h-4 w-4"
+                                        strokeWidth={1.75}
+                                      />
                                     </span>
                                     <span className="flex flex-col">
                                       <span className="text-[12.5px] font-semibold uppercase tracking-[0.05em] text-[#2b1710] transition-colors duration-200 group-hover/item:text-[#9c7a3f]">
@@ -406,10 +408,11 @@ export default function Navbar() {
 
               <Link
                 to="/get-quote"
-                className="group relative hidden items-center gap-1.5 overflow-hidden rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.5)] transition-all duration-200 hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)] sm:flex"
+                className="group relative hidden items-center gap-1 overflow-hidden rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f7f0e2] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.5)] transition-all duration-200 hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)] sm:flex sm:flex sm:px-4 sm:py-2 sm:text-[11px] lg:gap-1.5 lg:px-5 lg:py-2.5 lg:text-[12px] lg:tracking-[0.1em]"
               >
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                Get a Quote
+                <span className="hidden sm:inline">Get a Quote</span>
+                <span className="sm:hidden">Quote</span>
                 <ArrowRight
                   className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
                   strokeWidth={2}
@@ -539,7 +542,10 @@ export default function Navbar() {
                                 className="flex items-center gap-3 rounded-sm p-2 transition-colors hover:bg-[#f0e6cc]/60"
                               >
                                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f]">
-                                  <Icon className="h-4 w-4" strokeWidth={1.75} />
+                                  <Icon
+                                    className="h-4 w-4"
+                                    strokeWidth={1.75}
+                                  />
                                 </span>
                                 <span className="text-[12px] font-medium uppercase tracking-[0.04em] text-[#2b1710]">
                                   {item.title}
@@ -559,7 +565,7 @@ export default function Navbar() {
             <Link
               to="/get-quote"
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center justify-center gap-1.5 rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] transition-colors hover:from-[#b8863f] hover:to-[#9c7a3f]"
+              className="flex w-full items-center justify-center gap-1.5 rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] transition-colors hover:from-[#b8863f] hover:to-[#9c7a3f]"
             >
               Get a Quote
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
