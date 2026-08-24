@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
+import logo from "../../../assets/image/logo-footer.png";
 
 function FacebookIcon(props) {
   return (
@@ -105,7 +106,7 @@ export default function Footer() {
           <div className="flex flex-col items-start text-left lg:col-span-4">
             <Link to="/" className="flex items-start gap-3">
               <img
-                src="/src/assets/image/logo-footer.png"
+                src={logo}
                 alt="Art By Adeel Logo"
                 className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-14"
               />
