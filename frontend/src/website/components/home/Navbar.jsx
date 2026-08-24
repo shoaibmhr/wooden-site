@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Container from "../common/Container";
 import SearchOverlay from "../common/SearchOverlay";
+import logo from "src/assets/image/logo-navbar.png";
 
 const categories = [
   {
@@ -276,7 +277,7 @@ export default function Navbar() {
               className="order-2 flex min-w-0 flex-1 items-center justify-center gap-2 xs:gap-3 sm:gap-4 lg:order-1 lg:flex-none lg:justify-start lg:gap-3"
             >
               <img
-                src="/src/assets/image/logo-navbar.png"
+                src={logo}
                 alt="Art By Adeel Logo"
                 className="h-10 w-10 shrink-0 object-contain xs:h-12 xs:w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24"
               />
