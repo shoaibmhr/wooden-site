@@ -22,7 +22,6 @@ import {
 import Container from "../common/Container";
 import SearchOverlay from "../common/SearchOverlay";
 
-
 const categories = [
   {
     title: "Bed",
@@ -100,6 +99,7 @@ const serviceItems = [
     icon: Paintbrush,
   },
 ];
+
 const galleryItems = [
   {
     title: "Living Rooms",
@@ -133,24 +133,35 @@ const galleryItems = [
   },
 ];
 
-
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   {
     label: "Services",
     href: "/services",
-    dropdown: { type: "list", items: serviceItems, cta: { label: "View All Services", href: "/services" } },
+    dropdown: {
+      type: "list",
+      items: serviceItems,
+      cta: { label: "View All Services", href: "/services" },
+    },
   },
   {
     label: "Categories",
     href: "/products",
-    dropdown: { type: "images", items: categories, cta: { label: "View All Categories", href: "/products" } },
+    dropdown: {
+      type: "images",
+      items: categories,
+      cta: { label: "View All Categories", href: "/products" },
+    },
   },
   {
     label: "Gallery",
     href: "/gallery",
-    dropdown: { type: "list", items: galleryItems, cta: { label: "View Full Gallery", href: "/gallery" } },
+    dropdown: {
+      type: "list",
+      items: galleryItems,
+      cta: { label: "View Full Gallery", href: "/gallery" },
+    },
   },
   { label: "Contact", href: "/contact" },
 ];
@@ -159,11 +170,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
- 
+
   const [openMenu, setOpenMenu] = useState(null);
-  
+
   const [openMobileMenus, setOpenMobileMenus] = useState({});
   const closeTimer = useRef(null);
+  const navRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -179,7 +191,6 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
- 
   const openDropdown = (label) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenMenu(label);
@@ -194,6 +205,29 @@ export default function Navbar() {
     };
   }, []);
 
+  // Close an open dropdown on outside click / tap — needed for touch &
+  // trackpad devices at desktop breakpoints where hover never fires.
+  useEffect(() => {
+    if (!openMenu) return undefined;
+    const handlePointerDown = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [openMenu]);
+
+  // Close dropdown on Escape for keyboard users.
+  useEffect(() => {
+    if (!openMenu) return undefined;
+    const handleKey = (event) => {
+      if (event.key === "Escape") setOpenMenu(null);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [openMenu]);
+
   const toggleMobileMenu = (label) => {
     setOpenMobileMenus((prev) => ({ ...prev, [label]: !prev[label] }));
   };
@@ -205,7 +239,6 @@ export default function Navbar() {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
-        
       `}</style>
 
       <div className="h-[3px] w-full wd-shimmer-line" />
@@ -218,46 +251,58 @@ export default function Navbar() {
         }`}
       >
         <Container>
-          <div className="flex h-16 items-center justify-between gap-3 md:h-20 sm:gap-4">
+          {/* Row height scales up gradually so nothing feels cramped on small
+              phones or oversized on desktop. */}
+          <div className="flex h-14 items-center justify-between gap-2 xs:h-16 xs:gap-3 sm:h-[72px] sm:gap-4 md:h-20 lg:gap-3">
+            {/* Mobile hamburger — hidden from lg up, real nav takes over */}
             <button
+              type="button"
               onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="-ml-2 order-1 flex items-center justify-center p-2 text-[#2b1710] transition-transform active:scale-90 lg:hidden"
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
+              className="order-1 -ml-2 flex h-10 w-10 shrink-0 items-center justify-center p-2 text-[#2b1710] transition-transform active:scale-90 lg:hidden"
             >
               {isMenuOpen ? (
-                <X className="h-6 w-6" strokeWidth={1.5} />
+                <X className="h-5 w-5 xs:h-6 xs:w-6" strokeWidth={1.5} />
               ) : (
-                <Menu className="h-6 w-6" strokeWidth={1.5} />
+                <Menu className="h-5 w-5 xs:h-6 xs:w-6" strokeWidth={1.5} />
               )}
             </button>
 
+            {/* Logo — centered on mobile/tablet, left-aligned once the full
+                nav appears at lg */}
             <Link
               to="/"
-              className="order-2 flex flex-1 items-center justify-center gap-2 md:order-2 lg:order-1 lg:flex-none lg:justify-start lg:gap-2.5"
+              className="order-2 flex min-w-0 flex-1 items-center justify-center gap-2 xs:gap-3 sm:gap-4 lg:order-1 lg:flex-none lg:justify-start lg:gap-3"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-[#3e2723] via-[#2b1710] to-[#170e0a] text-xs font-semibold tracking-wide text-[#f0d9a8] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.55)] ring-1 ring-[#d4af6a]/40  sm:h-9 sm:w-9 sm:text-sm lg:h-10 lg:w-10">
-                W
-              </span>
-              <span className="flex flex-col leading-none">
-                <span className="font-serif text-base font-semibold tracking-wide text-[#2b1710]  sm:text-lg lg:text-xl">
-                  WoodenSite
+              <img
+                src="/src/assets/image/logo-navbar.png"
+                alt="Art By Adeel Logo"
+                className="h-10 w-10 shrink-0 object-contain xs:h-12 xs:w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24"
+              />
+              <span className="flex min-w-0 flex-col leading-none">
+                <span className="truncate font-serif text-xs font-semibold tracking-wide text-[#2b1710] xs:text-sm sm:text-base lg:text-lg xl:text-xl">
+                  Art By Adeel
                 </span>
                 <span className="mt-1 hidden text-[9px] uppercase tracking-[0.25em] text-[#b8863f] sm:block">
-                  Est. Fine Woodcraft
+                  Premium Interiors Arts
                 </span>
               </span>
             </Link>
 
-            <nav className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center">
-              <ul className="flex flex-nowrap items-center justify-center gap-x-4 lg:gap-x-6 xl:gap-x-10">
+            {/* Desktop nav — only rendered from lg up */}
+            <nav
+              ref={navRef}
+              className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center"
+            >
+              <ul className="flex flex-nowrap items-center justify-center gap-x-3 lg:gap-x-4 xl:gap-x-8 2xl:gap-x-10">
                 {navLinks.map((link) => {
                   if (!link.dropdown) {
                     return (
                       <li key={link.label}>
                         <Link
                           to={link.href}
-                          className="group relative inline-block py-1 text-[13px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f]"
+                          className="group relative inline-block whitespace-nowrap py-1 text-[12.5px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f] xl:text-[13px]"
                         >
                           {link.label}
                           <span className="pointer-events-none absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 group-hover:w-full" />
@@ -276,31 +321,46 @@ export default function Navbar() {
                       onMouseEnter={() => openDropdown(link.label)}
                       onMouseLeave={scheduleCloseDropdown}
                     >
-                      <Link
-                        to={link.href}
-                        onClick={() => setOpenMenu(null)}
-                        className="group relative flex items-center gap-1 py-1 text-[13px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f]"
-                        aria-expanded={isOpen}
-                      >
-                        {link.label}
-                        <ChevronDown
-                          className={`h-3.5 w-3.5 transition-transform duration-300 ease-out ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
-                          strokeWidth={2}
-                        />
+                      <span className="group relative flex items-center gap-0.5 py-1">
+                        <Link
+                          to={link.href}
+                          onClick={() => setOpenMenu(null)}
+                          className="whitespace-nowrap text-[12.5px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f] xl:text-[13px]"
+                        >
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={`${isOpen ? "Close" : "Open"} ${link.label} menu`}
+                          aria-expanded={isOpen}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setOpenMenu(isOpen ? null : link.label);
+                          }}
+                          className="flex h-6 w-6 items-center justify-center text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f]"
+                        >
+                          <ChevronDown
+                            className={`h-3.5 w-3.5 transition-transform duration-300 ease-out ${
+                              isOpen ? "rotate-180" : ""
+                            }`}
+                            strokeWidth={2}
+                          />
+                        </button>
                         <span
-                          className={`pointer-events-none absolute -bottom-0.5 left-1/2 h-px -translate-x-1/2 bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 ${
+                          className={`pointer-events-none absolute -bottom-0.5 left-0 h-px bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 ${
                             isOpen ? "w-full" : "w-0 group-hover:w-full"
                           }`}
                         />
-                      </Link>
+                      </span>
 
+                      {/* Dropdown panel — width/position tuned per breakpoint so it
+                          never overflows the viewport on narrower desktop widths */}
                       <div
                         className={`absolute top-full z-50 pt-4 transition-all duration-300 ease-out ${
                           isImageType
-                            ? "left-1/2 w-[min(640px,90vw)] -translate-x-1/2"
-                            : "left-1/2 w-[300px] -translate-x-1/2"
+                            ? "left-1/2 w-[min(640px,92vw)] -translate-x-1/2 lg:left-auto lg:right-0 lg:w-[min(560px,60vw)] lg:translate-x-0 xl:left-1/2 xl:right-auto xl:w-[min(640px,50vw)] xl:-translate-x-1/2"
+                            : "left-1/2 w-[min(320px,88vw)] -translate-x-1/2 lg:left-auto lg:right-0 lg:translate-x-0 xl:left-1/2 xl:right-auto xl:-translate-x-1/2"
                         } ${
                           isOpen
                             ? "pointer-events-auto opacity-100 translate-y-0"
@@ -317,12 +377,12 @@ export default function Navbar() {
                                   key={category.title}
                                   to={category.href}
                                   onClick={() => setOpenMenu(null)}
-                                  className="group/item flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 hover:bg-[#f0e6cc]/60"
                                   style={{
                                     transitionDelay: isOpen
                                       ? `${idx * 40}ms`
                                       : "0ms",
                                   }}
+                                  className="group/item flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 hover:bg-[#f0e6cc]/60"
                                 >
                                   <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border border-[#ecdfc4]">
                                     <img
@@ -347,16 +407,16 @@ export default function Navbar() {
                                     key={item.title}
                                     to={item.href}
                                     onClick={() => setOpenMenu(null)}
-                                    className={`group/item relative flex items-start gap-3 overflow-hidden rounded-sm p-2.5 transition-all duration-300 ease-out hover:bg-[#f0e6cc]/60 ${
-                                      isOpen
-                                        ? "opacity-100 translate-x-0"
-                                        : "opacity-0 -translate-x-2"
-                                    }`}
                                     style={{
                                       transitionDelay: isOpen
                                         ? `${idx * 45}ms`
                                         : "0ms",
                                     }}
+                                    className={`group/item relative flex items-start gap-3 overflow-hidden rounded-sm p-2.5 transition-all duration-300 ease-out hover:bg-[#f0e6cc]/60 ${
+                                      isOpen
+                                        ? "opacity-100 translate-x-0"
+                                        : "opacity-0 -translate-x-2"
+                                    }`}
                                   >
                                     <span className="absolute inset-y-1.5 left-0 w-[3px] scale-y-0 bg-gradient-to-b from-[#b8863f] to-[#f0d9a8] transition-transform duration-300 ease-out group-hover/item:scale-y-100" />
                                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f] transition-colors duration-300 group-hover/item:bg-[#2b1710] group-hover/item:text-[#f0d9a8]">
@@ -397,8 +457,11 @@ export default function Navbar() {
               </ul>
             </nav>
 
-            <div className="order-5 flex items-center gap-2 lg:order-3">
+            {/* Search + CTA cluster — scales down to icon-only on the
+                smallest screens, expands progressively */}
+            <div className="order-5 flex shrink-0 items-center gap-1 xs:gap-1.5 sm:gap-2 lg:order-3">
               <button
+                type="button"
                 aria-label="Search"
                 onClick={() => setIsSearchOpen(true)}
                 className="flex h-9 w-9 items-center justify-center text-[#2b1710] transition-colors duration-200 hover:text-[#b8863f]"
@@ -408,13 +471,15 @@ export default function Navbar() {
 
               <Link
                 to="/get-quote"
-                className="group relative hidden items-center gap-1 overflow-hidden rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#f7f0e2] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.5)] transition-all duration-200 hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)] sm:flex sm:flex sm:px-4 sm:py-2 sm:text-[11px] lg:gap-1.5 lg:px-5 lg:py-2.5 lg:text-[12px] lg:tracking-[0.1em]"
+                aria-label="Get a Quote"
+                className="group relative flex items-center gap-1 overflow-hidden rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-[#f7f0e2] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.5)] transition-all duration-200 hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)] xs:px-3 xs:text-[10.5px] sm:px-4 sm:py-2 sm:text-[11px] lg:gap-1.5 lg:px-5 lg:py-2.5 lg:text-[12px] lg:tracking-[0.1em]"
               >
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="hidden sm:inline">Get a Quote</span>
-                <span className="sm:hidden">Quote</span>
+                <span className="hidden xs:inline lg:hidden">Quote</span>
+                <span className="hidden lg:inline">Get a Quote</span>
+                <ArrowRight className="h-3.5 w-3.5 xs:hidden" strokeWidth={2} />
                 <ArrowRight
-                  className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                  className="hidden h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 xs:inline"
                   strokeWidth={2}
                 />
               </Link>
@@ -436,23 +501,30 @@ export default function Navbar() {
           }`}
         />
         <nav
-          className={`absolute left-0 top-0 flex h-full w-[82%] max-w-sm flex-col bg-[#faf6ef] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute left-0 top-0 flex h-full w-[86%] max-w-xs flex-col bg-[#faf6ef] shadow-2xl transition-transform duration-300 ease-out xs:w-[82%] sm:max-w-sm ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          <div className="flex h-16 items-center justify-between border-b border-[#ecdfc4] px-5">
-            <span className="font-serif text-lg font-semibold text-[#2b1710]">
-              WoodenSite
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-[#ecdfc4] px-4 xs:h-16 xs:px-5">
+            <span className="flex flex-col leading-none">
+              <span className="font-serif text-sm font-semibold text-[#2b1710] xs:text-base">
+                Art By Adeel
+              </span>
+              <span className="mt-1 text-[9px] uppercase tracking-[0.2em] text-[#b8863f]">
+                Premium Interiors Arts
+              </span>
             </span>
             <button
+              type="button"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
-              className="p-2 text-[#2b1710]"
+              className="flex h-10 w-10 items-center justify-center p-2 text-[#2b1710]"
             >
               <X className="h-5 w-5" strokeWidth={1.5} />
             </button>
           </div>
-          <ul className="flex flex-1 flex-col divide-y divide-[#ecdfc4] overflow-y-auto px-5 pt-2">
+
+          <ul className="flex flex-1 flex-col divide-y divide-[#ecdfc4] overflow-y-auto px-4 pt-2 xs:px-5">
             {navLinks.map((link) => {
               if (!link.dropdown) {
                 return (
@@ -486,7 +558,7 @@ export default function Navbar() {
                       onClick={() => toggleMobileMenu(link.label)}
                       aria-label={`Toggle ${link.label}`}
                       aria-expanded={isOpen}
-                      className="p-2 text-[#2b1710]"
+                      className="flex h-10 w-10 items-center justify-center text-[#2b1710]"
                     >
                       <ChevronDown
                         className={`h-4 w-4 transition-transform duration-300 ease-out ${
@@ -496,13 +568,14 @@ export default function Navbar() {
                       />
                     </button>
                   </div>
+
                   <div
                     className="grid transition-[grid-template-rows] duration-300 ease-in-out"
                     style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                   >
                     <div className="overflow-hidden">
                       {isImageType ? (
-                        <div className="grid grid-cols-3 gap-2 pb-4">
+                        <div className="grid grid-cols-3 gap-2 pb-4 xs:grid-cols-3 sm:grid-cols-4">
                           {link.dropdown.items.map((category) => (
                             <Link
                               key={category.title}
@@ -513,7 +586,7 @@ export default function Navbar() {
                               }}
                               className="flex flex-col items-center gap-1.5 rounded-sm p-1.5 text-center transition-colors hover:bg-[#f0e6cc]/60"
                             >
-                              <span className="h-14 w-14 overflow-hidden rounded-sm border border-[#ecdfc4]">
+                              <span className="h-12 w-12 overflow-hidden rounded-sm border border-[#ecdfc4] xs:h-14 xs:w-14">
                                 <img
                                   src={category.image}
                                   alt={category.title}
@@ -521,7 +594,7 @@ export default function Navbar() {
                                   className="h-full w-full object-cover"
                                 />
                               </span>
-                              <span className="text-[10.5px] font-medium uppercase tracking-[0.04em] text-[#2b1710]">
+                              <span className="text-[10px] font-medium uppercase tracking-[0.04em] text-[#2b1710] xs:text-[10.5px]">
                                 {category.title}
                               </span>
                             </Link>
@@ -547,7 +620,7 @@ export default function Navbar() {
                                     strokeWidth={1.75}
                                   />
                                 </span>
-                                <span className="text-[12px] font-medium uppercase tracking-[0.04em] text-[#2b1710]">
+                                <span className="text-xs font-medium uppercase tracking-[0.04em] text-[#2b1710]">
                                   {item.title}
                                 </span>
                               </Link>
@@ -561,22 +634,26 @@ export default function Navbar() {
               );
             })}
           </ul>
-          <div className="border-t border-[#ecdfc4] p-5">
+
+          <div className="shrink-0 border-t border-[#ecdfc4] p-4 xs:p-5">
             <Link
               to="/get-quote"
               onClick={() => setIsMenuOpen(false)}
-              className="flex w-full items-center justify-center gap-1.5 rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] transition-colors hover:from-[#b8863f] hover:to-[#9c7a3f]"
+              className="flex w-full items-center justify-center gap-1.5 rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-3 text-xs font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] transition-colors hover:from-[#b8863f] hover:to-[#9c7a3f]"
             >
               Get a Quote
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
             </Link>
-            <div className="mt-4 flex items-center justify-center gap-1.5 text-[12px] text-[#6b5a48]">
+            <a
+              href="tel:+923001234567"
+              className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#6b5a48] hover:text-[#b8863f]"
+            >
               <Phone
                 className="h-3.5 w-3.5 text-[#b8863f]"
                 strokeWidth={1.75}
               />
               +92 300 123 4567
-            </div>
+            </a>
           </div>
         </nav>
       </div>
