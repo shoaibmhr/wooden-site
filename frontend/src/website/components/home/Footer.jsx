@@ -104,22 +104,21 @@ export default function Footer() {
       <Container>
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 py-14 sm:py-16 lg:grid-cols-12">
           <div className="flex flex-col items-start text-left lg:col-span-4">
-            <Link to="/" className="flex items-start gap-3">
+            <Link to="/" className="flex items-center gap-3 sm:gap-4">
               <img
                 src={logo}
                 alt="Art By Adeel Logo"
-                className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-14"
+                className="h-12 w-12 shrink-0 object-contain sm:h-16 sm:w-16 md:h-20 md:w-20"
               />
               <span className="flex flex-col leading-none">
-                <span className="font-serif text-xl font-semibold tracking-wide text-[#F3ECDD]">
+                <span className="font-serif text-lg font-semibold tracking-wide text-[#F3ECDD] sm:text-xl">
                   Art By Adeel
                 </span>
-                <span className="mt-1 text-[9px] uppercase tracking-[0.25em] text-[#A9793C]">
+                <span className="mt-1 text-[8px] uppercase tracking-[0.25em] text-[#A9793C] sm:text-[9px]">
                   Premium Interiors Arts
                 </span>
               </span>
             </Link>
-
             <p className="mt-5 max-w-xs text-xs sm:text-sm leading-relaxed text-[#D9CFBC]/75">
               Master wooden craftsmen specializing in bespoke wooden doors,
               architectural interior paneling, luxury furniture, and custom
