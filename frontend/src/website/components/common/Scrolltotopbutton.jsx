@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { ArrowUp } from "lucide-react";
 
 const SHOW_AFTER_PX = 400;
-const SCROLL_DURATION = 600; // ms
+const SCROLL_DURATION = 600; 
 
 function easeInOutCubic(t) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -55,7 +55,7 @@ export default function ScrollToTopButton() {
       type="button"
       onClick={scrollToTop}
       aria-label="Scroll to top"
-      className={`group fixed bottom-6 left-6 z-50 flex h-12 w-12 items-center justify-center rounded-full
+      className={`group fixed bottom-6 left-6 z-50 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full
                   bg-[#2b1710] text-[#f0d9a8] shadow-[0_8px_24px_-6px_rgba(28,18,13,0.55)]
                   ring-1 ring-[#d4af6a]/40 transition-all duration-500 ease-out
                   hover:bg-gradient-to-br hover:from-[#3e2723] hover:via-[#2b1710] hover:to-[#170e0a]
