@@ -13,7 +13,6 @@ export default function HeroCarousel() {
 
   return (
     <section className="w-full bg-[#17130F]">
-     
       <div className="relative w-full h-[70vh] min-h-[460px] sm:h-[78vh] sm:min-h-[540px] lg:h-[82vh] lg:min-h-[600px] max-h-[780px] overflow-hidden">
         <video
           className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[2500ms] ease-out ${
@@ -32,13 +31,14 @@ export default function HeroCarousel() {
             video occupies more of the vertical space behind the copy */}
         <div className="absolute inset-x-0 bottom-0 h-[65%] sm:h-[55%] bg-gradient-to-t from-[#17130F]/90 via-[#17130F]/50 to-transparent" />
 
-       
         <div className="relative z-10 flex h-full items-end">
           <div className="w-full px-6 sm:px-10 lg:px-16 pb-14 sm:pb-16 lg:pb-20">
             <div className="max-w-2xl">
               <span
                 className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#E8C888] mb-5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out ${
-                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  isLoaded
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "150ms" }}
               >
@@ -48,7 +48,9 @@ export default function HeroCarousel() {
               <h1 className="font-serif text-[#F3ECDD] text-4xl sm:text-6xl lg:text-[4.5rem] leading-[1.08] tracking-tight mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
                 <span
                   className={`block transition-all duration-[900ms] ease-out ${
-                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    isLoaded
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-6"
                   }`}
                   style={{ transitionDelay: "280ms" }}
                 >
@@ -56,7 +58,9 @@ export default function HeroCarousel() {
                 </span>
                 <span
                   className={`block transition-all duration-[900ms] ease-out ${
-                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    isLoaded
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-6"
                   }`}
                   style={{ transitionDelay: "420ms" }}
                 >
@@ -64,7 +68,9 @@ export default function HeroCarousel() {
                 </span>
                 <span
                   className={`block transition-all duration-[900ms] ease-out ${
-                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    isLoaded
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-6"
                   }`}
                   style={{ transitionDelay: "560ms" }}
                 >
@@ -74,18 +80,22 @@ export default function HeroCarousel() {
 
               <p
                 className={`max-w-lg text-[#F3ECDD]/95 text-sm sm:text-base leading-relaxed mb-9 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)] transition-all duration-700 ease-out ${
-                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  isLoaded
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "720ms" }}
               >
                 Handcrafted wooden doors, luxury furniture and architectural
-                millwork — built in seasoned hardwood, finished for
-                generations, not seasons.
+                millwork built in seasoned hardwood, finished for generations,
+                not seasons.
               </p>
 
               <div
                 className={`flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 transition-all duration-700 ease-out ${
-                  isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  isLoaded
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "860ms" }}
               >
@@ -110,7 +120,6 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-    
       <div
         className={`w-full border-t border-[#A9793C]/20 transition-all duration-700 ease-out ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
