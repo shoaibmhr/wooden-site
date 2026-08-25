@@ -28,12 +28,16 @@ export default function HeroCarousel() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#17130F] from-0% via-[#17130F]/45 via-40% to-[#17130F]/10" />
 
+        {/* Extra scrim focused on the text zone, stronger on mobile where the
+            video occupies more of the vertical space behind the copy */}
+        <div className="absolute inset-x-0 bottom-0 h-[65%] sm:h-[55%] bg-gradient-to-t from-[#17130F]/90 via-[#17130F]/50 to-transparent" />
+
        
         <div className="relative z-10 flex h-full items-end">
           <div className="w-full px-6 sm:px-10 lg:px-16 pb-14 sm:pb-16 lg:pb-20">
             <div className="max-w-2xl">
               <span
-                className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] mb-5 transition-all duration-700 ease-out ${
+                className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#E8C888] mb-5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] transition-all duration-700 ease-out ${
                   isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "150ms" }}
@@ -41,7 +45,7 @@ export default function HeroCarousel() {
                 Bespoke Wooden Craftsmanship
               </span>
 
-              <h1 className="font-serif text-[#F3ECDD] text-4xl sm:text-6xl lg:text-[4.5rem] leading-[1.08] tracking-tight mb-6">
+              <h1 className="font-serif text-[#F3ECDD] text-4xl sm:text-6xl lg:text-[4.5rem] leading-[1.08] tracking-tight mb-6 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
                 <span
                   className={`block transition-all duration-[900ms] ease-out ${
                     isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -69,7 +73,7 @@ export default function HeroCarousel() {
               </h1>
 
               <p
-                className={`max-w-lg text-[#D9CFBC]/75 text-sm sm:text-base leading-relaxed mb-9 transition-all duration-700 ease-out ${
+                className={`max-w-lg text-[#F3ECDD]/95 text-sm sm:text-base leading-relaxed mb-9 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)] transition-all duration-700 ease-out ${
                   isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "720ms" }}
