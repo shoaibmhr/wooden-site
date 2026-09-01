@@ -15,7 +15,7 @@ import {
   Info,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093"; 
+const WHATSAPP_NUMBER = "923008543635"; // Updated WhatsApp number
 
 const productTypes = [
   "Dining Table",
@@ -66,7 +66,11 @@ const initialFormData = {
 
 function buildWhatsAppMessage(data) {
   const lines = [
-    "*New Custom Quote Request*",
+    "Hey Sir! 👋",
+    "",
+    "I hope you're doing well. I came across Art By Adeel and would love to inquire about your premium woodwork services.",
+    "",
+    "*Here are my requirements:*",
     "",
     `*Name:* ${data.name}`,
     `*WhatsApp:* ${data.whatsapp}`,
@@ -91,12 +95,13 @@ function buildWhatsAppMessage(data) {
     "",
     `*Details:* ${data.description}`,
     "",
+    "I would appreciate your expert advice on this. Please let me know a suitable time for a quick consultation.",
+    "",
     "_(Reference image will be attached in this chat)_",
   ];
 
   return lines.filter(Boolean).join("\n");
 }
-
 
 const container = {
   hidden: {},
@@ -261,7 +266,7 @@ export default function QuoteForm() {
           </div>
         </motion.div>
 
-       
+        {/* Bulk Order */}
         <motion.div
           variants={fieldVariant}
           className="rounded-xl border border-stone-200 bg-stone-50/60 p-4"

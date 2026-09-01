@@ -1,51 +1,60 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
-import { products as fallbackProducts } from "../../data/products.data";
 
-const SUPPLEMENTAL_CATEGORIES = [
+// Same 8 main categories used in CategoryShowcase, kept in sync manually.
+// If you'd rather have a single source of truth, move this array into a
+// shared file (e.g. data/categories.data.js) and import it in both places.
+const categories = [
   {
-    title: "Wardrobe",
-    slug: "wardrobe",
+    title: "Kitchen",
+    slug: "kitchen",
     image:
-      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Office Furniture",
-    slug: "office-furniture",
+    title: "Living & Dining",
+    slug: "living-dining",
+    image:
+      "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Bedroom",
+    slug: "bedroom",
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Study Room",
+    slug: "study-room",
     image:
       "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Outdoor Furniture",
-    slug: "outdoor-furniture",
+    title: "Storage & Decor",
+    slug: "storage-decor",
     image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1616137466211-f939a420be84?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Office Interiors",
+    slug: "office-interiors",
+    image:
+      "https://images.unsplash.com/photo-1497366412874-3415097a27e7?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Restaurant & Cafe",
+    slug: "restaurant-cafe",
+    image:
+      "https://images.unsplash.com/photo-1690221123138-8d891be52401?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Retail & Showroom",
+    slug: "retail-showroom",
+    image:
+      "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&w=800&q=80",
   },
 ];
-
-function buildCategories() {
-  const seen = new Map();
-
-  fallbackProducts.forEach((product) => {
-    if (product.category && !seen.has(product.category)) {
-      seen.set(product.category, {
-        title: product.category,
-        slug: product.categorySlug || "",
-        image: product.image,
-      });
-    }
-  });
-
-  SUPPLEMENTAL_CATEGORIES.forEach((category) => {
-    if (!seen.has(category.title)) {
-      seen.set(category.title, category);
-    }
-  });
-
-  return Array.from(seen.values());
-}
-
 
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
@@ -69,7 +78,6 @@ function useInView(threshold = 0.15) {
 }
 
 export default function TrendingCategories() {
-  const [categories] = useState(() => buildCategories());
   const [sectionRef, isVisible] = useInView(0.1);
 
   return (

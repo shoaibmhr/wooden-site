@@ -1,8 +1,8 @@
 import { Mail, Phone, MapPin, Clock, ShieldCheck,  } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635";
 const whatsappMessage = encodeURIComponent(
-  "Salam Ashtech Wooden! I would like to inquire about showroom visit & custom woodcraft quotes."
+  "Hey Sir! I would like to inquire about showroom visit & custom woodcraft quotes."
 );
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
@@ -15,10 +15,9 @@ function WhatsappIcon(props) {
 }
 
 const infoItems = [
-  { icon: MapPin, label: "Showroom & Workshop", value: "Ashtech Wooden Complex, Pakistan" },
-  { icon: Phone, label: "Phone Support", value: "+92 302 7069093", href: "tel:+923027069093" },
-  { icon: Mail, label: "Official Email", value: "info@ashtechwooden.com", href: "mailto:info@ashtechwooden.com" },
-  { icon: Clock, label: "Working Hours", value: "9:30 AM – 6:00 PM, Monday – Saturday" },
+  { icon: MapPin, label: "Showroom & Workshop", value: "Art By Adeel, Main Lariadda Road, Near Shell Pump, Sargodha, Pakistan" },
+  { icon: Phone, label: "Phone Support", value: "+92 300 8543635", href: "tel:+923008543635" },
+  { icon: Mail, label: "Official Email", value: "ammughal32@gmail.com", href: "mailto:ammughal32@gmail.com" },
 ];
 
 export default function ContactInfo() {

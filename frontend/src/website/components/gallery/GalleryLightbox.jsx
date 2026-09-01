@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635"; // Updated WhatsApp number
 
 export default function GalleryLightbox({ items, activeIndex, onClose, onNavigate }) {
   const [direction, setDirection] = useState(0);
@@ -12,7 +12,7 @@ export default function GalleryLightbox({ items, activeIndex, onClose, onNavigat
 
   const whatsappHref = item
     ? `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-        `Hi, I saw "${item.caption}" in your gallery and I'm interested in something similar.`
+        `Hey Sir!\n\nI hope you're doing well. I was browsing Art By Adeel's gallery and came across "${item.caption}" and was truly impressed by the craftsmanship.\n\nI'm interested in discussing a similar custom piece for my space. Could you please share more details about the design, available wood options, and an estimated price range?\n\nI would love to get your expert advice on this project. Please let me know a suitable time for a quick consultation.\n\nLooking forward to hearing from you!\n\n`
       )}`
     : "#";
 

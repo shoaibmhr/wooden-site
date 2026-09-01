@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Container from "../common/Container";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635"; // Updated WhatsApp number
+
 const whatsappMessage = encodeURIComponent(
-  "Hi, I'd like to discuss a custom furniture project.",
+  "Hey Sir! \n\nI hope you're doing well. I came across your beautiful woodwork gallery on Art By Adeel's website and was truly impressed by the craftsmanship.\n\nI'm interested in discussing a custom furniture project for my space. I would love to get your expert advice on design options, wood selection, and pricing.\n\nCould you please let me know a suitable time for a quick consultation? I'm looking forward to working with you.\n\n"
 );
+
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
 const container = {

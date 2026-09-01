@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
 import { ChevronDown, MessageCircle } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635";
 const waMsg = encodeURIComponent(
   "Hello, I have a question about getting some custom woodwork done. Could you please help me?"
 );

@@ -57,7 +57,7 @@ export default function About() {
     <div>
       <PageHero
         image="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1600&q=80"
-        title="About WoodenSite"
+        title="About Art By Adeel"
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "About Us", href: "/about" },
@@ -94,7 +94,7 @@ export default function About() {
                 }`}
                 style={{ transitionDelay: "300ms" }}
               >
-                At WoodenSite, wood is not just a material — it is a living
+                At Art By Adeel, wood is not just a material — it is a living
                 medium of art, tradition, and timeless architectural beauty.
                 For over four decades, our master artisans have designed and
                 built bespoke wooden doors, interior paneling, luxury

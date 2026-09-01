@@ -5,7 +5,7 @@ import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import { products as fallbackProducts } from "../data/products.data";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635"; // Updated WhatsApp number
 
 function WhatsappIcon(props) {
   return (
@@ -47,14 +47,14 @@ export default function ProductDetail() {
   const currentProductUrl = window.location.href;
 
   const buildWhatsAppMessage = () => {
-    let message = `CUSTOM WOODWORK INQUIRY - ASHTECH WOODEN\n`;
-    message += `-----------------------------------------------\n`;
+    let message = `Hey Sir! \n\n`;
+    message += `I hope you're doing well. I came across this beautiful design on Art By Adeel's website and would love to inquire about having it custom-made for my space.\n\n`;
+    message += `*PRODUCT DETAILS:*\n`;
     message += `Design: ${product.name}\n`;
     if (product.category) message += `Category: ${product.category}\n`;
     message += `Photo: ${absoluteImageUrl}\n`;
-    message += `Link: ${currentProductUrl}\n`;
-    message += `-----------------------------------------------\n`;
-    message += `CUSTOM SPECIFICATIONS & DIMENSIONS:\n`;
+    message += `Link: ${currentProductUrl}\n\n`;
+    message += `*CUSTOM SPECIFICATIONS:*\n`;
 
     if (customLength) {
       message += `Length: ${customLength} ${customUnit}\n`;
@@ -73,11 +73,11 @@ export default function ProductDetail() {
     }
 
     if (customNotes.trim()) {
-      message += `Custom Request: ${customNotes.trim()}\n`;
+      message += `Special Instructions: ${customNotes.trim()}\n`;
     }
 
-    message += `-----------------------------------------------\n`;
-    message += `Hello Ashtech Wooden, I'd like this piece custom-made for my space. Kindly review the image and dimensions and share an estimated quote and delivery time.`;
+    message += `\nI would appreciate your expert advice on this project. Could you please share an estimated quote and delivery timeline? I'm looking forward to hearing from you.\n\n`;
+    
 
     return encodeURIComponent(message);
   };
@@ -355,5 +355,4 @@ export default function ProductDetail() {
       </Container>
     </section>
   );
-  }
-  
+}

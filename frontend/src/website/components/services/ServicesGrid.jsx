@@ -4,7 +4,7 @@ import Container from "../common/Container";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635";
 
 
 if (typeof document !== "undefined" && !document.getElementById("service-highlight-style")) {
@@ -27,55 +27,56 @@ function WhatsappIcon(props) {
   );
 }
 
-
+// Slugs and hero images mirror the ones used for the matching entries in
+// CategoryShowcase, so the same category looks/links consistently sitewide.
 const services = [
   {
-    slug: "custom-design",
-    title: "Bespoke Custom Furniture",
+    slug: "wall-ceiling-solutions",
+    title: "Wall & Ceiling Solutions",
     description:
-      "We design and build custom furniture to your exact room dimensions and wood preference — solid Teak, Sheesham, and Oak dining sets, beds, & wardrobes.",
+      "Wood panelling, false ceilings, partitions, and wooden cladding — custom architectural woodwork that reshapes a room's walls and ceiling into a finished, cohesive space.",
     image:
-      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?auto=format&fit=crop&w=900&q=80",
   },
   {
     slug: "doors-windows",
-    title: "Carved Main Doors & Frames",
+    title: "Doors & Windows",
     description:
-      "Solid wooden entrance doors, carved panels, pivot doors, and jamb frames built with seasoned weather-resistant timber for villas and modern homes.",
+      "Solid wooden doors, window frames, and mouldings, hand-built with seasoned, weather-resistant timber and finished to a lasting, polished standard.",
     image:
       "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "paneling",
-    title: "Interior Wood Paneling & Fluted Walls",
+    slug: "custom-furniture-design",
+    title: "Custom Furniture Design",
     description:
-      "Transform interior living spaces with floor-to-ceiling wooden accent walls, fluted timber panels, acoustic louvers, and bespoke ceiling beams.",
+      "One-off pieces built to your own specification — from a single statement piece to a full room, designed and crafted around exactly what you have in mind.",
     image:
-      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "bulk-orders",
-    title: "Wooden Windows & Glass Casements",
+    slug: "space-planning-visualisation",
+    title: "Space Planning & Visualisation",
     description:
-      "Traditional sash windows, modern casements, and sliding patio doors built with precision weather seals and high-durability wood polishes.",
+      "A photo-based \"how it will look\" reference for your space — not a 3D render — so you can see the fit and feel of a design before any wood is cut.",
     image:
-      "https://images.unsplash.com/photo-1546484475-7f7bd55792da?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1595871151608-bc7abd1caca3?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "restoration",
-    title: "Artisan Polish & Antique Lacquer",
+    slug: "renovation-fit-out",
+    title: "Renovation & Fit-out",
     description:
-      "Bring old heirloom wood back to life with our re-polishing service — natural teak oil, dark walnut stain, matt black, and lacquer finishes.",
+      "Full home or office renovation projects, managed end-to-end — from initial planning through to the final woodwork, delivered as a complete turnkey fit-out.",
     image:
-      "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80",
   },
   {
-    slug: "installation",
-    title: "Commercial & Villa Fitting Services",
+    slug: "wood-polishing-restoration",
+    title: "Wood Polishing & Restoration",
     description:
-      "Full turnkey installation by our master carpentry team. We measure, deliver, align, and fit all wooden elements at your site.",
+      "Repair and refinishing of existing wood furniture — bringing tired or damaged pieces back to life with re-polishing, re-staining, and structural restoration.",
     image:
-      "https://images.unsplash.com/photo-1757416654883-c73c67b3382b?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -168,8 +169,9 @@ export default function ServicesGrid() {
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, idx) => {
+            // Professional English WhatsApp message
             const waMsg = encodeURIComponent(
-              `Salam Ashtech Wooden! Mujhe *${service.title}* ke baare mein consult karna hai.`
+              `Hey Sir! I hope you're doing well. I came across your ${service.title} services and would love to connect. We offer premium woodwork solutions that can transform your space. I'd be happy to share more details or schedule a quick call at your convenience. Please let me know a suitable time to connect.`
             );
             const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
             const isHighlighted = highlightedSlug === service.slug;

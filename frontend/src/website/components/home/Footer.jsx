@@ -126,10 +126,7 @@ export default function Footer() {
             </p>
 
             <div className="mt-6 space-y-2 text-xs sm:text-sm text-[#D9CFBC]/85">
-              <p>
-                <strong className="text-[#C9A468]">Showroom & Workshop:</strong>{" "}
-                Open Monday - Saturday
-              </p>
+              
               <p>
                 <strong className="text-[#C9A468]">WhatsApp Inquiry:</strong>{" "}
                 <a
@@ -138,7 +135,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-[#F3ECDD] font-semibold hover:text-[#C9A468] hover:underline"
                 >
-                  +92 302 7069093
+                  +92 300 8543635 
                 </a>
               </p>
             </div>
@@ -200,7 +197,18 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#A9793C]/20 py-6 text-center text-xs text-[#D9CFBC]/60">
-          <p>© {new Date().getFullYear()} Art By Adeel. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Art By Adeel. Developed By{" "}
+            <a
+              href="https://ashtechdigitalsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#C9A468] hover:text-[#F3ECDD] hover:underline transition-colors duration-300"
+            >
+              Ashtech Digital Solutions
+            </a>
+            .
+          </p>
         </div>
       </Container>
     </footer>
