@@ -1,49 +1,11 @@
 import { useState } from "react";
 import {
   FaWhatsapp,
-  FaFacebookMessenger,
-  FaInstagram,
-  FaEnvelope,
   FaTimes,
-  FaCommentDots,
   FaRobot,
 } from "react-icons/fa";
 
-const socialLinks = [
-  {
-    name: "Chatbot",
-    href: "#",
-    icon: FaRobot,
-    color: "bg-gradient-to-br from-[#6C63FF] to-[#3F3D9E] shadow-[#6C63FF]/30",
-    isChatbot: true,
-  },
-  {
-    name: "WhatsApp",
-    href: "https://wa.me/923008543635?text=Hey%20Sir!%20I%20hope%20you're%20doing%20well.%20I%20came%20across%20Art%20By%20Adeel%20and%20would%20love%20to%20inquire%20about%20your%20premium%20woodwork%20services.%20I'm%20interested%20in%20bespoke%20wooden%20furniture%20and%20architectural%20interior%20solutions.%20Could%20you%20please%20share%20more%20details%20or%20let%20me%20know%20a%20convenient%20time%20for%20a%20quick%20consultation%3F%20Looking%20forward%20to%20hearing%20from%20you!",
-    icon: FaWhatsapp,
-    color: "bg-[#25D366] hover:bg-[#20bd5a] shadow-[#25D366]/30",
-  },
-  {
-    name: "Messenger",
-    href: "https://m.me/your-page",
-    icon: FaFacebookMessenger,
-    color:
-      "bg-gradient-to-br from-[#0099FF] via-[#7B2FFF] to-[#C135FF] shadow-[#7B2FFF]/30",
-  },
-  {
-    name: "Instagram",
-    href: "https://instagram.com/your-page",
-    icon: FaInstagram,
-    color:
-      "bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#515BD4] shadow-[#DD2A7B]/30",
-  },
-  {
-    name: "Email",
-    href: "mailto:info@artbyadeel.com",
-    icon: FaEnvelope,
-    color: "bg-[#ff4057] hover:bg-[#ed3047] shadow-[#ff4057]/30",
-  },
-];
+const WHATSAPP_NUMBER = "923008543635";
 
 // Chatbot response logic
 const getBotResponse = (userMessage) => {
@@ -90,20 +52,15 @@ const getBotResponse = (userMessage) => {
 };
 
 export default function FloatingSocialMenu() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       type: "bot",
-      text: "Hey Sir! 👋 Welcome to Art By Adeel. How can I help you today?\n\nYou can ask me about our services, wood types, request a quote, or explore our gallery.",
+      text: "Hey Sir! Welcome to Art By Adeel. How can I help you today?\n\nYou can ask me about our services, wood types, request a quote, or explore our gallery.",
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   const toggleChatbot = (e) => {
     e.preventDefault();
@@ -142,15 +99,23 @@ export default function FloatingSocialMenu() {
     }, 100);
   };
 
+  const whatsappMessage = encodeURIComponent(
+    "Hey Sir!\n\nI hope you're doing well. I came across Art By Adeel and would love to inquire about your premium woodwork services. I'm interested in bespoke wooden furniture and architectural interior solutions.\n\nCould you please share more details or let me know a convenient time for a quick consultation?\n\nLooking forward to hearing from you!"
+  );
+
   return (
     <>
-      {/* Floating Social Menu */}
+      {/* Floating Icons Container */}
       <div
         className="
           fixed
           bottom-5
           right-4
           z-[100]
+          flex
+          flex-col
+          items-center
+          gap-3
           sm:bottom-6
           sm:right-6
           md:bottom-7
@@ -159,286 +124,65 @@ export default function FloatingSocialMenu() {
           lg:right-8
         "
       >
-        {/* Social Links Container */}
-        <div
-          className="
-            absolute
-            bottom-[4.5rem]
-            right-0
-            flex
-            flex-col
-            items-center
-            gap-3
-            sm:bottom-20
-            sm:gap-4
-          "
-        >
-          {socialLinks.map((social, index) => {
-            const Icon = social.icon;
-
-            if (social.isChatbot) {
-              return (
-                <button
-                  key={social.name}
-                  onClick={toggleChatbot}
-                  aria-label={social.name}
-                  className={`
-                    flex
-                    h-8
-                    w-8
-                    items-center
-                    justify-center
-                    rounded-full
-                    text-white
-                    shadow-lg
-
-                    transition-all
-                    duration-300
-                    ease-out
-
-                    hover:scale-110
-                    active:scale-95
-
-                    sm:h-10
-                    sm:w-10
-
-                    ${
-                      isOpen
-                        ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                        : "pointer-events-none translate-y-4 scale-90 opacity-0"
-                    }
-
-                    ${social.color}
-                  `}
-                  style={{
-                    transitionDelay: isOpen
-                      ? `${index * 70}ms`
-                      : `${(socialLinks.length - index - 1) * 50}ms`,
-                  }}
-                >
-                  <Icon
-                    className="
-                      h-6
-                      w-6
-                      transition-transform
-                      duration-200
-                      hover:scale-110
-
-                      sm:h-7
-                      sm:w-7
-                    "
-                  />
-                </button>
-              );
-            }
-
-            return (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.name}
-                className={`
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-full
-                  text-white
-                  shadow-lg
-
-                  transition-all
-                  duration-300
-                  ease-out
-
-                  hover:scale-110
-                  active:scale-95
-
-                  sm:h-10
-                  sm:w-10
-
-                  ${
-                    isOpen
-                      ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                      : "pointer-events-none translate-y-4 scale-90 opacity-0"
-                  }
-
-                  ${social.color}
-                `}
-                style={{
-                  transitionDelay: isOpen
-                    ? `${index * 70}ms`
-                    : `${(socialLinks.length - index - 1) * 50}ms`,
-                }}
-              >
-                <Icon
-                  className="
-                    h-6
-                    w-6
-                    transition-transform
-                    duration-200
-                    hover:scale-110
-
-                    sm:h-7
-                    sm:w-7
-                  "
-                />
-              </a>
-            );
-          })}
-        </div>
-
-        {/* Toggle Button */}
+        {/* Chatbot Icon */}
         <button
-          type="button"
-          onClick={toggleMenu}
-          aria-label={isOpen ? "Close contact menu" : "Open contact menu"}
-          aria-expanded={isOpen}
-          className={`
-            group
-            relative
+          onClick={toggleChatbot}
+          aria-label="Chatbot"
+          className="
             flex
-            h-8
-            w-8
+            h-12
+            w-12
             items-center
             justify-center
             rounded-full
+            bg-gradient-to-br
+            from-[#6C63FF]
+            to-[#3F3D9E]
             text-white
-            shadow-xl
-
+            shadow-lg
+            shadow-[#6C63FF]/30
             transition-all
             duration-300
             ease-out
-
-            hover:scale-105
+            hover:scale-110
+            hover:shadow-xl
             active:scale-95
-
-            focus:outline-none
-            focus:ring-2
-            focus:ring-offset-2
-
-            sm:h-10
-            sm:w-10
-
-            ${
-              isOpen
-                ? `
-                  bg-[#713535]
-                  shadow-[#713535]/30
-                  focus:ring-[#713535]
-                `
-                : `
-                  bg-[#25D366]
-                  shadow-[#25D366]/30
-                  focus:ring-[#25D366]
-                `
-            }
-          `}
+            sm:h-14
+            sm:w-14
+          "
         >
-          {!isOpen && (
-            <span
-              className="
-                pointer-events-none
-                absolute
-                right-[calc(100%+0.75rem)]
-                top-1/2
-
-                hidden
-                -translate-y-1/2
-                translate-x-2
-
-                whitespace-nowrap
-                rounded-lg
-                bg-neutral-900
-                px-3
-                py-2
-
-                text-xs
-                font-semibold
-                text-white
-
-                opacity-0
-                shadow-lg
-
-                transition-all
-                duration-300
-                ease-out
-
-                group-hover:translate-x-0
-                group-hover:opacity-100
-
-                sm:block
-              "
-            >
-              Contact Us
-            </span>
-          )}
-
-          <FaCommentDots
-            className={`
-              absolute
-              h-6
-              w-6
-
-              transition-all
-              duration-300
-              ease-out
-
-              sm:h-7
-              sm:w-7
-
-              ${
-                isOpen
-                  ? "rotate-90 scale-0 opacity-0"
-                  : "rotate-0 scale-100 opacity-100"
-              }
-            `}
-          />
-
-          <FaTimes
-            className={`
-              absolute
-              h-6
-              w-6
-
-              transition-all
-              duration-300
-              ease-out
-
-              sm:h-7
-              sm:w-7
-
-              ${
-                isOpen
-                  ? "rotate-0 scale-100 opacity-100"
-                  : "-rotate-90 scale-0 opacity-0"
-              }
-            `}
-          />
-
-          {!isOpen && (
-            <span
-              className="
-                absolute
-                right-0.5
-                top-0.5
-
-                h-3
-                w-3
-
-                rounded-full
-                border-2
-                border-white
-                bg-red-500
-
-                sm:right-1
-                sm:top-1
-              "
-            />
-          )}
+          <FaRobot className="h-6 w-6 sm:h-7 sm:w-7" />
         </button>
+
+        {/* WhatsApp Icon */}
+        <a
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+          className="
+            flex
+            h-12
+            w-12
+            items-center
+            justify-center
+            rounded-full
+            bg-[#25D366]
+            text-white
+            shadow-lg
+            shadow-[#25D366]/30
+            transition-all
+            duration-300
+            ease-out
+            hover:scale-110
+            hover:shadow-xl
+            active:scale-95
+            sm:h-14
+            sm:w-14
+          "
+        >
+          <FaWhatsapp className="h-6 w-6 sm:h-7 sm:w-7" />
+        </a>
       </div>
 
       {/* Chatbot Modal */}
@@ -446,7 +190,7 @@ export default function FloatingSocialMenu() {
         <div
           className="
             fixed
-            bottom-24
+            bottom-28
             right-4
             z-[101]
             w-[320px]
@@ -462,6 +206,7 @@ export default function FloatingSocialMenu() {
             animate-in
             slide-in-from-bottom-4
             duration-300
+            sm:bottom-32
           "
         >
           {/* Chatbot Header */}
