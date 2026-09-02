@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Play, X } from "lucide-react";
 import Container from "../common/Container";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const stories = [
   {
@@ -55,18 +56,27 @@ const stories = [
 
 export default function StoryShowcase() {
   const [playingIndex, setPlayingIndex] = useState(null);
+  const { isDarkMode } = useDarkMode();
 
   return (
-    <section className="w-full bg-white py-14 sm:py-16 md:py-20">
+    <section className={`w-full py-14 sm:py-16 md:py-20 transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-white"
+    }`}>
       <Container>
         <div className="mb-10 text-center sm:mb-12 md:mb-14">
-          <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C]">
+          <span className={`text-[11px] font-medium uppercase tracking-[0.3em] ${
+            isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
+          }`}>
             Behind The Craft
           </span>
-          <h2 className="mt-3 font-serif text-[#17130F] tracking-tight text-2xl sm:text-3xl md:text-4xl">
+          <h2 className={`mt-3 font-serif tracking-tight text-2xl sm:text-3xl md:text-4xl ${
+            isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
+          }`}>
             Our Craft, Our Story
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm sm:text-base text-[#5C5142] leading-relaxed">
+          <p className={`mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed ${
+            isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
+          }`}>
             From raw timber to timeless furniture — see what goes into every
             piece we make.
           </p>
@@ -115,7 +125,9 @@ export default function StoryShowcase() {
 
                     <span className="absolute left-1/2 top-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#F3ECDD] transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14">
                       <Play
-                        className="ml-0.5 h-4 w-4 text-[#A9793C] sm:h-5 sm:w-5"
+                        className={`ml-0.5 h-4 w-4 sm:h-5 sm:w-5 ${
+                          isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
+                        }`}
                         fill="currentColor"
                         strokeWidth={0}
                       />

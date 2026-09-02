@@ -4,6 +4,7 @@ import Container from "../common/Container";
 import ProductCard from "../common/ProductCard";
 import { products as fallbackProducts } from "../../data/products.data";
 import { ArrowRight } from "lucide-react";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const WHATSAPP_NUMBER = "923027069093";
 
@@ -14,7 +15,6 @@ function WhatsappIcon(props) {
     </svg>
   );
 }
-
 
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,8 +40,7 @@ function useInView(threshold = 0.15) {
 export default function FeaturedProducts() {
   const [featured,] = useState(() => fallbackProducts.slice(0, 6));
   const [sectionRef, isVisible] = useInView(0.1);
-
- 
+  const { isDarkMode } = useDarkMode();
 
   const waMsg = encodeURIComponent(
     "Hello, I came across WoodenSite and I'm interested in getting a quote for custom furniture and interior doors. Could you please share more details?"
@@ -51,14 +50,20 @@ export default function FeaturedProducts() {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#FAF6EF] py-16 sm:py-20 md:py-24 border-t border-[#17130F]/10"
+      className={`w-full py-16 sm:py-20 md:py-24 border-t transition-colors duration-300 ${
+        isDarkMode 
+          ? "bg-[#1a1410] border-[#2a1f18]" 
+          : "bg-[#FAF6EF] border-[#17130F]/10"
+      }`}
     >
       <Container>
         {/* Header */}
         <div className="mb-12 text-center sm:mb-14 md:mb-16">
           <span
-            className={`text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+            className={`text-[11px] font-medium uppercase tracking-[0.3em] mb-4 transition-all duration-700 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
             }`}
             style={{ transitionDelay: "80ms" }}
           >
@@ -66,8 +71,10 @@ export default function FeaturedProducts() {
           </span>
 
           <h2
-            className={`mt-3 font-serif text-3xl sm:text-4xl md:text-[2.75rem] text-[#17130F] tracking-tight leading-tight transition-all duration-[900ms] ease-out ${
+            className={`mt-3 font-serif text-3xl sm:text-4xl md:text-[2.75rem] tracking-tight leading-tight transition-all duration-[900ms] ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            } ${
+              isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
             }`}
             style={{ transitionDelay: "180ms" }}
           >
@@ -75,15 +82,19 @@ export default function FeaturedProducts() {
           </h2>
 
           <div
-            className={`mx-auto mt-5 h-px bg-[#A9793C] transition-all duration-[900ms] ease-out ${
+            className={`mx-auto mt-5 h-px transition-all duration-[900ms] ease-out ${
               isVisible ? "w-12 opacity-100" : "w-0 opacity-0"
+            } ${
+              isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
             }`}
             style={{ transitionDelay: "340ms" }}
           />
 
           <p
-            className={`mx-auto mt-5 max-w-xl text-xs sm:text-sm text-[#5C5142] leading-relaxed transition-all duration-700 ease-out ${
+            className={`mx-auto mt-5 max-w-xl text-xs sm:text-sm leading-relaxed transition-all duration-700 ease-out ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
             }`}
             style={{ transitionDelay: "420ms" }}
           >
@@ -116,10 +127,16 @@ export default function FeaturedProducts() {
         >
           <Link
             to="/products"
-            className="group flex w-full items-center justify-center gap-2 bg-[#17130F] px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#F3ECDD] transition-all duration-300 hover:bg-[#241C15] sm:w-auto sm:text-sm"
+            className={`group flex w-full items-center justify-center gap-2 px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 sm:w-auto sm:text-sm ${
+              isDarkMode
+                ? "bg-[#c9974a] hover:bg-[#b8863f] text-[#1a1410]"
+                : "bg-[#17130F] hover:bg-[#241C15] text-[#F3ECDD]"
+            }`}
           >
             <span>Explore Full Showcase</span>
-            <ArrowRight className="h-4 w-4 text-[#A9793C] transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${
+              isDarkMode ? "text-[#1a1410]" : "text-[#A9793C]"
+            }`} />
           </Link>
 
           <a

@@ -18,10 +18,14 @@ import {
   BedDouble,
   DoorOpen,
   Factory,
+  Moon,
+  Sun,
 } from "lucide-react";
 import Container from "../common/Container";
 import SearchOverlay from "../common/SearchOverlay";
+import { useDarkMode } from "../context/DarkModeContext";
 import logo from "../../../assets/image/logo-navbar.png";
+import logoDark from "../../../assets/image/logo-footer.png";
 
 const categories = [
   {
@@ -171,9 +175,11 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Use dark mode from context
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   const [openMenu, setOpenMenu] = useState(null);
-
   const [openMobileMenus, setOpenMobileMenus] = useState({});
   const closeTimer = useRef(null);
   const navRef = useRef(null);
@@ -206,8 +212,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Close an open dropdown on outside click / tap — needed for touch &
-  // trackpad devices at desktop breakpoints where hover never fires.
   useEffect(() => {
     if (!openMenu) return undefined;
     const handlePointerDown = (event) => {
@@ -219,7 +223,6 @@ export default function Navbar() {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [openMenu]);
 
-  // Close dropdown on Escape for keyboard users.
   useEffect(() => {
     if (!openMenu) return undefined;
     const handleKey = (event) => {
@@ -233,35 +236,43 @@ export default function Navbar() {
     setOpenMobileMenus((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
+  // Determine which logo to use
+  const currentLogo = isDarkMode ? logoDark : logo;
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#faf6ef]">
+    <header className={`sticky top-0 z-50 w-full ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"
+    } transition-colors duration-300`}>
       <style>{`
         @keyframes wd-shimmer {
           0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
+        
       `}</style>
-
-      <div className="h-[3px] w-full wd-shimmer-line" />
 
       <div
         className={`border-b transition-shadow duration-300 ${
           isScrolled
-            ? "border-transparent shadow-[0_8px_28px_-14px_rgba(28,18,13,0.45)]"
-            : "border-[#ecdfc4]/60"
+            ? `border-transparent shadow-[0_8px_28px_-14px_rgba(28,18,13,0.45)] ${
+                isDarkMode ? "shadow-black/50" : ""
+              }`
+            : isDarkMode 
+              ? "border-[#2a1f18]/60" 
+              : "border-[#ecdfc4]/60"
         }`}
       >
         <Container>
-          {/* Row height scales up gradually so nothing feels cramped on small
-              phones or oversized on desktop. */}
           <div className="flex h-14 items-center justify-between gap-2 xs:h-16 xs:gap-3 sm:h-[72px] sm:gap-4 md:h-20 lg:gap-3">
-            {/* Mobile hamburger — hidden from lg up, real nav takes over */}
+            {/* Mobile hamburger */}
             <button
               type="button"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
-              className="order-1 -ml-2 flex h-10 w-10 shrink-0 items-center justify-center p-2 text-[#2b1710] transition-transform active:scale-90 lg:hidden"
+              className={`order-1 -ml-2 flex h-10 w-10 shrink-0 items-center justify-center p-2 transition-transform active:scale-90 lg:hidden ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}
             >
               {isMenuOpen ? (
                 <X className="h-5 w-5 xs:h-6 xs:w-6" strokeWidth={1.5} />
@@ -270,28 +281,31 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Logo — centered on mobile/tablet, left-aligned once the full
-                nav appears at lg */}
+            {/* Logo */}
             <Link
               to="/"
               className="order-2 flex min-w-0 flex-1 items-center justify-center gap-2 xs:gap-3 sm:gap-4 lg:order-1 lg:flex-none lg:justify-start lg:gap-3"
             >
               <img
-                src={logo}
+                src={currentLogo}
                 alt="Art By Adeel Logo"
                 className="h-10 w-10 shrink-0 object-contain xs:h-12 xs:w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24"
               />
               <span className="flex min-w-0 flex-col leading-none">
-                <span className="truncate font-serif text-xs font-semibold tracking-wide text-[#2b1710] xs:text-sm sm:text-base lg:text-lg xl:text-xl">
+                <span className={`truncate font-serif text-xs font-semibold tracking-wide ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                } xs:text-sm sm:text-base lg:text-lg xl:text-xl transition-colors duration-300`}>
                   Art By Adeel
                 </span>
-                <span className="mt-1 hidden text-[9px] uppercase tracking-[0.25em] text-[#b8863f] sm:block">
+                <span className={`mt-1 hidden text-[9px] uppercase tracking-[0.25em] sm:block ${
+                  isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                } transition-colors duration-300`}>
                   Premium Interiors Arts
                 </span>
               </span>
             </Link>
 
-            {/* Desktop nav — only rendered from lg up */}
+            {/* Desktop nav */}
             <nav
               ref={navRef}
               className="order-3 hidden lg:order-2 lg:flex lg:flex-1 lg:justify-center"
@@ -303,10 +317,16 @@ export default function Navbar() {
                       <li key={link.label}>
                         <Link
                           to={link.href}
-                          className="group relative inline-block whitespace-nowrap py-1 text-[12.5px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f] xl:text-[13px]"
+                          className={`group relative inline-block whitespace-nowrap py-1 text-[12.5px] font-medium uppercase tracking-[0.08em] transition-colors duration-200 ${
+                            isDarkMode 
+                              ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                              : "text-[#2b1710] hover:text-[#9c7a3f]"
+                          } xl:text-[13px]`}
                         >
                           {link.label}
-                          <span className="pointer-events-none absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 group-hover:w-full" />
+                          <span className={`pointer-events-none absolute -bottom-0.5 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 group-hover:w-full ${
+                            isDarkMode ? "opacity-80" : ""
+                          }`} />
                         </Link>
                       </li>
                     );
@@ -326,7 +346,11 @@ export default function Navbar() {
                         <Link
                           to={link.href}
                           onClick={() => setOpenMenu(null)}
-                          className="whitespace-nowrap text-[12.5px] font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f] xl:text-[13px]"
+                          className={`whitespace-nowrap text-[12.5px] font-medium uppercase tracking-[0.08em] transition-colors duration-200 ${
+                            isDarkMode 
+                              ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                              : "text-[#2b1710] hover:text-[#9c7a3f]"
+                          } xl:text-[13px]`}
                         >
                           {link.label}
                         </Link>
@@ -339,7 +363,11 @@ export default function Navbar() {
                             e.stopPropagation();
                             setOpenMenu(isOpen ? null : link.label);
                           }}
-                          className="flex h-6 w-6 items-center justify-center text-[#2b1710] transition-colors duration-200 hover:text-[#9c7a3f]"
+                          className={`flex h-6 w-6 items-center justify-center transition-colors duration-200 ${
+                            isDarkMode 
+                              ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                              : "text-[#2b1710] hover:text-[#9c7a3f]"
+                          }`}
                         >
                           <ChevronDown
                             className={`h-3.5 w-3.5 transition-transform duration-300 ease-out ${
@@ -351,12 +379,11 @@ export default function Navbar() {
                         <span
                           className={`pointer-events-none absolute -bottom-0.5 left-0 h-px bg-gradient-to-r from-[#b8863f] to-[#f0d9a8] transition-all duration-300 ${
                             isOpen ? "w-full" : "w-0 group-hover:w-full"
-                          }`}
+                          } ${isDarkMode ? "opacity-80" : ""}`}
                         />
                       </span>
 
-                      {/* Dropdown panel — width/position tuned per breakpoint so it
-                          never overflows the viewport on narrower desktop widths */}
+                      {/* Dropdown panel */}
                       <div
                         className={`absolute top-full z-50 pt-4 transition-all duration-300 ease-out ${
                           isImageType
@@ -368,7 +395,11 @@ export default function Navbar() {
                             : "pointer-events-none opacity-0 -translate-y-2"
                         }`}
                       >
-                        <div className="overflow-hidden rounded-md border border-[#ecdfc4] bg-[#faf6ef] shadow-[0_18px_50px_-12px_rgba(28,18,13,0.25)]">
+                        <div className={`overflow-hidden rounded-md border ${
+                          isDarkMode 
+                            ? "border-[#2a1f18] bg-[#1a1410]" 
+                            : "border-[#ecdfc4] bg-[#faf6ef]"
+                        } shadow-[0_18px_50px_-12px_rgba(28,18,13,0.25)] transition-colors duration-300`}>
                           <div className="h-[3px] w-full bg-gradient-to-r from-[#b8863f] via-[#f0d9a8] to-[#b8863f]" />
 
                           {isImageType ? (
@@ -383,9 +414,15 @@ export default function Navbar() {
                                       ? `${idx * 40}ms`
                                       : "0ms",
                                   }}
-                                  className="group/item flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 hover:bg-[#f0e6cc]/60"
+                                  className={`group/item flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 ${
+                                    isDarkMode 
+                                      ? "hover:bg-[#2a1f18]/60" 
+                                      : "hover:bg-[#f0e6cc]/60"
+                                  }`}
                                 >
-                                  <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border border-[#ecdfc4]">
+                                  <span className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border ${
+                                    isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+                                  }`}>
                                     <img
                                       src={category.image}
                                       alt={category.title}
@@ -393,7 +430,11 @@ export default function Navbar() {
                                       className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/item:scale-110"
                                     />
                                   </span>
-                                  <span className="text-[12.5px] font-medium uppercase tracking-[0.06em] text-[#2b1710] transition-colors duration-200 group-hover/item:text-[#9c7a3f]">
+                                  <span className={`text-[12.5px] font-medium uppercase tracking-[0.06em] transition-colors duration-200 ${
+                                    isDarkMode 
+                                      ? "text-[#d4c5b5] group-hover/item:text-[#c9974a]" 
+                                      : "text-[#2b1710] group-hover/item:text-[#9c7a3f]"
+                                  }`}>
                                     {category.title}
                                   </span>
                                 </Link>
@@ -413,24 +454,38 @@ export default function Navbar() {
                                         ? `${idx * 45}ms`
                                         : "0ms",
                                     }}
-                                    className={`group/item relative flex items-start gap-3 overflow-hidden rounded-sm p-2.5 transition-all duration-300 ease-out hover:bg-[#f0e6cc]/60 ${
+                                    className={`group/item relative flex items-start gap-3 overflow-hidden rounded-sm p-2.5 transition-all duration-300 ease-out ${
                                       isOpen
                                         ? "opacity-100 translate-x-0"
                                         : "opacity-0 -translate-x-2"
+                                    } ${
+                                      isDarkMode 
+                                        ? "hover:bg-[#2a1f18]/60" 
+                                        : "hover:bg-[#f0e6cc]/60"
                                     }`}
                                   >
                                     <span className="absolute inset-y-1.5 left-0 w-[3px] scale-y-0 bg-gradient-to-b from-[#b8863f] to-[#f0d9a8] transition-transform duration-300 ease-out group-hover/item:scale-y-100" />
-                                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f] transition-colors duration-300 group-hover/item:bg-[#2b1710] group-hover/item:text-[#f0d9a8]">
+                                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm transition-colors duration-300 ${
+                                      isDarkMode 
+                                        ? "bg-[#2a1f18]/70 text-[#c9974a] group-hover/item:bg-[#c9974a] group-hover/item:text-[#1a1410]" 
+                                        : "bg-[#f0e6cc]/70 text-[#b8863f] group-hover/item:bg-[#2b1710] group-hover/item:text-[#f0d9a8]"
+                                    }`}>
                                       <Icon
                                         className="h-4 w-4"
                                         strokeWidth={1.75}
                                       />
                                     </span>
                                     <span className="flex flex-col">
-                                      <span className="text-[12.5px] font-semibold uppercase tracking-[0.05em] text-[#2b1710] transition-colors duration-200 group-hover/item:text-[#9c7a3f]">
+                                      <span className={`text-[12.5px] font-semibold uppercase tracking-[0.05em] transition-colors duration-200 ${
+                                        isDarkMode 
+                                          ? "text-[#d4c5b5] group-hover/item:text-[#c9974a]" 
+                                          : "text-[#2b1710] group-hover/item:text-[#9c7a3f]"
+                                      }`}>
                                         {item.title}
                                       </span>
-                                      <span className="mt-0.5 text-[11px] leading-snug text-[#6b5a48]">
+                                      <span className={`mt-0.5 text-[11px] leading-snug ${
+                                        isDarkMode ? "text-[#a89888]" : "text-[#6b5a48]"
+                                      }`}>
                                         {item.description}
                                       </span>
                                     </span>
@@ -440,11 +495,13 @@ export default function Navbar() {
                             </div>
                           )}
 
-                          <div className="border-t border-[#ecdfc4] px-4 py-3">
+                          <div className={`border-t ${
+                            isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+                          } px-4 py-3`}>
                             <Link
                               to={link.dropdown.cta.href}
                               onClick={() => setOpenMenu(null)}
-                              className="group/all flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b8863f] transition-colors duration-200 hover:text-[#9c7a3f]"
+                              className="group/all flex items-center justify-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b8863f] transition-colors duration-200 hover:text-[#c9974a]"
                             >
                               {link.dropdown.cta.label}
                               <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover/all:translate-x-1" />
@@ -458,22 +515,47 @@ export default function Navbar() {
               </ul>
             </nav>
 
-            {/* Search + CTA cluster — scales down to icon-only on the
-                smallest screens, expands progressively */}
+            {/* Search + Dark Mode + CTA */}
             <div className="order-5 flex shrink-0 items-center gap-1 xs:gap-1.5 sm:gap-2 lg:order-3">
               <button
                 type="button"
                 aria-label="Search"
                 onClick={() => setIsSearchOpen(true)}
-                className="flex h-9 w-9 items-center justify-center text-[#2b1710] transition-colors duration-200 hover:text-[#b8863f]"
+                className={`flex h-9 w-9 items-center justify-center transition-colors duration-200 ${
+                  isDarkMode 
+                    ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                    : "text-[#2b1710] hover:text-[#b8863f]"
+                }`}
               >
                 <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
+              </button>
+
+              {/* Dark Mode Toggle */}
+              <button
+                type="button"
+                aria-label="Toggle dark mode"
+                onClick={toggleDarkMode}
+                className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300 ${
+                  isDarkMode 
+                    ? "text-[#c9974a] hover:bg-[#2a1f18]/50" 
+                    : "text-[#2b1710] hover:bg-[#ecdfc4]/50"
+                }`}
+              >
+                {isDarkMode ? (
+                  <Sun className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                ) : (
+                  <Moon className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                )}
               </button>
 
               <Link
                 to="/get-quote"
                 aria-label="Get a Quote"
-                className="group relative flex items-center gap-1 overflow-hidden rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-[#f7f0e2] shadow-[0_2px_10px_-2px_rgba(28,18,13,0.5)] transition-all duration-200 hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)] xs:px-3 xs:text-[10.5px] sm:px-4 sm:py-2 sm:text-[11px] lg:gap-1.5 lg:px-5 lg:py-2.5 lg:text-[12px] lg:tracking-[0.1em]"
+                className={`group relative flex items-center gap-1 overflow-hidden rounded-sm px-2.5 py-2 text-[10px] font-semibold uppercase tracking-[0.06em] transition-all duration-200 ${
+                  isDarkMode
+                    ? "bg-gradient-to-r from-[#c9974a] to-[#b8863f] text-[#1a1410] hover:shadow-[0_4px_18px_-2px_rgba(184,134,63,0.55)]"
+                    : "bg-gradient-to-r from-[#2b1710] to-[#3e2723] text-[#f7f0e2] hover:shadow-[0_4px_18px_-2px_rgba(212,175,106,0.55)]"
+                } xs:px-3 xs:text-[10.5px] sm:px-4 sm:py-2 sm:text-[11px] lg:gap-1.5 lg:px-5 lg:py-2.5 lg:text-[12px] lg:tracking-[0.1em]`}
               >
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 <span className="hidden xs:inline lg:hidden">Quote</span>
@@ -497,21 +579,27 @@ export default function Navbar() {
       >
         <div
           onClick={() => setIsMenuOpen(false)}
-          className={`absolute inset-0 bg-[#170e0a]/45 backdrop-blur-[2px] transition-opacity duration-300 ${
+          className={`absolute inset-0 transition-opacity duration-300 ${
             isMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
+          } ${isDarkMode ? "bg-black/60 backdrop-blur-[2px]" : "bg-[#170e0a]/45 backdrop-blur-[2px]"}`}
         />
         <nav
-          className={`absolute left-0 top-0 flex h-full w-[86%] max-w-xs flex-col bg-[#faf6ef] shadow-2xl transition-transform duration-300 ease-out xs:w-[82%] sm:max-w-sm ${
+          className={`absolute left-0 top-0 flex h-full w-[86%] max-w-xs flex-col shadow-2xl transition-transform duration-300 ease-out xs:w-[82%] sm:max-w-sm ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          } ${isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"}`}
         >
-          <div className="flex h-14 shrink-0 items-center justify-between border-b border-[#ecdfc4] px-4 xs:h-16 xs:px-5">
+          <div className={`flex h-14 shrink-0 items-center justify-between border-b px-4 xs:h-16 xs:px-5 ${
+            isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+          }`}>
             <span className="flex flex-col leading-none">
-              <span className="font-serif text-sm font-semibold text-[#2b1710] xs:text-base">
+              <span className={`font-serif text-sm font-semibold xs:text-base ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}>
                 Art By Adeel
               </span>
-              <span className="mt-1 text-[9px] uppercase tracking-[0.2em] text-[#b8863f]">
+              <span className={`mt-1 text-[9px] uppercase tracking-[0.2em] ${
+                isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+              }`}>
                 Premium Interiors Arts
               </span>
             </span>
@@ -519,13 +607,17 @@ export default function Navbar() {
               type="button"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
-              className="flex h-10 w-10 items-center justify-center p-2 text-[#2b1710]"
+              className={`flex h-10 w-10 items-center justify-center p-2 ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}
             >
               <X className="h-5 w-5" strokeWidth={1.5} />
             </button>
           </div>
 
-          <ul className="flex flex-1 flex-col divide-y divide-[#ecdfc4] overflow-y-auto px-4 pt-2 xs:px-5">
+          <ul className={`flex flex-1 flex-col divide-y overflow-y-auto px-4 pt-2 xs:px-5 ${
+            isDarkMode ? "divide-[#2a1f18]" : "divide-[#ecdfc4]"
+          }`}>
             {navLinks.map((link) => {
               if (!link.dropdown) {
                 return (
@@ -533,7 +625,11 @@ export default function Navbar() {
                     <Link
                       to={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="block py-3.5 text-sm font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors hover:text-[#b8863f]"
+                      className={`block py-3.5 text-sm font-medium uppercase tracking-[0.08em] transition-colors ${
+                        isDarkMode 
+                          ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                          : "text-[#2b1710] hover:text-[#b8863f]"
+                      }`}
                     >
                       {link.label}
                     </Link>
@@ -550,7 +646,11 @@ export default function Navbar() {
                     <Link
                       to={link.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex-1 py-3.5 text-sm font-medium uppercase tracking-[0.08em] text-[#2b1710] transition-colors hover:text-[#b8863f]"
+                      className={`flex-1 py-3.5 text-sm font-medium uppercase tracking-[0.08em] transition-colors ${
+                        isDarkMode 
+                          ? "text-[#d4c5b5] hover:text-[#c9974a]" 
+                          : "text-[#2b1710] hover:text-[#b8863f]"
+                      }`}
                     >
                       {link.label}
                     </Link>
@@ -559,7 +659,9 @@ export default function Navbar() {
                       onClick={() => toggleMobileMenu(link.label)}
                       aria-label={`Toggle ${link.label}`}
                       aria-expanded={isOpen}
-                      className="flex h-10 w-10 items-center justify-center text-[#2b1710]"
+                      className={`flex h-10 w-10 items-center justify-center ${
+                        isDarkMode ? "text-[#d4c5b5]" : "text-[#2b1710]"
+                      }`}
                     >
                       <ChevronDown
                         className={`h-4 w-4 transition-transform duration-300 ease-out ${
@@ -585,9 +687,15 @@ export default function Navbar() {
                                 setIsMenuOpen(false);
                                 toggleMobileMenu(link.label);
                               }}
-                              className="flex flex-col items-center gap-1.5 rounded-sm p-1.5 text-center transition-colors hover:bg-[#f0e6cc]/60"
+                              className={`flex flex-col items-center gap-1.5 rounded-sm p-1.5 text-center transition-colors ${
+                                isDarkMode 
+                                  ? "hover:bg-[#2a1f18]/60" 
+                                  : "hover:bg-[#f0e6cc]/60"
+                              }`}
                             >
-                              <span className="h-12 w-12 overflow-hidden rounded-sm border border-[#ecdfc4] xs:h-14 xs:w-14">
+                              <span className={`h-12 w-12 overflow-hidden rounded-sm border xs:h-14 xs:w-14 ${
+                                isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+                              }`}>
                                 <img
                                   src={category.image}
                                   alt={category.title}
@@ -595,7 +703,9 @@ export default function Navbar() {
                                   className="h-full w-full object-cover"
                                 />
                               </span>
-                              <span className="text-[10px] font-medium uppercase tracking-[0.04em] text-[#2b1710] xs:text-[10.5px]">
+                              <span className={`text-[10px] font-medium uppercase tracking-[0.04em] xs:text-[10.5px] ${
+                                isDarkMode ? "text-[#d4c5b5]" : "text-[#2b1710]"
+                              }`}>
                                 {category.title}
                               </span>
                             </Link>
@@ -613,15 +723,25 @@ export default function Navbar() {
                                   setIsMenuOpen(false);
                                   toggleMobileMenu(link.label);
                                 }}
-                                className="flex items-center gap-3 rounded-sm p-2 transition-colors hover:bg-[#f0e6cc]/60"
+                                className={`flex items-center gap-3 rounded-sm p-2 transition-colors ${
+                                  isDarkMode 
+                                    ? "hover:bg-[#2a1f18]/60" 
+                                    : "hover:bg-[#f0e6cc]/60"
+                                }`}
                               >
-                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-[#f0e6cc]/70 text-[#b8863f]">
+                                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-sm ${
+                                  isDarkMode 
+                                    ? "bg-[#2a1f18]/70 text-[#c9974a]" 
+                                    : "bg-[#f0e6cc]/70 text-[#b8863f]"
+                                }`}>
                                   <Icon
                                     className="h-4 w-4"
                                     strokeWidth={1.75}
                                   />
                                 </span>
-                                <span className="text-xs font-medium uppercase tracking-[0.04em] text-[#2b1710]">
+                                <span className={`text-xs font-medium uppercase tracking-[0.04em] ${
+                                  isDarkMode ? "text-[#d4c5b5]" : "text-[#2b1710]"
+                                }`}>
                                   {item.title}
                                 </span>
                               </Link>
@@ -636,18 +756,28 @@ export default function Navbar() {
             })}
           </ul>
 
-          <div className="shrink-0 border-t border-[#ecdfc4] p-4 xs:p-5">
+          <div className={`shrink-0 border-t p-4 xs:p-5 ${
+            isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+          }`}>
             <Link
               to="/get-quote"
               onClick={() => setIsMenuOpen(false)}
-              className="flex w-full items-center justify-center gap-1.5 rounded-sm bg-gradient-to-r from-[#2b1710] to-[#3e2723] px-5 py-3 text-xs font-semibold uppercase tracking-[0.1em] text-[#f7f0e2] transition-colors hover:from-[#b8863f] hover:to-[#9c7a3f]"
+              className={`flex w-full items-center justify-center gap-1.5 rounded-sm px-5 py-3 text-xs font-semibold uppercase tracking-[0.1em] transition-colors ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-[#c9974a] to-[#b8863f] text-[#1a1410] hover:from-[#b8863f] hover:to-[#9c7a3f]"
+                  : "bg-gradient-to-r from-[#2b1710] to-[#3e2723] text-[#f7f0e2] hover:from-[#b8863f] hover:to-[#9c7a3f]"
+              }`}
             >
               Get a Quote
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
             </Link>
             <a
               href="tel:+923001234567"
-              className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#6b5a48] hover:text-[#b8863f]"
+              className={`mt-4 flex items-center justify-center gap-1.5 text-xs transition-colors ${
+                isDarkMode 
+                  ? "text-[#a89888] hover:text-[#c9974a]" 
+                  : "text-[#6b5a48] hover:text-[#b8863f]"
+              }`}
             >
               <Phone
                 className="h-3.5 w-3.5 text-[#b8863f]"

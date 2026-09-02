@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 import Container from "../common/Container";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const WHATSAPP_NUMBER = "923008543635";
-
 
 if (typeof document !== "undefined" && !document.getElementById("service-highlight-style")) {
   const styleTag = document.createElement("style");
@@ -80,7 +80,6 @@ const services = [
   },
 ];
 
-
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -107,8 +106,8 @@ export default function ServicesGrid() {
   const [gridRef, gridVisible] = useInView(0.08);
   const [searchParams] = useSearchParams();
   const [highlightedSlug, setHighlightedSlug] = useState(null);
+  const { isDarkMode } = useDarkMode();
 
-  
   useEffect(() => {
     const targetSlug = searchParams.get("type");
     if (!targetSlug) return;
@@ -130,35 +129,45 @@ export default function ServicesGrid() {
   }, [searchParams]);
 
   return (
-    <section className="w-full bg-[#faf6ef] py-16 sm:py-20 lg:py-24 overflow-hidden">
+    <section className={`w-full py-16 sm:py-20 lg:py-24 overflow-hidden transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"
+    }`}>
       <Container>
-        {/* Section header — same reveal cadence as About's section intros */}
+        {/* Section header */}
         <div ref={headerRef} className="mb-14 text-center max-w-2xl mx-auto">
           <span
-            className={`block text-[11px] font-semibold uppercase tracking-[0.3em] text-[#b8863f] transition-all duration-700 ease-out ${
+            className={`block text-[11px] font-semibold uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
             }`}
             style={{ transitionDelay: "80ms" }}
           >
             Artisanal Capability
           </span>
           <h2
-            className={`mt-3 font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#2b1710] transition-all duration-[900ms] ease-out ${
+            className={`mt-3 font-serif text-3xl sm:text-4xl font-normal tracking-tight transition-all duration-[900ms] ease-out ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            } ${
+              isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
             }`}
             style={{ transitionDelay: "180ms" }}
           >
             Bespoke Woodwork &amp; Interior Services
           </h2>
           <div
-            className={`mx-auto mt-5 h-px bg-[#d4af6a] transition-all duration-[900ms] ease-out ${
+            className={`mx-auto mt-5 h-px transition-all duration-[900ms] ease-out ${
               headerVisible ? "w-14 opacity-100" : "w-0 opacity-0"
+            } ${
+              isDarkMode ? "bg-[#c9974a]" : "bg-[#d4af6a]"
             }`}
             style={{ transitionDelay: "340ms" }}
           />
           <p
-            className={`mt-5 text-sm sm:text-base leading-relaxed text-[#5c4a3b] transition-all duration-700 ease-out ${
+            className={`mt-5 text-sm sm:text-base leading-relaxed transition-all duration-700 ease-out ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
             }`}
             style={{ transitionDelay: "420ms" }}
           >
@@ -169,7 +178,6 @@ export default function ServicesGrid() {
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, idx) => {
-            // Professional English WhatsApp message
             const waMsg = encodeURIComponent(
               `Hey Sir! I hope you're doing well. I came across your ${service.title} services and would love to connect. We offer premium woodwork solutions that can transform your space. I'd be happy to share more details or schedule a quick call at your convenience. Please let me know a suitable time to connect.`
             );
@@ -180,10 +188,12 @@ export default function ServicesGrid() {
               <div
                 key={service.title}
                 id={`service-${service.slug}`}
-                className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ease-out hover:-translate-y-1.5 hover:border-[#d4af6a]/60 hover:shadow-[0_24px_45px_-22px_rgba(43,23,16,0.25)] ${
+                className={`group relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-all ease-out hover:-translate-y-1.5 hover:border-[#d4af6a]/60 hover:shadow-[0_24px_45px_-22px_rgba(43,23,16,0.25)] ${
                   isHighlighted
                     ? "border-[#d4af6a] ring-2 ring-[#d4af6a]/70 shadow-[0_24px_45px_-22px_rgba(212,175,106,0.5)]"
-                    : "border-[#ecdfc4]"
+                    : isDarkMode
+                      ? "border-[#2a1f18] bg-[#1a1410] hover:shadow-[0_24px_45px_-22px_rgba(0,0,0,0.5)]"
+                      : "border-[#ecdfc4] bg-white hover:shadow-[0_24px_45px_-22px_rgba(43,23,16,0.25)]"
                 } ${
                   gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
@@ -209,7 +219,6 @@ export default function ServicesGrid() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-85" />
 
-                 
                   <div className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center">
                     <div className="absolute inset-0 rotate-45 border border-white/50 transition-all duration-500 ease-out group-hover:border-[#d4af6a] group-hover:bg-[#2b1710]/70" />
                     <span className="relative font-serif text-xs text-white">
@@ -219,27 +228,39 @@ export default function ServicesGrid() {
                 </div>
 
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-serif text-lg sm:text-xl font-semibold text-[#2b1710] transition-colors duration-300 group-hover:text-[#b8863f]">
+                  <h3 className={`font-serif text-lg sm:text-xl font-semibold transition-colors duration-300 group-hover:text-[#b8863f] ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
                     {service.title}
                   </h3>
-                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#5c4a3b] flex-1">
+                  <p className={`mt-3 text-xs sm:text-sm leading-relaxed flex-1 ${
+                    isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
+                  }`}>
                     {service.description}
                   </p>
 
-                  <div className="mt-6 flex items-center gap-3 border-t border-[#ecdfc4] pt-4">
+                  <div className={`mt-6 flex items-center gap-3 border-t pt-4 ${
+                    isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+                  }`}>
                     <Link
                       to="/get-quote"
-                      className="group/btn relative flex-1 overflow-hidden rounded-lg bg-[#2b1710] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] transition-colors duration-300"
+                      className={`group/btn relative flex-1 overflow-hidden rounded-lg px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
+                        isDarkMode
+                          ? "bg-[#c9974a] text-[#1a1410]"
+                          : "bg-[#2b1710] text-[#f0d9a8]"
+                      }`}
                     >
-                      <span className="absolute inset-0 -translate-x-full bg-[#3e2723] transition-transform duration-300 ease-out group-hover/btn:translate-x-0" />
+                      <span className={`absolute inset-0 -translate-x-full transition-transform duration-300 ease-out group-hover/btn:translate-x-0 ${
+                        isDarkMode ? "bg-[#b8863f]" : "bg-[#3e2723]"
+                      }`} />
                       <span className="relative flex items-center justify-center gap-1.5">
                         Get Quote
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/btn:translate-x-1" />
                       </span>
                     </Link>
 
-                    
-                     <a href={waHref}
+                    <a
+                      href={waHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center rounded-lg bg-emerald-600 p-2.5 text-white transition-all duration-300 hover:scale-105 hover:bg-emerald-500"

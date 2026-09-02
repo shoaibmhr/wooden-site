@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import Container from "../common/Container";
+import { useDarkMode } from "../context/DarkModeContext";
 
 // Each entry is a MAIN category shown on this page.
 // `subcategories` travels with the category so the category detail page
@@ -145,39 +146,48 @@ function useInView(threshold = 0.15) {
 
 export default function CategoryShowcase() {
   const [sectionRef, isVisible] = useInView(0.1);
+  const { isDarkMode } = useDarkMode();
 
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20"
+      className={`w-full py-14 sm:py-16 md:py-20 transition-colors duration-300 ${
+        isDarkMode ? "bg-[#1a1410]" : "bg-[#FAF6EF]"
+      }`}
     >
       <Container>
         <div className="mb-10 text-center sm:mb-12 md:mb-14">
           <span
-            className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+            className={`block text-[11px] font-medium uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
             }`}
             style={{ transitionDelay: "80ms" }}
           >
             Browse By Category
           </span>
           <h2
-            className={`mt-3 font-serif text-[#17130F] tracking-tight text-2xl sm:text-3xl md:text-4xl transition-all duration-[900ms] ease-out ${
+            className={`mt-3 font-serif tracking-tight text-2xl sm:text-3xl md:text-4xl transition-all duration-[900ms] ease-out ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
+            } ${
+              isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
             }`}
             style={{ transitionDelay: "180ms" }}
           >
             Our Signature Collections
           </h2>
           <p
-            className={`mx-auto mt-4 max-w-xl text-sm sm:text-base text-[#5C5142] leading-relaxed transition-all duration-700 ease-out ${
+            className={`mx-auto mt-4 max-w-xl text-sm sm:text-base leading-relaxed transition-all duration-700 ease-out ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
             }`}
             style={{ transitionDelay: "300ms" }}
           >

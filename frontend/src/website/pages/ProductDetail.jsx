@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
-import { Ruler, ArrowRight, ShieldCheck, Hammer, CheckCircle2, TreeDeciduous, Droplets, SunMedium, } from "lucide-react";
+import { 
+  Ruler, ArrowRight, ShieldCheck, Hammer, CheckCircle2, 
+  TreeDeciduous, Droplets, SunMedium 
+} from "lucide-react";
 import Container from "../components/common/Container";
 import Breadcrumbs from "../components/common/Breadcrumbs";
 import { products as fallbackProducts } from "../data/products.data";
+import { useDarkMode } from "../components/context/DarkModeContext";
 
-const WHATSAPP_NUMBER = "923008543635"; // Updated WhatsApp number
+const WHATSAPP_NUMBER = "923008543635";
 
 function WhatsappIcon(props) {
   return (
@@ -17,6 +21,7 @@ function WhatsappIcon(props) {
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const { isDarkMode } = useDarkMode();
   const [product] = useState(
     () => fallbackProducts.find((p) => p.id === id || p.slug === id) || null
   );
@@ -77,7 +82,6 @@ export default function ProductDetail() {
     }
 
     message += `\nI would appreciate your expert advice on this project. Could you please share an estimated quote and delivery timeline? I'm looking forward to hearing from you.\n\n`;
-    
 
     return encodeURIComponent(message);
   };
@@ -85,7 +89,9 @@ export default function ProductDetail() {
   const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMessage()}`;
 
   return (
-    <section className="w-full bg-[#faf6ef] py-10 sm:py-12 md:py-16">
+    <section className={`w-full py-10 sm:py-12 md:py-16 transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"
+    }`}>
       <Container>
         <Breadcrumbs
           items={[
@@ -98,7 +104,11 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Image gallery */}
           <div>
-            <div className="aspect-[4/3] sm:aspect-square w-full overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-xl">
+            <div className={`aspect-[4/3] sm:aspect-square w-full overflow-hidden rounded-2xl border shadow-xl transition-colors duration-300 ${
+              isDarkMode 
+                ? "border-[#2a1f18] bg-[#1a1410]" 
+                : "border-[#ecdfc4] bg-white"
+            }`}>
               <img
                 src={currentImage}
                 alt={product.name}
@@ -115,7 +125,9 @@ export default function ProductDetail() {
                     className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
                       activeImage === index
                         ? "border-[#2b1710] ring-2 ring-[#d4af6a]"
-                        : "border-transparent opacity-70 hover:opacity-100"
+                        : isDarkMode
+                          ? "border-[#2a1f18] opacity-60 hover:opacity-100"
+                          : "border-transparent opacity-70 hover:opacity-100"
                     }`}
                   >
                     <img
@@ -128,82 +140,141 @@ export default function ProductDetail() {
               </div>
             )}
 
-           
-<div className="mt-6 overflow-hidden rounded-2xl border border-[#ecdfc4] bg-white shadow-md">
-  <div className="border-b border-[#ecdfc4] bg-[#2b1710]/[0.03] px-5 py-4 sm:px-6">
-    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b8863f]">
-      Craftsmanship Profile
-    </p>
-    <h3 className="mt-1 font-serif text-base font-bold text-[#2b1710] sm:text-lg">
-      Wood & Craft Details
-    </h3>
-  </div>
+            {/* Craftsmanship Profile */}
+            <div className={`mt-6 overflow-hidden rounded-2xl border shadow-md transition-colors duration-300 ${
+              isDarkMode 
+                ? "border-[#2a1f18] bg-[#1a1410]" 
+                : "border-[#ecdfc4] bg-white"
+            }`}>
+              <div className={`border-b px-5 py-4 sm:px-6 transition-colors duration-300 ${
+                isDarkMode 
+                  ? "border-[#2a1f18] bg-[#2a1f18]/20" 
+                  : "border-[#ecdfc4] bg-[#2b1710]/[0.03]"
+              }`}>
+                <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${
+                  isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                }`}>
+                  Craftsmanship Profile
+                </p>
+                <h3 className={`mt-1 font-serif text-base font-bold sm:text-lg ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}>
+                  Wood & Craft Details
+                </h3>
+              </div>
 
-  <div className="divide-y divide-[#ecdfc4]">
-    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
-        <TreeDeciduous className="h-4.5 w-4.5 text-[#b8863f]" />
-      </div>
-      <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
-          Timber
-        </p>
-        <p className="mt-0.5 text-sm text-neutral-600">
-          Teak, Sheesham & Oak
-        </p>
-      </div>
-    </div>
+              <div className={`divide-y transition-colors duration-300 ${
+                isDarkMode ? "divide-[#2a1f18]" : "divide-[#ecdfc4]"
+              }`}>
+                <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
+                    isDarkMode 
+                      ? "bg-[#2a1f18]/50 ring-[#2a1f18]" 
+                      : "bg-[#2b1710]/5 ring-[#ecdfc4]"
+                  }`}>
+                    <TreeDeciduous className={`h-4.5 w-4.5 ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                    }`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className={`text-[11px] font-bold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                    }`}>
+                      Timber
+                    </p>
+                    <p className={`mt-0.5 text-sm ${
+                      isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+                    }`}>
+                      Teak, Sheesham & Oak
+                    </p>
+                  </div>
+                </div>
 
-    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
-        <Droplets className="h-4.5 w-4.5 text-[#b8863f]" />
-      </div>
-      <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
-          Grain & Finish
-        </p>
-        <p className="mt-0.5 text-sm text-neutral-600">
-          Natural grain, hand-polished
-        </p>
-      </div>
-    </div>
+                <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
+                    isDarkMode 
+                      ? "bg-[#2a1f18]/50 ring-[#2a1f18]" 
+                      : "bg-[#2b1710]/5 ring-[#ecdfc4]"
+                  }`}>
+                    <Droplets className={`h-4.5 w-4.5 ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                    }`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className={`text-[11px] font-bold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                    }`}>
+                      Grain & Finish
+                    </p>
+                    <p className={`mt-0.5 text-sm ${
+                      isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+                    }`}>
+                      Natural grain, hand-polished
+                    </p>
+                  </div>
+                </div>
 
-    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
-        <ShieldCheck className="h-4.5 w-4.5 text-[#b8863f]" />
-      </div>
-      <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
-          Treatment
-        </p>
-        <p className="mt-0.5 text-sm text-neutral-600">
-          Kiln-dried & termite treated
-        </p>
-      </div>
-    </div>
+                <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
+                    isDarkMode 
+                      ? "bg-[#2a1f18]/50 ring-[#2a1f18]" 
+                      : "bg-[#2b1710]/5 ring-[#ecdfc4]"
+                  }`}>
+                    <ShieldCheck className={`h-4.5 w-4.5 ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                    }`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className={`text-[11px] font-bold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                    }`}>
+                      Treatment
+                    </p>
+                    <p className={`mt-0.5 text-sm ${
+                      isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+                    }`}>
+                      Kiln-dried & termite treated
+                    </p>
+                  </div>
+                </div>
 
-    <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2b1710]/5 ring-1 ring-[#ecdfc4]">
-        <SunMedium className="h-4.5 w-4.5 text-[#b8863f]" />
-      </div>
-      <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
-          Care
-        </p>
-        <p className="mt-0.5 text-sm text-neutral-600">
-          Wipe with dry cloth, avoid direct sunlight
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-</div>   
+                <div className="flex items-center gap-4 px-5 py-4 sm:px-6">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 transition-colors duration-300 ${
+                    isDarkMode 
+                      ? "bg-[#2a1f18]/50 ring-[#2a1f18]" 
+                      : "bg-[#2b1710]/5 ring-[#ecdfc4]"
+                  }`}>
+                    <SunMedium className={`h-4.5 w-4.5 ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+                    }`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className={`text-[11px] font-bold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                    }`}>
+                      Care
+                    </p>
+                    <p className={`mt-0.5 text-sm ${
+                      isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+                    }`}>
+                      Wipe with dry cloth, avoid direct sunlight
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Product info */}
           <div>
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
+            <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${
+              isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+            }`}>
               {product.category || "Bespoke Woodcraft"}
             </span>
-            <h1 className="mt-2 font-serif text-3xl font-bold leading-tight text-[#2b1710] sm:text-4xl">
+            <h1 className={`mt-2 font-serif text-3xl font-bold leading-tight sm:text-4xl ${
+              isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+            }`}>
               {product.name}
             </h1>
 
@@ -214,37 +285,57 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            <div className="mt-5 rounded-lg bg-[#2b1710]/5 border border-[#ecdfc4] p-4">
-              <p className="text-xs uppercase tracking-widest font-semibold text-[#b8863f]">
+            <div className={`mt-5 rounded-lg border p-4 transition-colors duration-300 ${
+              isDarkMode 
+                ? "bg-[#2a1f18]/30 border-[#2a1f18]" 
+                : "bg-[#2b1710]/5 border-[#ecdfc4]"
+            }`}>
+              <p className={`text-xs uppercase tracking-widest font-semibold ${
+                isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+              }`}>
                 Price Quote Policy
               </p>
-              <p className="mt-1 text-sm font-serif font-bold text-[#2b1710]">
+              <p className={`mt-1 text-sm font-serif font-bold ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}>
                 Price Available Upon Dimension & Wood Species Selection
               </p>
-              <p className="mt-1 text-xs text-neutral-600">
+              <p className={`mt-1 text-xs ${
+                isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+              }`}>
                 Since every piece is custom handcrafted for your space, final price depends on dimensions, timber species (Teak, Sheesham, Oak), and polish complexity.
               </p>
             </div>
 
-            <p className="mt-5 text-sm leading-relaxed text-[#5c4a3b] sm:text-base">
+            <p className={`mt-5 text-sm leading-relaxed sm:text-base ${
+              isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
+            }`}>
               {product.description}
             </p>
 
             {/* Custom Sizing & Direct WhatsApp Inquiry Box */}
-            <div className="mt-8 rounded-2xl border-2 border-[#d4af6a]/40 bg-white p-5 sm:p-6 shadow-xl relative overflow-hidden">
-              <div className="flex items-center gap-2.5 text-[#2b1710]">
+            <div className={`mt-8 rounded-2xl border-2 border-[#d4af6a]/40 p-5 sm:p-6 shadow-xl relative overflow-hidden transition-colors duration-300 ${
+              isDarkMode ? "bg-[#1a1410]" : "bg-white"
+            }`}>
+              <div className={`flex items-center gap-2.5 ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}>
                 <Ruler className="h-5 w-5 text-[#b8863f]" />
                 <h3 className="font-serif text-base font-bold uppercase tracking-wider">
                   Select Custom Dimensions & Polish
                 </h3>
               </div>
-              <p className="mt-1 text-xs text-neutral-600">
+              <p className={`mt-1 text-xs ${
+                isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+              }`}>
                 Enter your exact room dimensions below to send a direct inquiry to our master craftsman on WhatsApp:
               </p>
 
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+                  <label className={`text-[11px] font-bold uppercase tracking-wider ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
                     Length
                   </label>
                   <input
@@ -252,12 +343,18 @@ export default function ProductDetail() {
                     placeholder="e.g. 7"
                     value={customLength}
                     onChange={(e) => setCustomLength(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:ring-[#c9974a]"
+                        : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:ring-[#b8863f]"
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+                  <label className={`text-[11px] font-bold uppercase tracking-wider ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
                     Width
                   </label>
                   <input
@@ -265,18 +362,28 @@ export default function ProductDetail() {
                     placeholder="e.g. 3.5"
                     value={customWidth}
                     onChange={(e) => setCustomWidth(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:ring-[#c9974a]"
+                        : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:ring-[#b8863f]"
+                    }`}
                   />
                 </div>
 
                 <div className="col-span-2 sm:col-span-1">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+                  <label className={`text-[11px] font-bold uppercase tracking-wider ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
                     Unit
                   </label>
                   <select
                     value={customUnit}
                     onChange={(e) => setCustomUnit(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                      isDarkMode
+                        ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] focus:border-[#c9974a] focus:ring-[#c9974a]"
+                        : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:ring-[#b8863f]"
+                    }`}
                   >
                     <option value="Feet">Feet (ft)</option>
                     <option value="Inches">Inches (in)</option>
@@ -287,13 +394,19 @@ export default function ProductDetail() {
               </div>
 
               <div className="mt-3.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-[#2b1710]">
+                <label className={`text-[11px] font-bold uppercase tracking-wider ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}>
                   Timber Polish / Finish Selection
                 </label>
                 <select
                   value={customPolish}
                   onChange={(e) => setCustomPolish(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                    isDarkMode
+                      ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] focus:border-[#c9974a] focus:ring-[#c9974a]"
+                      : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:ring-[#b8863f]"
+                  }`}
                 >
                   <option value="Natural Teak Finish">Natural Teak Polish</option>
                   <option value="Dark Walnut Polish">Dark Walnut Polish</option>
@@ -310,12 +423,16 @@ export default function ProductDetail() {
                   placeholder="Special instructions (e.g. carved border, glass fittings)"
                   value={customNotes}
                   onChange={(e) => setCustomNotes(e.target.value)}
-                  className="w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs text-neutral-900 focus:border-[#b8863f] focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                  className={`w-full rounded-lg border px-3 py-2 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                    isDarkMode
+                      ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:ring-[#c9974a]"
+                      : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:ring-[#b8863f]"
+                  }`}
                 />
               </div>
 
-              
-              <a href={whatsappHref}
+              <a
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-emerald-500 hover:shadow-xl active:scale-[0.99]"
@@ -326,27 +443,51 @@ export default function ProductDetail() {
 
               <Link
                 to="/get-quote"
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#2b1710] bg-[#2b1710] px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#f0d9a8] transition-colors hover:bg-[#3e2723]"
+                className={`mt-3 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
+                  isDarkMode
+                    ? "bg-[#c9974a] text-[#1a1410] hover:bg-[#b8863f]"
+                    : "bg-[#2b1710] text-[#f0d9a8] hover:bg-[#3e2723]"
+                }`}
               >
                 <span>Request Formal PDF Quote</span>
-                <ArrowRight className="h-4 w-4 text-[#d4af6a]" />
+                <ArrowRight className={`h-4 w-4 ${
+                  isDarkMode ? "text-[#1a1410]" : "text-[#d4af6a]"
+                }`} />
               </Link>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-[#ecdfc4] pt-6">
+            <div className={`mt-8 grid grid-cols-2 gap-4 border-t pt-6 ${
+              isDarkMode ? "border-[#2a1f18]" : "border-[#ecdfc4]"
+            }`}>
               <div className="flex items-center gap-2.5">
                 <ShieldCheck className="h-5 w-5 text-[#b8863f]" />
                 <div>
-                  <h4 className="text-xs font-bold text-[#2b1710]">Seasoned Timber</h4>
-                  <p className="text-[10px] text-neutral-500">Kiln-dried & termite treated</p>
+                  <h4 className={`text-xs font-bold ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
+                    Seasoned Timber
+                  </h4>
+                  <p className={`text-[10px] ${
+                    isDarkMode ? "text-[#a89888]" : "text-neutral-500"
+                  }`}>
+                    Kiln-dried & termite treated
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
                 <Hammer className="h-5 w-5 text-[#b8863f]" />
                 <div>
-                  <h4 className="text-xs font-bold text-[#2b1710]">Turnkey Fitting</h4>
-                  <p className="text-[10px] text-neutral-500">Site measurement & installation</p>
+                  <h4 className={`text-xs font-bold ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
+                    Turnkey Fitting
+                  </h4>
+                  <p className={`text-[10px] ${
+                    isDarkMode ? "text-[#a89888]" : "text-neutral-500"
+                  }`}>
+                    Site measurement & installation
+                  </p>
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Container from "../common/Container";
 import { Link } from "react-router-dom";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const faqs = [
   {
@@ -19,7 +20,6 @@ const faqs = [
   },
 ];
 
-
 const container = {
   hidden: {},
   visible: {
@@ -34,13 +34,16 @@ const itemVariant = {
 
 export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState(null);
+  const { isDarkMode } = useDarkMode();
 
   const toggle = (index) => {
     setOpenIndex((current) => (current === index ? null : index));
   };
 
   return (
-    <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+    <section className={`w-full py-10 sm:py-12 md:py-16 transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-white"
+    }`}>
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -49,7 +52,9 @@ export default function FaqSection() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="max-w-2xl mx-auto text-center"
         >
-          <h2 className="font-serif text-stone-900 text-xl sm:text-2xl md:text-3xl tracking-tight">
+          <h2 className={`font-serif text-xl sm:text-2xl md:text-3xl tracking-tight ${
+            isDarkMode ? "text-[#e8ddd0]" : "text-stone-900"
+          }`}>
             Common Questions
           </h2>
         </motion.div>
@@ -67,7 +72,11 @@ export default function FaqSection() {
               <motion.div
                 key={item.q}
                 variants={itemVariant}
-                className="rounded-xl border border-stone-200 overflow-hidden"
+                className={`rounded-xl border overflow-hidden transition-colors duration-300 ${
+                  isDarkMode 
+                    ? "border-[#2a1f18]" 
+                    : "border-stone-200"
+                }`}
               >
                 <button
                   type="button"
@@ -77,8 +86,12 @@ export default function FaqSection() {
                   <span
                     className={`text-sm sm:text-base font-semibold transition-colors duration-300 ${
                       isOpen
-                        ? "text-[#5C2A2A]"
-                        : "text-stone-800 group-hover:text-[#5C2A2A]"
+                        ? isDarkMode
+                          ? "text-[#c9974a]"
+                          : "text-[#5C2A2A]"
+                        : isDarkMode
+                          ? "text-[#d4c5b5] group-hover:text-[#c9974a]"
+                          : "text-stone-800 group-hover:text-[#5C2A2A]"
                     }`}
                   >
                     {item.q}
@@ -87,7 +100,9 @@ export default function FaqSection() {
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
                   >
-                    <ChevronDown className="h-4 w-4 shrink-0 text-stone-500" />
+                    <ChevronDown className={`h-4 w-4 shrink-0 ${
+                      isDarkMode ? "text-[#a89888]" : "text-stone-500"
+                    }`} />
                   </motion.span>
                 </button>
 
@@ -100,7 +115,9 @@ export default function FaqSection() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-4 sm:px-5 pb-4 text-xs sm:text-sm text-stone-500 leading-relaxed">
+                      <div className={`px-4 sm:px-5 pb-4 text-xs sm:text-sm leading-relaxed ${
+                        isDarkMode ? "text-[#a89888]" : "text-stone-500"
+                      }`}>
                         {item.a}
                       </div>
                     </motion.div>
@@ -120,7 +137,11 @@ export default function FaqSection() {
         >
           <Link
             to="/faqs"
-            className="text-xs sm:text-sm font-medium uppercase tracking-[0.15em] text-[#5C2A2A] hover:tracking-[0.2em] transition-all duration-300"
+            className={`text-xs sm:text-sm font-medium uppercase tracking-[0.15em] transition-all duration-300 hover:tracking-[0.2em] ${
+              isDarkMode 
+                ? "text-[#c9974a] hover:text-[#b8863f]" 
+                : "text-[#5C2A2A] hover:text-[#4A2121]"
+            }`}
           >
             View All FAQs →
           </Link>

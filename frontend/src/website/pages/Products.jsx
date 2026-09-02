@@ -10,9 +10,9 @@ import ProductResultsGrid from "../components/products/ProductResultsGrid";
 import SearchBar from "../components/products/SearchBar";
 import Pagination from "../components/products/Pagination";
 import { products as fallbackProducts } from "../data/products.data";
+import { useDarkMode } from "../components/context/DarkModeContext";
 
 const ITEMS_PER_PAGE = 6;
-
 
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
@@ -46,12 +46,11 @@ export default function Products() {
   );
   const [sortBy, setSortBy] = useState("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const { isDarkMode } = useDarkMode();
 
   const [headerRef, headerVisible] = useInView(0.2);
   const [sidebarRef, sidebarVisible] = useInView(0.1);
   const [gridRef, gridVisible] = useInView(0.05);
-
-
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -106,7 +105,6 @@ export default function Products() {
     currentPage * ITEMS_PER_PAGE,
   );
 
-  
   const gridAnimationKey = `${currentPage}-${filtersKey}`;
 
   return (
@@ -120,7 +118,9 @@ export default function Products() {
         ]}
       />
 
-      <section className="w-full bg-[#faf6ef] py-10 sm:py-12 md:py-16 overflow-hidden">
+      <section className={`w-full py-10 sm:py-12 md:py-16 overflow-hidden transition-colors duration-300 ${
+        isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"
+      }`}>
         <Container>
           <Breadcrumbs
             items={[
@@ -129,31 +129,37 @@ export default function Products() {
             ]}
           />
 
-         
+          {/* Header */}
           <div
             ref={headerRef}
             className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between"
           >
             <div>
               <span
-                className={`block text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f] transition-all duration-700 ease-out ${
+                className={`block text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-700 ease-out ${
                   headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
                 }`}
                 style={{ transitionDelay: "80ms" }}
               >
                 Handcrafted Portfolio
               </span>
               <h1
-                className={`font-serif text-2xl font-bold tracking-wide text-[#2b1710] transition-all duration-[900ms] ease-out sm:text-3xl ${
+                className={`font-serif text-2xl font-bold tracking-wide transition-all duration-[900ms] ease-out sm:text-3xl ${
                   headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                } ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
                 }`}
                 style={{ transitionDelay: "160ms" }}
               >
                 Woodwork &amp; Furniture Designs
               </h1>
               <p
-                className={`mt-1 text-xs text-[#5c4a3b] transition-all duration-700 ease-out sm:text-sm ${
+                className={`mt-1 text-xs transition-all duration-700 ease-out sm:text-sm ${
                   headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
                 }`}
                 style={{ transitionDelay: "260ms" }}
               >
@@ -173,7 +179,7 @@ export default function Products() {
           </div>
 
           <div className="flex flex-col gap-8 lg:flex-row">
-           
+            {/* Sidebar */}
             <aside
               ref={sidebarRef}
               className={`hidden w-60 shrink-0 lg:block transition-all duration-[900ms] ease-out ${

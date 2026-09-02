@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useDarkMode } from "../context/DarkModeContext";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635";
 
 function WhatsappIcon(props) {
   return (
@@ -15,6 +16,7 @@ const PHONE_REGEX = /^[+]?[\d\s-]{10,15}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
+  const { isDarkMode } = useDarkMode();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -31,7 +33,7 @@ export default function ContactForm() {
   };
 
   const buildWhatsAppMsg = () => {
-    let msg = `NEW PROJECT INQUIRY - ASHTECH WOODEN\n`;
+    let msg = `NEW PROJECT INQUIRY - Art By Adeel\n`;
     msg += `------------------------------------------\n`;
     if (formData.name) msg += `Client Name: ${formData.name}\n`;
     if (formData.phone) msg += `Phone: ${formData.phone}\n`;
@@ -41,7 +43,7 @@ export default function ContactForm() {
       msg += `City / Site Location: ${formData.location}\n`;
     if (formData.message) msg += `Requirements: ${formData.message}\n`;
     msg += `------------------------------------------\n`;
-    msg += `Hello Ashtech Wooden, kindly review my project details and share the estimated budget and timeline.`;
+    msg += `Hello Art By Adeel, kindly review my project details and share the estimated budget and timeline.`;
     return encodeURIComponent(msg);
   };
 
@@ -95,14 +97,22 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="flex h-full flex-col bg-white p-6 sm:p-8 md:p-10">
-      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#b8863f]">
+    <div className={`flex h-full flex-col p-6 sm:p-8 md:p-10 transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-white"
+    }`}>
+      <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${
+        isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
+      }`}>
         Direct Project Consultation
       </span>
-      <h2 className="mt-1 font-serif text-2xl font-bold text-[#2b1710] sm:text-3xl">
+      <h2 className={`mt-1 font-serif text-2xl font-bold sm:text-3xl ${
+        isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+      }`}>
         Request Custom Quote
       </h2>
-      <p className="mt-2 text-xs sm:text-sm text-neutral-600">
+      <p className={`mt-2 text-xs sm:text-sm ${
+        isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+      }`}>
         Fill out your room specifications or project requirements below to
         consult with our master woodworkers.
       </p>
@@ -117,7 +127,9 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="name"
-                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+                className={`text-xs font-bold uppercase tracking-wider ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}
               >
                 Full Name *
               </label>
@@ -128,14 +140,20 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange("name")}
                 placeholder="e.g. Muhammad Ali"
-                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                className={`mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                  isDarkMode
+                    ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                    : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 placeholder-neutral-400 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+                }`}
               />
             </div>
 
             <div>
               <label
                 htmlFor="phone"
-                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+                className={`text-xs font-bold uppercase tracking-wider ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}
               >
                 Phone / WhatsApp *
               </label>
@@ -146,7 +164,11 @@ export default function ContactForm() {
                 value={formData.phone}
                 onChange={handleChange("phone")}
                 placeholder="+92 300 0000000"
-                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                className={`mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                  isDarkMode
+                    ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                    : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 placeholder-neutral-400 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+                }`}
               />
             </div>
           </div>
@@ -156,7 +178,9 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="email"
-                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+                className={`text-xs font-bold uppercase tracking-wider ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}
               >
                 Email Address
               </label>
@@ -166,14 +190,20 @@ export default function ContactForm() {
                 value={formData.email}
                 onChange={handleChange("email")}
                 placeholder="you@domain.com"
-                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                className={`mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                  isDarkMode
+                    ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                    : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 placeholder-neutral-400 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+                }`}
               />
             </div>
 
             <div>
               <label
                 htmlFor="projectType"
-                className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+                className={`text-xs font-bold uppercase tracking-wider ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}
               >
                 Project Type
               </label>
@@ -181,7 +211,11 @@ export default function ContactForm() {
                 id="projectType"
                 value={formData.projectType}
                 onChange={handleChange("projectType")}
-                className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+                className={`mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                  isDarkMode
+                    ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                    : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+                }`}
               >
                 <option value="Custom Wooden Furniture">
                   Custom Wooden Furniture
@@ -209,7 +243,9 @@ export default function ContactForm() {
           <div>
             <label
               htmlFor="location"
-              className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              className={`text-xs font-bold uppercase tracking-wider ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}
             >
               City / Project Location
             </label>
@@ -219,7 +255,11 @@ export default function ContactForm() {
               value={formData.location}
               onChange={handleChange("location")}
               placeholder="e.g. Lahore, Islamabad, Karachi"
-              className="mt-1.5 w-full rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+              className={`mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                isDarkMode
+                  ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                  : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 placeholder-neutral-400 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+              }`}
             />
           </div>
 
@@ -227,7 +267,9 @@ export default function ContactForm() {
           <div>
             <label
               htmlFor="message"
-              className="text-xs font-bold uppercase tracking-wider text-[#2b1710]"
+              className={`text-xs font-bold uppercase tracking-wider ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}
             >
               Project Details & Dimensions *
             </label>
@@ -238,13 +280,21 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleChange("message")}
               placeholder="Specify dimensions (Length x Width), preferred wood type (Teak, Sheesham, Oak), or polish details..."
-              className="mt-1.5 w-full resize-none rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2.5 text-xs text-neutral-900 focus:border-[#b8863f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#b8863f]"
+              className={`mt-1.5 w-full resize-none rounded-lg border px-3.5 py-2.5 text-xs focus:outline-none focus:ring-1 transition-colors duration-300 ${
+                isDarkMode
+                  ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#c9974a] focus:bg-[#2a1f18] focus:ring-[#c9974a]"
+                  : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-900 placeholder-neutral-400 focus:border-[#b8863f] focus:bg-white focus:ring-[#b8863f]"
+              }`}
             />
           </div>
 
-          {/* Inline error message (replaces the old toast) */}
+          {/* Inline error message */}
           {errorMessage && (
-            <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700 animate-in fade-in slide-in-from-top-1 duration-300">
+            <div className={`flex items-start gap-2 rounded-lg border px-3.5 py-2.5 text-xs font-medium animate-in fade-in slide-in-from-top-1 duration-300 ${
+              isDarkMode
+                ? "border-red-800/50 bg-red-900/20 text-red-400"
+                : "border-red-200 bg-red-50 text-red-700"
+            }`}>
               <svg
                 className="mt-0.5 h-3.5 w-3.5 shrink-0"
                 viewBox="0 0 20 20"

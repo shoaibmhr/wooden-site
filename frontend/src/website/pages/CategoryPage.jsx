@@ -11,8 +11,9 @@ import {
   sortOptions,
 } from "../data/products.data";
 import { MessageCircle, SlidersHorizontal, Sparkles } from "lucide-react";
+import { useDarkMode } from "../components/context/DarkModeContext";
 
-const WHATSAPP_NUMBER = "923027069093";
+const WHATSAPP_NUMBER = "923008543635";
 
 const allCategoriesList = [
   { slug: "bed", name: "Beds" },
@@ -46,6 +47,7 @@ export default function CategoryPage() {
   const [productList] = useState(() => fallbackProducts);
   const [sortBy, setSortBy] = useState("featured");
   const [searchQuery, setSearchQuery] = useState("");
+  const { isDarkMode } = useDarkMode();
 
   const currentMeta = categoryMeta[categorySlug];
 
@@ -73,7 +75,7 @@ export default function CategoryPage() {
   const customWhatsAppMsg = useMemo(() => {
     if (!currentMeta) return "";
     return encodeURIComponent(
-      `Hi Ashtech Wooden! I am looking for custom designs and custom sizing in "${currentMeta.title}". Can you share catalogues and quotes?`,
+      `Hi Sir! I am looking for custom designs and custom sizing in "${currentMeta.title}". Can you share catalogues and quotes?`,
     );
   }, [currentMeta]);
 
@@ -82,7 +84,9 @@ export default function CategoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf6ef]">
+    <div className={`min-h-screen transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ef]"
+    }`}>
       {/* Dynamic Hero Banner */}
       <PageHero
         image={currentMeta.heroImage}
@@ -118,7 +122,9 @@ export default function CategoryPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="my-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none"
           >
-            <span className="shrink-0 text-xs font-bold uppercase tracking-wider text-neutral-400">
+            <span className={`shrink-0 text-xs font-bold uppercase tracking-wider ${
+              isDarkMode ? "text-[#a89888]" : "text-neutral-400"
+            }`}>
               Browse:
             </span>
             {allCategoriesList.map((cat) => {
@@ -130,7 +136,9 @@ export default function CategoryPage() {
                   className={`relative shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors duration-200 ${
                     isActive
                       ? "text-[#f0d9a8]"
-                      : "bg-white text-neutral-700 border border-[#ecdfc4] hover:border-[#2b1710] hover:text-[#2b1710]"
+                      : isDarkMode
+                        ? "bg-[#2a1f18] text-[#d4c5b5] border border-[#2a1f18] hover:border-[#c9974a] hover:text-[#e8ddd0]"
+                        : "bg-white text-neutral-700 border border-[#ecdfc4] hover:border-[#2b1710] hover:text-[#2b1710]"
                   }`}
                 >
                   {isActive && (
@@ -155,13 +163,21 @@ export default function CategoryPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            className="mt-4 flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6 border border-[#ecdfc4]"
+            className={`mt-4 flex flex-col gap-4 rounded-2xl p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6 border transition-colors duration-300 ${
+              isDarkMode 
+                ? "bg-[#1a1410] border-[#2a1f18]" 
+                : "bg-white border-[#ecdfc4]"
+            }`}
           >
             <div>
-              <h1 className="font-serif text-xl font-bold tracking-tight text-[#2b1710] sm:text-2xl md:text-3xl">
+              <h1 className={`font-serif text-xl font-bold tracking-tight sm:text-2xl md:text-3xl ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+              }`}>
                 {currentMeta.title}
               </h1>
-              <p className="mt-1 max-w-2xl text-xs text-neutral-600 sm:text-sm">
+              <p className={`mt-1 max-w-2xl text-xs sm:text-sm ${
+                isDarkMode ? "text-[#a89888]" : "text-neutral-600"
+              }`}>
                 {currentMeta.description}
               </p>
             </div>
@@ -173,15 +189,25 @@ export default function CategoryPage() {
                 placeholder="Search in this collection..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3.5 py-2 text-xs text-neutral-800 placeholder-neutral-400 focus:border-[#2b1710] focus:bg-white focus:outline-none sm:text-sm"
+                className={`rounded-lg border px-3.5 py-2 text-xs placeholder-neutral-400 focus:outline-none sm:text-sm transition-colors duration-300 ${
+                  isDarkMode
+                    ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] focus:border-[#c9974a] focus:bg-[#2a1f18]"
+                    : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-800 focus:border-[#2b1710] focus:bg-white"
+                }`}
               />
 
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4 text-neutral-500" />
+                <SlidersHorizontal className={`h-4 w-4 ${
+                  isDarkMode ? "text-[#a89888]" : "text-neutral-500"
+                }`} />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="rounded-lg border border-[#ecdfc4] bg-[#faf6ef] px-3 py-2 text-xs font-medium text-neutral-800 focus:border-[#2b1710] focus:bg-white focus:outline-none sm:text-sm"
+                  className={`rounded-lg border px-3 py-2 text-xs font-medium focus:outline-none sm:text-sm transition-colors duration-300 ${
+                    isDarkMode
+                      ? "border-[#2a1f18] bg-[#1a1410] text-[#e8ddd0] focus:border-[#c9974a] focus:bg-[#2a1f18]"
+                      : "border-[#ecdfc4] bg-[#faf6ef] text-neutral-800 focus:border-[#2b1710] focus:bg-white"
+                  }`}
                 >
                   {sortOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -200,14 +226,18 @@ export default function CategoryPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-6 flex items-center justify-between px-1"
           >
-            <p className="text-xs font-medium text-neutral-500 sm:text-sm">
+            <p className={`text-xs font-medium sm:text-sm ${
+              isDarkMode ? "text-[#a89888]" : "text-neutral-500"
+            }`}>
               Showing{" "}
               <motion.span
                 key={categoryProducts.length}
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="inline-block font-bold text-[#2b1710]"
+                className={`inline-block font-bold ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                }`}
               >
                 {categoryProducts.length}
               </motion.span>{" "}
@@ -244,19 +274,33 @@ export default function CategoryPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="my-12 flex flex-col items-center justify-center rounded-2xl bg-white p-12 text-center shadow-sm"
+              className={`my-12 flex flex-col items-center justify-center rounded-2xl p-12 text-center shadow-sm transition-colors duration-300 ${
+                isDarkMode 
+                  ? "bg-[#1a1410]" 
+                  : "bg-white"
+              }`}
             >
-              <Sparkles className="h-12 w-12 text-[#b8863f]/40" />
-              <h3 className="mt-4 text-lg font-bold text-neutral-900">
+              <Sparkles className={`h-12 w-12 ${
+                isDarkMode ? "text-[#c9974a]/40" : "text-[#b8863f]/40"
+              }`} />
+              <h3 className={`mt-4 text-lg font-bold ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-neutral-900"
+              }`}>
                 No designs found
               </h3>
-              <p className="mt-1 text-sm text-neutral-500">
+              <p className={`mt-1 text-sm ${
+                isDarkMode ? "text-[#a89888]" : "text-neutral-500"
+              }`}>
                 Try searching with different keywords or clear the search query.
               </p>
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="mt-4 rounded-lg bg-[#2b1710] px-5 py-2 text-xs font-semibold uppercase text-[#f0d9a8] hover:bg-[#3e2723]"
+                className={`mt-4 rounded-lg px-5 py-2 text-xs font-semibold uppercase transition-colors duration-300 ${
+                  isDarkMode
+                    ? "bg-[#c9974a] text-[#1a1410] hover:bg-[#b8863f]"
+                    : "bg-[#2b1710] text-[#f0d9a8] hover:bg-[#3e2723]"
+                }`}
               >
                 Clear Search
               </button>

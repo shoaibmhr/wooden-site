@@ -5,6 +5,7 @@ import StatsSection from "../components/home/StatsSection";
 import WhyChooseUs from "../components/home/WhyChooseUs";
 import { Link } from "react-router-dom";
 import { Hammer, ShieldCheck, TreePine, ArrowRight, Award, Sparkles } from "lucide-react";
+import { useDarkMode } from "../components/context/DarkModeContext";
 
 const timbers = [
   {
@@ -26,7 +27,6 @@ const timbers = [
       "Celebrated for crisp grain structures, high impact resistance, and elegant matte or dark walnut lacquer polishes.",
   },
 ];
-
 
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
@@ -52,6 +52,7 @@ function useInView(threshold = 0.15) {
 export default function About() {
   const [heritageRef, heritageVisible] = useInView(0.1);
   const [materialsRef, materialsVisible] = useInView(0.1);
+  const { isDarkMode } = useDarkMode();
 
   return (
     <div>
@@ -64,15 +65,22 @@ export default function About() {
         ]}
       />
 
-     
-      <section ref={heritageRef} className="w-full bg-[#FAF6EF] py-16 sm:py-20 lg:py-24 overflow-hidden">
+      {/* Heritage Section */}
+      <section 
+        ref={heritageRef} 
+        className={`w-full py-16 sm:py-20 lg:py-24 overflow-hidden transition-colors duration-300 ${
+          isDarkMode ? "bg-[#1a1410]" : "bg-[#FAF6EF]"
+        }`}
+      >
         <Container>
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center lg:gap-16">
-          
+            {/* Left Column - Content */}
             <div>
               <span
-                className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+                className={`block text-[11px] font-medium uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
                   heritageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
                 }`}
                 style={{ transitionDelay: "80ms" }}
               >
@@ -80,8 +88,10 @@ export default function About() {
               </span>
 
               <h2
-                className={`mt-3 font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-normal leading-tight tracking-tight text-[#17130F] transition-all duration-[900ms] ease-out ${
+                className={`mt-3 font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-normal leading-tight tracking-tight transition-all duration-[900ms] ease-out ${
                   heritageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                } ${
+                  isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
                 }`}
                 style={{ transitionDelay: "180ms" }}
               >
@@ -89,8 +99,10 @@ export default function About() {
               </h2>
 
               <p
-                className={`mt-6 text-sm sm:text-base leading-relaxed text-[#5C5142] transition-all duration-700 ease-out ${
+                className={`mt-6 text-sm sm:text-base leading-relaxed transition-all duration-700 ease-out ${
                   heritageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
                 }`}
                 style={{ transitionDelay: "300ms" }}
               >
@@ -101,8 +113,10 @@ export default function About() {
                 furniture, and architectural millwork.
               </p>
               <p
-                className={`mt-4 text-sm sm:text-base leading-relaxed text-[#5C5142] transition-all duration-700 ease-out ${
+                className={`mt-4 text-sm sm:text-base leading-relaxed transition-all duration-700 ease-out ${
                   heritageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
                 }`}
                 style={{ transitionDelay: "380ms" }}
               >
@@ -113,22 +127,34 @@ export default function About() {
               </p>
 
               <div
-                className={`mt-9 grid grid-cols-2 gap-6 border-t border-[#17130F]/10 pt-8 transition-all duration-700 ease-out ${
+                className={`mt-9 grid grid-cols-2 gap-6 border-t pt-8 transition-all duration-700 ease-out ${
                   heritageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                } ${
+                  isDarkMode ? "border-[#2a1f18]" : "border-[#17130F]/10"
                 }`}
                 style={{ transitionDelay: "480ms" }}
               >
                 <div className="group flex items-start gap-3">
                   <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
-                    <div className="absolute inset-0 border border-[#A9793C]/40 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C]" />
-                    <div className="absolute inset-0 scale-0 bg-[#A9793C] transition-transform duration-500 ease-out group-hover:scale-100" />
-                    <TreePine className="relative h-5 w-5 text-[#A9793C] transition-colors duration-500 ease-out group-hover:text-[#17130F]" strokeWidth={1.5} />
+                    <div className={`absolute inset-0 border transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C] ${
+                      isDarkMode ? "border-[#c9974a]/40" : "border-[#A9793C]/40"
+                    }`} />
+                    <div className={`absolute inset-0 scale-0 transition-transform duration-500 ease-out group-hover:scale-100 ${
+                      isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
+                    }`} />
+                    <TreePine className={`relative h-5 w-5 transition-colors duration-500 ease-out group-hover:text-[#17130F] ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
+                    }`} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h4 className="text-xs sm:text-sm font-semibold uppercase tracking-[0.06em] text-[#17130F]">
+                    <h4 className={`text-xs sm:text-sm font-semibold uppercase tracking-[0.06em] ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
+                    }`}>
                       Seasoned Wood
                     </h4>
-                    <p className="mt-0.5 text-xs text-[#5C5142]">
+                    <p className={`mt-0.5 text-xs ${
+                      isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
+                    }`}>
                       Kiln-dried &amp; moisture checked
                     </p>
                   </div>
@@ -136,15 +162,25 @@ export default function About() {
 
                 <div className="group flex items-start gap-3">
                   <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
-                    <div className="absolute inset-0 border border-[#A9793C]/40 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C]" />
-                    <div className="absolute inset-0 scale-0 bg-[#A9793C] transition-transform duration-500 ease-out group-hover:scale-100" />
-                    <Hammer className="relative h-5 w-5 text-[#A9793C] transition-colors duration-500 ease-out group-hover:text-[#17130F]" strokeWidth={1.5} />
+                    <div className={`absolute inset-0 border transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C] ${
+                      isDarkMode ? "border-[#c9974a]/40" : "border-[#A9793C]/40"
+                    }`} />
+                    <div className={`absolute inset-0 scale-0 transition-transform duration-500 ease-out group-hover:scale-100 ${
+                      isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
+                    }`} />
+                    <Hammer className={`relative h-5 w-5 transition-colors duration-500 ease-out group-hover:text-[#17130F] ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
+                    }`} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h4 className="text-xs sm:text-sm font-semibold uppercase tracking-[0.06em] text-[#17130F]">
+                    <h4 className={`text-xs sm:text-sm font-semibold uppercase tracking-[0.06em] ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
+                    }`}>
                       Hand Joinery
                     </h4>
-                    <p className="mt-0.5 text-xs text-[#5C5142]">
+                    <p className={`mt-0.5 text-xs ${
+                      isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
+                    }`}>
                       Mortise &amp; tenon mastery
                     </p>
                   </div>
@@ -159,16 +195,22 @@ export default function About() {
               >
                 <Link
                   to="/get-quote"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden bg-[#17130F] px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-[#F3ECDD] transition-all duration-300"
+                  className={`group relative inline-flex items-center gap-2 overflow-hidden px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${
+                    isDarkMode
+                      ? "bg-[#c9974a] text-[#1a1410]"
+                      : "bg-[#17130F] text-[#F3ECDD]"
+                  }`}
                 >
-                  <span className="absolute inset-0 -translate-x-full bg-[#A9793C] transition-transform duration-300 ease-out group-hover:translate-x-0" />
+                  <span className={`absolute inset-0 -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0 ${
+                    isDarkMode ? "bg-[#b8863f]" : "bg-[#A9793C]"
+                  }`} />
                   <span className="relative">Request Custom Quote</span>
                   <ArrowRight className="relative h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
 
-          
+            {/* Right Column - Image */}
             <div className="relative">
               <div
                 className="relative aspect-[4/5] w-full overflow-hidden shadow-2xl ring-1 ring-[#17130F]/10"
@@ -186,9 +228,13 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17130F]/60 via-transparent to-transparent" />
               </div>
 
-             
+              {/* Floating Badge */}
               <div
-                className={`absolute -bottom-6 -left-6 max-w-xs bg-[#17130F] p-6 text-white shadow-2xl border border-[#A9793C]/30 transition-all duration-700 ease-out ${
+                className={`absolute -bottom-6 -left-6 max-w-xs p-6 shadow-2xl border transition-all duration-700 ease-out ${
+                  isDarkMode 
+                    ? "bg-[#1a1410] border-[#c9974a]/30 text-[#e8ddd0]" 
+                    : "bg-[#17130F] border-[#A9793C]/30 text-white"
+                } ${
                   heritageVisible
                     ? "opacity-100 translate-y-0 scale-100"
                     : "opacity-0 translate-y-6 scale-90"
@@ -196,12 +242,18 @@ export default function About() {
                 style={{ transitionDelay: "900ms" }}
               >
                 <div className="flex items-center gap-3">
-                  <Award className="h-8 w-8 shrink-0 text-[#C9A468]" strokeWidth={1.5} />
+                  <Award className={`h-8 w-8 shrink-0 ${
+                    isDarkMode ? "text-[#c9974a]" : "text-[#C9A468]"
+                  }`} strokeWidth={1.5} />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#C9A468]">
+                    <p className={`text-xs font-semibold uppercase tracking-wider ${
+                      isDarkMode ? "text-[#c9974a]" : "text-[#C9A468]"
+                    }`}>
                       100% Quality Guaranteed
                     </p>
-                    <p className="text-[11px] text-[#D9CFBC]/80">
+                    <p className={`text-[11px] ${
+                      isDarkMode ? "text-[#a89888]" : "text-[#D9CFBC]/80"
+                    }`}>
                       Lifetime Craftsmanship Warranty
                     </p>
                   </div>
@@ -212,38 +264,50 @@ export default function About() {
         </Container>
       </section>
 
-    
       <StatsSection />
 
-     
-      <section ref={materialsRef} className="w-full bg-white py-16 sm:py-20 lg:py-24">
+      {/* Materials Section */}
+      <section 
+        ref={materialsRef} 
+        className={`w-full py-16 sm:py-20 lg:py-24 transition-colors duration-300 ${
+          isDarkMode ? "bg-[#1a1410]" : "bg-white"
+        }`}
+      >
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <span
-              className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+              className={`block text-[11px] font-medium uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
                 materialsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              } ${
+                isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
               }`}
               style={{ transitionDelay: "80ms" }}
             >
               Premium Timber Sourcing
             </span>
             <h2
-              className={`mt-3 font-serif text-3xl sm:text-4xl text-[#17130F] tracking-tight transition-all duration-[900ms] ease-out ${
+              className={`mt-3 font-serif text-3xl sm:text-4xl tracking-tight transition-all duration-[900ms] ease-out ${
                 materialsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              } ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
               }`}
               style={{ transitionDelay: "180ms" }}
             >
               The Finest Hardwoods Chosen For Durability &amp; Grace
             </h2>
             <div
-              className={`mx-auto mt-5 h-px bg-[#A9793C] transition-all duration-[900ms] ease-out ${
+              className={`mx-auto mt-5 h-px transition-all duration-[900ms] ease-out ${
                 materialsVisible ? "w-12 opacity-100" : "w-0 opacity-0"
+              } ${
+                isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
               }`}
               style={{ transitionDelay: "340ms" }}
             />
             <p
-              className={`mt-5 text-sm sm:text-base text-[#5C5142] leading-relaxed transition-all duration-700 ease-out ${
+              className={`mt-5 text-sm sm:text-base leading-relaxed transition-all duration-700 ease-out ${
                 materialsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              } ${
+                isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
               }`}
               style={{ transitionDelay: "420ms" }}
             >
@@ -259,7 +323,11 @@ export default function About() {
               return (
                 <div
                   key={timber.title}
-                  className={`group border border-[#17130F]/10 bg-[#FAF6EF] p-8 text-center transition-all ease-out hover:-translate-y-1 hover:border-[#A9793C]/50 hover:shadow-[0_20px_40px_-20px_rgba(23,19,15,0.25)] ${
+                  className={`group border p-8 text-center transition-all ease-out hover:-translate-y-1 hover:border-[#A9793C]/50 hover:shadow-[0_20px_40px_-20px_rgba(23,19,15,0.25)] ${
+                    isDarkMode 
+                      ? "border-[#2a1f18] bg-[#1a1410] hover:shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)]" 
+                      : "border-[#17130F]/10 bg-[#FAF6EF] hover:shadow-[0_20px_40px_-20px_rgba(23,19,15,0.25)]"
+                  } ${
                     materialsVisible
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-8"
@@ -270,17 +338,27 @@ export default function About() {
                   }}
                 >
                   <div className="relative mx-auto flex h-14 w-14 items-center justify-center">
-                    <div className="absolute inset-0 border border-[#A9793C]/40 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C]" />
-                    <div className="absolute inset-0 scale-0 bg-[#A9793C] transition-transform duration-500 ease-out group-hover:scale-100" />
+                    <div className={`absolute inset-0 border transition-all duration-500 ease-out group-hover:rotate-45 group-hover:border-[#A9793C] ${
+                      isDarkMode ? "border-[#c9974a]/40" : "border-[#A9793C]/40"
+                    }`} />
+                    <div className={`absolute inset-0 scale-0 transition-transform duration-500 ease-out group-hover:scale-100 ${
+                      isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
+                    }`} />
                     <Icon
-                      className="relative h-6 w-6 text-[#A9793C] transition-all duration-500 ease-out group-hover:scale-110 group-hover:text-[#17130F]"
+                      className={`relative h-6 w-6 transition-all duration-500 ease-out group-hover:scale-110 group-hover:text-[#17130F] ${
+                        isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
+                      }`}
                       strokeWidth={1.5}
                     />
                   </div>
-                  <h3 className="mt-5 font-serif text-lg sm:text-xl text-[#17130F] transition-colors duration-300 group-hover:text-[#A9793C]">
+                  <h3 className={`mt-5 font-serif text-lg sm:text-xl transition-colors duration-300 group-hover:text-[#A9793C] ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
+                  }`}>
                     {timber.title}
                   </h3>
-                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#5C5142]">
+                  <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${
+                    isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
+                  }`}>
                     {timber.description}
                   </p>
                 </div>

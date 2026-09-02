@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { MessageCircle, FileText, Hammer, Truck } from "lucide-react";
 import Container from "../common/Container";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const steps = [
   {
@@ -29,7 +30,6 @@ const steps = [
   },
 ];
 
-
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -54,37 +54,48 @@ function useInView(threshold = 0.15) {
 export default function ProcessSteps() {
   const [headerRef, headerVisible] = useInView(0.3);
   const [stepsRef, stepsVisible] = useInView(0.15);
+  const { isDarkMode } = useDarkMode();
 
   return (
-    <section className="w-full bg-[#faf1e0] py-14 sm:py-16 md:py-20 overflow-hidden">
+    <section className={`w-full py-14 sm:py-16 md:py-20 overflow-hidden transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf1e0]"
+    }`}>
       <Container>
-        {/* Section header — same reveal cadence used on ServicesGrid/About */}
+        {/* Section header */}
         <div ref={headerRef} className="mb-12 text-center sm:mb-14 md:mb-16">
           <span
-            className={`block text-[11px] font-semibold uppercase tracking-[0.3em] text-[#b8863f] transition-all duration-700 ease-out ${
+            className={`block text-[11px] font-semibold uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#c9974a]" : "text-[#b8863f]"
             }`}
             style={{ transitionDelay: "80ms" }}
           >
             Simple &amp; Transparent
           </span>
           <h2
-            className={`mt-3 font-serif text-2xl font-normal tracking-tight text-[#2b1710] transition-all duration-[900ms] ease-out sm:text-3xl md:text-4xl ${
+            className={`mt-3 font-serif text-2xl font-normal tracking-tight transition-all duration-[900ms] ease-out sm:text-3xl md:text-4xl ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            } ${
+              isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
             }`}
             style={{ transitionDelay: "180ms" }}
           >
             How Custom Ordering Works
           </h2>
           <div
-            className={`mx-auto mt-5 h-px bg-[#d4af6a] transition-all duration-[900ms] ease-out ${
+            className={`mx-auto mt-5 h-px transition-all duration-[900ms] ease-out ${
               headerVisible ? "w-14 opacity-100" : "w-0 opacity-0"
+            } ${
+              isDarkMode ? "bg-[#c9974a]" : "bg-[#d4af6a]"
             }`}
             style={{ transitionDelay: "340ms" }}
           />
           <p
-            className={`mx-auto mt-5 max-w-xl text-sm leading-relaxed text-[#5c4a3b] transition-all duration-700 ease-out sm:text-base ${
+            className={`mx-auto mt-5 max-w-xl text-sm leading-relaxed transition-all duration-700 ease-out sm:text-base ${
               headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            } ${
+              isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
             }`}
             style={{ transitionDelay: "420ms" }}
           >
@@ -93,10 +104,14 @@ export default function ProcessSteps() {
         </div>
 
         <div ref={stepsRef} className="relative">
-         
+          {/* Connecting line */}
           <div
-            className={`pointer-events-none absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-[#d4af6a]/60 to-transparent transition-all duration-[1200ms] ease-out lg:block ${
+            className={`pointer-events-none absolute left-0 right-0 top-7 hidden h-px transition-all duration-[1200ms] ease-out lg:block ${
               stepsVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+            } ${
+              isDarkMode 
+                ? "bg-gradient-to-r from-transparent via-[#c9974a]/60 to-transparent" 
+                : "bg-gradient-to-r from-transparent via-[#d4af6a]/60 to-transparent"
             }`}
             style={{ transitionDelay: "200ms" }}
           />
@@ -115,23 +130,39 @@ export default function ProcessSteps() {
                     transitionDelay: stepsVisible ? `${180 + index * 150}ms` : "0ms",
                   }}
                 >
-                
+                  {/* Icon Circle */}
                   <div className="relative flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16">
-                    <div className="absolute inset-0 rounded-full bg-white shadow-sm transition-shadow duration-500 ease-out group-hover:shadow-lg" />
-                    <div className="absolute inset-0 scale-0 rounded-full bg-[#2b1710] transition-transform duration-500 ease-out group-hover:scale-100" />
+                    <div className={`absolute inset-0 rounded-full transition-shadow duration-500 ease-out group-hover:shadow-lg ${
+                      isDarkMode 
+                        ? "bg-[#2a1f18] shadow-[0_4px_20px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]" 
+                        : "bg-white shadow-sm group-hover:shadow-lg"
+                    }`} />
+                    <div className={`absolute inset-0 scale-0 rounded-full transition-transform duration-500 ease-out group-hover:scale-100 ${
+                      isDarkMode ? "bg-[#c9974a]" : "bg-[#2b1710]"
+                    }`} />
                     <Icon
-                      className="relative h-6 w-6 text-amber-900 transition-colors duration-500 ease-out group-hover:text-[#f0d9a8] sm:h-7 sm:w-7"
+                      className={`relative h-6 w-6 transition-colors duration-500 ease-out group-hover:text-[#f0d9a8] sm:h-7 sm:w-7 ${
+                        isDarkMode 
+                          ? "text-[#c9974a]" 
+                          : "text-amber-900"
+                      }`}
                       strokeWidth={1.75}
                     />
                   </div>
 
-                  <span className="mt-4 text-xs font-bold uppercase tracking-widest text-amber-800">
+                  <span className={`mt-4 text-xs font-bold uppercase tracking-widest ${
+                    isDarkMode ? "text-[#c9974a]" : "text-amber-800"
+                  }`}>
                     Step {index + 1}
                   </span>
-                  <h3 className="mt-2 text-base font-semibold text-[#2b1710] sm:text-lg">
+                  <h3 className={`mt-2 text-base font-semibold sm:text-lg ${
+                    isDarkMode ? "text-[#e8ddd0]" : "text-[#2b1710]"
+                  }`}>
                     {step.title}
                   </h3>
-                  <p className="mt-2 max-w-[220px] text-sm leading-relaxed text-[#5c4a3b]">
+                  <p className={`mt-2 max-w-[220px] text-sm leading-relaxed ${
+                    isDarkMode ? "text-[#a89888]" : "text-[#5c4a3b]"
+                  }`}>
                     {step.description}
                   </p>
                 </div>

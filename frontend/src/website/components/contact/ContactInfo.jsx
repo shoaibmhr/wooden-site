@@ -17,7 +17,7 @@ function WhatsappIcon(props) {
 const infoItems = [
   { icon: MapPin, label: "Showroom & Workshop", value: "Art By Adeel, Main Lariadda Road, Near Shell Pump, Sargodha, Pakistan" },
   { icon: Phone, label: "Phone Support", value: "+92 300 8543635", href: "tel:+923008543635" },
-  { icon: Mail, label: "Official Email", value: "ammughal32@gmail.com", href: "mailto:ammughal32@gmail.com" },
+  { icon: Mail, label: "Official Email", value: "artbyadeel@gmail.com", href: "mailto:artbyadeel@gmail.com" },
 ];
 
 export default function ContactInfo() {

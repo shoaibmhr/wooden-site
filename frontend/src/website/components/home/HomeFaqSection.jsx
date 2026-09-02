@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
 import { ChevronDown, MessageCircle } from "lucide-react";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const WHATSAPP_NUMBER = "923008543635";
 const waMsg = encodeURIComponent(
@@ -36,7 +37,6 @@ const homeFaqs = [
   },
 ];
 
-
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -61,6 +61,7 @@ function useInView(threshold = 0.15) {
 export default function HomeFaqSection() {
   const [openIndex, setOpenIndex] = useState(0);
   const [sectionRef, isVisible] = useInView(0.1);
+  const { isDarkMode } = useDarkMode();
 
   const toggleFaq = (index) => {
     setOpenIndex((prev) => (prev === index ? null : index));
@@ -69,37 +70,49 @@ export default function HomeFaqSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-[#FAF6EF] py-16 sm:py-20 lg:py-24 border-t border-[#17130F]/10"
+      className={`w-full py-16 sm:py-20 lg:py-24 border-t transition-colors duration-300 ${
+        isDarkMode 
+          ? "bg-[#1a1410] border-[#2a1f18]" 
+          : "bg-[#FAF6EF] border-[#17130F]/10"
+      }`}
     >
       <Container>
         <div className="mx-auto max-w-4xl">
           {/* Header */}
           <div className="text-center">
             <span
-              className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#A9793C] transition-all duration-700 ease-out ${
+              className={`block text-[11px] font-medium uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              } ${
+                isDarkMode ? "text-[#c9974a]" : "text-[#A9793C]"
               }`}
               style={{ transitionDelay: "80ms" }}
             >
               Questions &amp; Answers
             </span>
             <h2
-              className={`mt-3 font-serif text-[#17130F] tracking-tight text-3xl sm:text-4xl transition-all duration-[900ms] ease-out ${
+              className={`mt-3 font-serif tracking-tight text-3xl sm:text-4xl transition-all duration-[900ms] ease-out ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              } ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
               }`}
               style={{ transitionDelay: "180ms" }}
             >
               Frequently Asked Questions
             </h2>
             <div
-              className={`mx-auto mt-5 h-px bg-[#A9793C] transition-all duration-[900ms] ease-out ${
+              className={`mx-auto mt-5 h-px transition-all duration-[900ms] ease-out ${
                 isVisible ? "w-12 opacity-100" : "w-0 opacity-0"
+              } ${
+                isDarkMode ? "bg-[#c9974a]" : "bg-[#A9793C]"
               }`}
               style={{ transitionDelay: "340ms" }}
             />
             <p
-              className={`mt-5 text-sm text-[#5C5142] max-w-xl mx-auto leading-relaxed transition-all duration-700 ease-out ${
+              className={`mt-5 text-sm max-w-xl mx-auto leading-relaxed transition-all duration-700 ease-out ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              } ${
+                isDarkMode ? "text-[#a89888]" : "text-[#5C5142]"
               }`}
               style={{ transitionDelay: "420ms" }}
             >
@@ -117,8 +130,16 @@ export default function HomeFaqSection() {
                   key={faq.question}
                   className={`overflow-hidden border transition-all ease-out ${
                     isOpen
-                      ? "border-[#A9793C] bg-white shadow-[0_4px_20px_rgba(23,19,15,0.06)]"
-                      : "border-[#17130F]/10 bg-white hover:border-[#A9793C]/50"
+                      ? `border-[#A9793C] ${
+                          isDarkMode 
+                            ? "bg-[#1a1410] shadow-[0_4px_20px_rgba(0,0,0,0.3)]" 
+                            : "bg-white shadow-[0_4px_20px_rgba(23,19,15,0.06)]"
+                        }`
+                      : `${
+                          isDarkMode 
+                            ? "border-[#2a1f18] bg-[#1a1410] hover:border-[#A9793C]/50" 
+                            : "border-[#17130F]/10 bg-white hover:border-[#A9793C]/50"
+                        }`
                   } ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
                   style={{
                     transitionDuration: "300ms, 300ms, 700ms, 700ms",
@@ -129,7 +150,9 @@ export default function HomeFaqSection() {
                   <button
                     type="button"
                     onClick={() => toggleFaq(index)}
-                    className="group flex w-full items-center justify-between p-5 text-left text-sm sm:text-base font-semibold text-[#17130F] focus:outline-none"
+                    className={`group flex w-full items-center justify-between p-5 text-left text-sm sm:text-base font-semibold focus:outline-none ${
+                      isDarkMode ? "text-[#e8ddd0]" : "text-[#17130F]"
+                    }`}
                   >
                     <span
                       className={`font-serif pr-4 transition-colors duration-300 ${
@@ -141,17 +164,23 @@ export default function HomeFaqSection() {
                     <span
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-400 ease-out ${
                         isOpen
-                          ? "bg-[#17130F] text-[#F3ECDD] rotate-180 scale-105"
-                          : "bg-[#FAF6EF] text-[#17130F] group-hover:bg-[#F3ECDD]"
+                          ? `${
+                              isDarkMode 
+                                ? "bg-[#c9974a] text-[#1a1410]" 
+                                : "bg-[#17130F] text-[#F3ECDD]"
+                            } rotate-180 scale-105`
+                          : `${
+                              isDarkMode 
+                                ? "bg-[#2a1f18] text-[#d4c5b5] group-hover:bg-[#2a1f18]/60" 
+                                : "bg-[#FAF6EF] text-[#17130F] group-hover:bg-[#F3ECDD]"
+                            }`
                       }`}
                     >
                       <ChevronDown className="h-4 w-4" />
                     </span>
                   </button>
 
-                  {/* Grid-based collapse — animates height smoothly for any content length,
-                      unlike a fixed max-h value which either clips long answers or
-                      leaves a visible pause on short ones. */}
+                  {/* Grid-based collapse */}
                   <div
                     className="grid transition-[grid-template-rows] duration-400 ease-in-out"
                     style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
@@ -164,7 +193,11 @@ export default function HomeFaqSection() {
                             : "opacity-0 -translate-y-1"
                         }`}
                       >
-                        <div className="border-t border-[#17130F]/10 pt-4 text-xs sm:text-sm leading-relaxed text-[#5C5142]">
+                        <div className={`border-t pt-4 text-xs sm:text-sm leading-relaxed ${
+                          isDarkMode 
+                            ? "border-[#2a1f18] text-[#a89888]" 
+                            : "border-[#17130F]/10 text-[#5C5142]"
+                        }`}>
                           {faq.answer}
                         </div>
                       </div>
@@ -175,18 +208,26 @@ export default function HomeFaqSection() {
             })}
           </div>
 
-         
+          {/* Bottom CTA */}
           <div
-            className={`group mt-10 flex flex-col sm:flex-row items-center justify-between gap-5 bg-[#17130F] p-6 text-[#F3ECDD] border border-[#A9793C]/25 transition-all duration-700 ease-out hover:border-[#A9793C]/60 ${
+            className={`group mt-10 flex flex-col sm:flex-row items-center justify-between gap-5 p-6 border transition-all duration-700 ease-out hover:border-[#A9793C]/60 ${
+              isDarkMode 
+                ? "bg-[#1a1410] border-[#2a1f18] text-[#e8ddd0]" 
+                : "bg-[#17130F] border-[#A9793C]/25 text-[#F3ECDD]"
+            } ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
             style={{ transitionDelay: isVisible ? `${520 + homeFaqs.length * 90 + 80}ms` : "0ms" }}
           >
             <div className="text-center sm:text-left">
-              <h4 className="font-serif text-base text-[#F3ECDD]">
+              <h4 className={`font-serif text-base ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-[#F3ECDD]"
+              }`}>
                 Have a specific custom design question?
               </h4>
-              <p className="mt-1.5 text-xs text-[#D9CFBC]/80">
+              <p className={`mt-1.5 text-xs ${
+                isDarkMode ? "text-[#a89888]" : "text-[#D9CFBC]/80"
+              }`}>
                 Our master woodworkers are available on WhatsApp to answer all
                 technical specs & pricing queries.
               </p>

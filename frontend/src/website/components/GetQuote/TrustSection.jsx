@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Factory, Clock, MessageCircle, Truck } from "lucide-react";
 import Container from "../common/Container";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const points = [
   {
@@ -42,8 +43,12 @@ const cardVariant = {
 };
 
 export default function TrustSection() {
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <section className="w-full bg-[#faf6ee] py-10 sm:py-12 md:py-16">
+    <section className={`w-full py-10 sm:py-12 md:py-16 transition-colors duration-300 ${
+      isDarkMode ? "bg-[#1a1410]" : "bg-[#faf6ee]"
+    }`}>
       <Container>
         <motion.div
           variants={container}
@@ -58,15 +63,27 @@ export default function TrustSection() {
               variants={cardVariant}
               whileHover={{ y: -6 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="rounded-2xl border border-stone-200 bg-white p-5 sm:p-6 text-center sm:text-left shadow-sm hover:shadow-md transition-shadow duration-300"
+              className={`rounded-2xl border p-5 sm:p-6 text-center sm:text-left shadow-sm hover:shadow-md transition-all duration-300 ${
+                isDarkMode
+                  ? "border-[#2a1f18] bg-[#1a1410] hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+                  : "border-stone-200 bg-white hover:shadow-md"
+              }`}
             >
-              <div className="mx-auto sm:mx-0 flex h-11 w-11 items-center justify-center rounded-xl bg-[#5C2A2A]/10 text-[#5C2A2A]">
+              <div className={`mx-auto sm:mx-0 flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-300 ${
+                isDarkMode
+                  ? "bg-[#c9974a]/20 text-[#c9974a]"
+                  : "bg-[#5C2A2A]/10 text-[#5C2A2A]"
+              }`}>
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-3.5 font-serif text-stone-900 text-sm sm:text-base">
+              <h3 className={`mt-3.5 font-serif text-sm sm:text-base ${
+                isDarkMode ? "text-[#e8ddd0]" : "text-stone-900"
+              }`}>
                 {title}
               </h3>
-              <p className="mt-1.5 text-stone-500 text-xs sm:text-sm leading-relaxed">
+              <p className={`mt-1.5 text-xs sm:text-sm leading-relaxed ${
+                isDarkMode ? "text-[#a89888]" : "text-stone-500"
+              }`}>
                 {desc}
               </p>
             </motion.div>

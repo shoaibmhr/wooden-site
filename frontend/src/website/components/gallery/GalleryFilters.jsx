@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const container = {
   hidden: {},
@@ -17,6 +18,8 @@ export default function GalleryFilter({
   activeCategory,
   onSelectCategory,
 }) {
+  const { isDarkMode } = useDarkMode();
+
   return (
     <motion.div
       variants={container}
@@ -33,17 +36,23 @@ export default function GalleryFilter({
             type="button"
             onClick={() => onSelectCategory(category)}
             whileTap={{ scale: 0.95 }}
-            className={`relative px-4 py-2 text-xs font-semibold uppercase tracking-wide sm:px-5 sm:py-2.5 sm:text-sm ${
+            className={`relative px-4 py-2 text-xs font-semibold uppercase tracking-wide sm:px-5 sm:py-2.5 sm:text-sm transition-colors duration-300 ${
               isActive
-                ? "text-white"
-                : "border border-neutral-300 text-neutral-700 transition-colors duration-300 hover:border-[#5c1f1f] hover:text-[#5c1f1f]"
+                ? isDarkMode
+                  ? "text-[#1a1410]"
+                  : "text-white"
+                : isDarkMode
+                  ? "border border-[#2a1f18] text-[#a89888] hover:border-[#c9974a] hover:text-[#c9974a]"
+                  : "border border-neutral-300 text-neutral-700 hover:border-[#5c1f1f] hover:text-[#5c1f1f]"
             }`}
           >
             {isActive && (
               <motion.span
                 layoutId="activeFilterBg"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                className="absolute inset-0 bg-[#5c1f1f]"
+                className={`absolute inset-0 ${
+                  isDarkMode ? "bg-[#c9974a]" : "bg-[#5c1f1f]"
+                }`}
               />
             )}
             <span className="relative">{category}</span>

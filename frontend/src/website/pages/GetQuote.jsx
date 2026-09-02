@@ -3,8 +3,11 @@ import Container from "../components/common/Container";
 import QuoteForm from "../components/GetQuote/QuoteForm";
 import TrustSection from "../components/GetQuote/TrustSection";
 import FaqSection from "../components/GetQuote/FaqSection";
+import { useDarkMode } from "../components/context/DarkModeContext";
 
 export default function GetQuote() {
+  const { isDarkMode } = useDarkMode();
+
   return (
     <>
       <PageHero
@@ -16,7 +19,9 @@ export default function GetQuote() {
         ]}
       />
 
-      <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+      <section className={`w-full py-10 sm:py-12 md:py-16 transition-colors duration-300 ${
+        isDarkMode ? "bg-[#1a1410]" : "bg-white"
+      }`}>
         <Container>
           <QuoteForm />
         </Container>

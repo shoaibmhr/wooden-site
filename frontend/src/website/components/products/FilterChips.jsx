@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { useDarkMode } from "../context/DarkModeContext";
 
 export default function FilterChips({
   selectedCategories,
@@ -8,6 +9,8 @@ export default function FilterChips({
   searchQuery,
   onClearSearch,
 }) {
+  const { isDarkMode } = useDarkMode();
+
   const hasChips =
     selectedCategories.length > 0 ||
     priceRange.min !== "" ||
@@ -27,10 +30,16 @@ export default function FilterChips({
         <button
           type="button"
           onClick={onClearSearch}
-          className="flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-200"
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+            isDarkMode 
+              ? "bg-[#2a1f18] text-[#d4c5b5] hover:bg-[#3a2f28]" 
+              : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+          }`}
         >
           "{searchQuery}"
-          <X className="h-3 w-3" strokeWidth={2} />
+          <X className={`h-3 w-3 ${
+            isDarkMode ? "text-[#a89888]" : "text-neutral-700"
+          }`} strokeWidth={2} />
         </button>
       )}
 
@@ -39,10 +48,16 @@ export default function FilterChips({
           key={category}
           type="button"
           onClick={() => onRemoveCategory(category)}
-          className="flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-200"
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+            isDarkMode 
+              ? "bg-[#2a1f18] text-[#d4c5b5] hover:bg-[#3a2f28]" 
+              : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+          }`}
         >
           {category}
-          <X className="h-3 w-3" strokeWidth={2} />
+          <X className={`h-3 w-3 ${
+            isDarkMode ? "text-[#a89888]" : "text-neutral-700"
+          }`} strokeWidth={2} />
         </button>
       ))}
 
@@ -50,10 +65,16 @@ export default function FilterChips({
         <button
           type="button"
           onClick={onClearPrice}
-          className="flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-200"
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+            isDarkMode 
+              ? "bg-[#2a1f18] text-[#d4c5b5] hover:bg-[#3a2f28]" 
+              : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+          }`}
         >
           {priceLabel}
-          <X className="h-3 w-3" strokeWidth={2} />
+          <X className={`h-3 w-3 ${
+            isDarkMode ? "text-[#a89888]" : "text-neutral-700"
+          }`} strokeWidth={2} />
         </button>
       )}
     </div>

@@ -4,6 +4,7 @@ import {
   FaTimes,
   FaRobot,
 } from "react-icons/fa";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const WHATSAPP_NUMBER = "923008543635";
 
@@ -61,6 +62,7 @@ export default function FloatingSocialMenu() {
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const { isDarkMode } = useDarkMode();
 
   const toggleChatbot = (e) => {
     e.preventDefault();
@@ -188,7 +190,7 @@ export default function FloatingSocialMenu() {
       {/* Chatbot Modal */}
       {isChatbotOpen && (
         <div
-          className="
+          className={`
             fixed
             bottom-28
             right-4
@@ -197,17 +199,22 @@ export default function FloatingSocialMenu() {
             sm:w-[380px]
             md:w-[400px]
             lg:w-[420px]
-            bg-white
             rounded-2xl
             shadow-2xl
             border
-            border-gray-200
             overflow-hidden
             animate-in
             slide-in-from-bottom-4
             duration-300
             sm:bottom-32
-          "
+            transition-colors
+            duration-300
+            ${
+              isDarkMode
+                ? "bg-[#1a1410] border-[#2a1f18]"
+                : "bg-white border-gray-200"
+            }
+          `}
         >
           {/* Chatbot Header */}
           <div className="bg-gradient-to-r from-[#6C63FF] to-[#3F3D9E] px-5 py-4 flex items-center justify-between">
@@ -230,7 +237,9 @@ export default function FloatingSocialMenu() {
 
           {/* Chatbot Body */}
           <div className="h-[400px] flex flex-col">
-            <div className="flex-1 p-4 overflow-y-auto space-y-3">
+            <div className={`flex-1 p-4 overflow-y-auto space-y-3 ${
+              isDarkMode ? "bg-[#1a1410]" : "bg-white"
+            }`}>
               {messages.map((msg, index) => (
                 <div
                   key={index}
@@ -239,18 +248,26 @@ export default function FloatingSocialMenu() {
                   }`}
                 >
                   {msg.type === "bot" && (
-                    <div className="h-7 w-7 rounded-full bg-[#6C63FF]/10 flex items-center justify-center shrink-0">
-                      <FaRobot className="h-3.5 w-3.5 text-[#6C63FF]" />
+                    <div className={`h-7 w-7 rounded-full flex items-center justify-center shrink-0 ${
+                      isDarkMode ? "bg-[#6C63FF]/20" : "bg-[#6C63FF]/10"
+                    }`}>
+                      <FaRobot className={`h-3.5 w-3.5 ${
+                        isDarkMode ? "text-[#6C63FF]" : "text-[#6C63FF]"
+                      }`} />
                     </div>
                   )}
                   <div
                     className={`${
                       msg.type === "bot"
-                        ? "bg-gray-100 rounded-lg rounded-tl-none"
+                        ? isDarkMode
+                          ? "bg-[#2a1f18] text-[#e8ddd0] rounded-lg rounded-tl-none"
+                          : "bg-gray-100 text-gray-800 rounded-lg rounded-tl-none"
                         : "bg-[#6C63FF] text-white rounded-lg rounded-tr-none"
                     } px-4 py-2 max-w-[85%]`}
                   >
-                    <p className={`text-sm ${msg.type === "user" ? "text-white" : "text-gray-800"} whitespace-pre-line`}>
+                    <p className={`text-sm whitespace-pre-line ${
+                      msg.type === "user" ? "text-white" : isDarkMode ? "text-[#e8ddd0]" : "text-gray-800"
+                    }`}>
                       {msg.text}
                     </p>
                   </div>
@@ -258,14 +275,24 @@ export default function FloatingSocialMenu() {
               ))}
               {isTyping && (
                 <div className="flex items-start gap-2">
-                  <div className="h-7 w-7 rounded-full bg-[#6C63FF]/10 flex items-center justify-center shrink-0">
+                  <div className={`h-7 w-7 rounded-full flex items-center justify-center shrink-0 ${
+                    isDarkMode ? "bg-[#6C63FF]/20" : "bg-[#6C63FF]/10"
+                  }`}>
                     <FaRobot className="h-3.5 w-3.5 text-[#6C63FF]" />
                   </div>
-                  <div className="bg-gray-100 rounded-lg rounded-tl-none px-4 py-2">
+                  <div className={`rounded-lg rounded-tl-none px-4 py-2 ${
+                    isDarkMode ? "bg-[#2a1f18]" : "bg-gray-100"
+                  }`}>
                     <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
-                      <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
-                      <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
+                      <span className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDarkMode ? "bg-[#a89888]" : "bg-gray-500"
+                      }`} style={{ animationDelay: "0ms" }}></span>
+                      <span className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDarkMode ? "bg-[#a89888]" : "bg-gray-500"
+                      }`} style={{ animationDelay: "150ms" }}></span>
+                      <span className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDarkMode ? "bg-[#a89888]" : "bg-gray-500"
+                      }`} style={{ animationDelay: "300ms" }}></span>
                     </div>
                   </div>
                 </div>
@@ -274,28 +301,46 @@ export default function FloatingSocialMenu() {
 
             {/* Quick Reply Buttons */}
             {messages.length < 3 && (
-              <div className="px-4 pb-2 flex flex-wrap gap-2">
+              <div className={`px-4 pb-2 flex flex-wrap gap-2 ${
+                isDarkMode ? "bg-[#1a1410]" : "bg-white"
+              }`}>
                 <button
                   onClick={() => handleQuickReply("What services do you offer?")}
-                  className="text-xs bg-[#6C63FF]/10 text-[#6C63FF] px-3 py-1.5 rounded-full hover:bg-[#6C63FF]/20 transition-colors"
+                  className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+                    isDarkMode
+                      ? "bg-[#6C63FF]/20 text-[#6C63FF] hover:bg-[#6C63FF]/30"
+                      : "bg-[#6C63FF]/10 text-[#6C63FF] hover:bg-[#6C63FF]/20"
+                  }`}
                 >
                   Services
                 </button>
                 <button
                   onClick={() => handleQuickReply("Tell me about the wood types")}
-                  className="text-xs bg-[#6C63FF]/10 text-[#6C63FF] px-3 py-1.5 rounded-full hover:bg-[#6C63FF]/20 transition-colors"
+                  className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+                    isDarkMode
+                      ? "bg-[#6C63FF]/20 text-[#6C63FF] hover:bg-[#6C63FF]/30"
+                      : "bg-[#6C63FF]/10 text-[#6C63FF] hover:bg-[#6C63FF]/20"
+                  }`}
                 >
                   Wood Types
                 </button>
                 <button
                   onClick={() => handleQuickReply("I want a quote")}
-                  className="text-xs bg-[#6C63FF]/10 text-[#6C63FF] px-3 py-1.5 rounded-full hover:bg-[#6C63FF]/20 transition-colors"
+                  className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+                    isDarkMode
+                      ? "bg-[#6C63FF]/20 text-[#6C63FF] hover:bg-[#6C63FF]/30"
+                      : "bg-[#6C63FF]/10 text-[#6C63FF] hover:bg-[#6C63FF]/20"
+                  }`}
                 >
                   Get Quote
                 </button>
                 <button
                   onClick={() => handleQuickReply("Show me your gallery")}
-                  className="text-xs bg-[#6C63FF]/10 text-[#6C63FF] px-3 py-1.5 rounded-full hover:bg-[#6C63FF]/20 transition-colors"
+                  className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+                    isDarkMode
+                      ? "bg-[#6C63FF]/20 text-[#6C63FF] hover:bg-[#6C63FF]/30"
+                      : "bg-[#6C63FF]/10 text-[#6C63FF] hover:bg-[#6C63FF]/20"
+                  }`}
                 >
                   Gallery
                 </button>
@@ -303,7 +348,9 @@ export default function FloatingSocialMenu() {
             )}
 
             {/* Chatbot Input */}
-            <div className="border-t border-gray-200 p-3">
+            <div className={`border-t p-3 ${
+              isDarkMode ? "border-[#2a1f18]" : "border-gray-200"
+            }`}>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
@@ -311,7 +358,11 @@ export default function FloatingSocialMenu() {
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 text-sm bg-gray-50 border border-gray-200 rounded-full px-4 py-2 outline-none focus:border-[#6C63FF] focus:ring-1 focus:ring-[#6C63FF]"
+                  className={`flex-1 text-sm rounded-full px-4 py-2 outline-none focus:ring-1 transition-colors ${
+                    isDarkMode
+                      ? "bg-[#2a1f18] border-[#2a1f18] text-[#e8ddd0] placeholder-[#a89888] focus:border-[#6C63FF] focus:ring-[#6C63FF]"
+                      : "bg-gray-50 border border-gray-200 text-gray-800 placeholder-gray-400 focus:border-[#6C63FF] focus:ring-[#6C63FF]"
+                  }`}
                 />
                 <button
                   onClick={handleSendMessage}
@@ -335,7 +386,9 @@ export default function FloatingSocialMenu() {
                   </svg>
                 </button>
               </div>
-              <p className="text-[10px] text-gray-400 mt-1.5 text-center">
+              <p className={`text-[10px] mt-1.5 text-center ${
+                isDarkMode ? "text-[#a89888]" : "text-gray-400"
+              }`}>
                 Powered by AI • Responses are automated
               </p>
             </div>

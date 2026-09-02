@@ -1,4 +1,4 @@
-import { useMemo, useState, } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import Container from "../components/common/Container";
@@ -8,7 +8,7 @@ import GalleryMasonryGrid from "../components/gallery/GalleryMasonryGrid";
 import GalleryLightbox from "../components/gallery/GalleryLightbox";
 import GalleryCTA from "../components/gallery/GalleryCTA";
 import { categories, galleryItems } from "../data/gallery.data";
-
+import { useDarkMode } from "../components/context/DarkModeContext";
 
 const categorySlugMap = {
   "living-room": "Living Room",
@@ -28,8 +28,8 @@ export default function Gallery() {
 
   const [activeCategory, setActiveCategory] = useState(categoryFromUrl);
   const [activeIndex, setActiveIndex] = useState(null);
+  const { isDarkMode } = useDarkMode();
 
-  
   const [lastSyncedCategory, setLastSyncedCategory] = useState(categoryFromUrl);
   if (categoryFromUrl !== lastSyncedCategory) {
     setLastSyncedCategory(categoryFromUrl);
@@ -57,7 +57,9 @@ export default function Gallery() {
         ]}
       />
 
-      <section className="w-full bg-white py-10 sm:py-12 md:py-16">
+      <section className={`w-full py-10 sm:py-12 md:py-16 transition-colors duration-300 ${
+        isDarkMode ? "bg-[#1a1410]" : "bg-white"
+      }`}>
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 16 }}

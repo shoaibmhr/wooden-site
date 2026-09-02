@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../common/Container";
+import { useDarkMode } from "../context/DarkModeContext";
 
 import backgroundImage from "../../../assets/image/bg-2-1 - Copy.jpg";
 import roomImage from "../../../assets/image/lookbook-1.jpg";
 
 const panelHeight =
   "min-h-[320px] sm:min-h-[380px] md:min-h-[420px] lg:h-[420px] xl:h-[460px]";
-
 
 function useInView(threshold = 0.15) {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,12 +31,18 @@ function useInView(threshold = 0.15) {
 
 export default function RoomInspiration() {
   const [sectionRef, isVisible] = useInView(0.15);
+  const { isDarkMode } = useDarkMode();
 
   return (
-    <section ref={sectionRef} className="w-full bg-[#FAF6EF] py-14 sm:py-16 md:py-20 overflow-hidden">
+    <section 
+      ref={sectionRef} 
+      className={`w-full py-14 sm:py-16 md:py-20 overflow-hidden transition-colors duration-300 ${
+        isDarkMode ? "bg-[#1a1410]" : "bg-[#FAF6EF]"
+      }`}
+    >
       <Container>
         <div className="grid w-full gap-4 sm:gap-5 lg:grid-cols-[5fr_7fr] lg:gap-6">
-         
+          {/* Left Panel - Background Image with Overlay */}
           <div
             className={`relative flex items-center justify-center overflow-hidden px-6 py-10 sm:px-8 sm:py-12 md:px-12 md:py-14 lg:px-10 lg:py-12 xl:px-16 ${panelHeight}`}
             style={{
@@ -44,7 +50,7 @@ export default function RoomInspiration() {
               transition: "clip-path 1000ms cubic-bezier(0.65, 0, 0.35, 1)",
             }}
           >
-           
+            {/* Background Image */}
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[3500ms] ease-out"
               style={{
@@ -56,12 +62,14 @@ export default function RoomInspiration() {
 
             <div className="relative w-full max-w-xl text-center text-[#F3ECDD] lg:text-left">
               <span
-                className={`block text-[11px] font-medium uppercase tracking-[0.3em] text-[#C9A468] transition-all duration-700 ease-out ${
+                className={`block text-[11px] font-medium uppercase tracking-[0.3em] transition-all duration-700 ease-out ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: "500ms" }}
               >
-                Style Guide
+                <span className={isDarkMode ? "text-[#c9974a]" : "text-[#C9A468]"}>
+                  Style Guide
+                </span>
               </span>
 
               <h2
@@ -76,9 +84,9 @@ export default function RoomInspiration() {
               </h2>
 
               <p
-                className={`mt-5 text-sm leading-7 text-[#D9CFBC]/85 sm:mt-6 sm:text-base lg:max-w-md transition-all duration-700 ease-out ${
+                className={`mt-5 text-sm leading-7 sm:mt-6 sm:text-base lg:max-w-md transition-all duration-700 ease-out ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
+                } ${isDarkMode ? "text-[#a89888]" : "text-[#D9CFBC]/85"}`}
                 style={{ transitionDelay: "760ms" }}
               >
                 Discover fresh ideas from our in-house stylists and other
@@ -100,7 +108,7 @@ export default function RoomInspiration() {
             </div>
           </div>
 
-         
+          {/* Right Panel - Room Image */}
           <div
             className={`relative overflow-hidden ${panelHeight}`}
             style={{
